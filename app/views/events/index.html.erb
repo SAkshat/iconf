@@ -1,0 +1,14 @@
+
+<h3 class="mid">Listing Events </h3>
+
+<%if alert%><p id="alert" class="mid"><strong><%= alert %></strong></p><%end%>
+
+<div class="container">
+  <% @events.each do |event| %>
+    <div class="row">
+      <br>
+      <hr>
+      <%= render event %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,10 @@
+
+<h3 class="mid">Listing Sessions </h3>
+<div class="container mid">
+  <% @sessions.each do |session| %>
+    <div class="row">
+      <br><hr>
+      <%= render session %>
+    </div>
+  <% end %>
+</div>

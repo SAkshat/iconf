@@ -1,0 +1,13 @@
+<div class = "row">
+  <div class="col-md-3">
+    <%= image_tag @event.logo_url, alt: :Akshat, class: "img-responsive" %>
+  </div>
+  <div class="col-md-9">
+    <div class="row">
+      <%= session.name + ' - ' + session.topic %>
+    </div>
+    <div class="row">
+      <%= truncate(strip_tags(session.description), length: 300) %>
+    </div>
+  </div>
+</div>

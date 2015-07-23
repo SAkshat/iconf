@@ -2,10 +2,10 @@
   <%= form_for [@event, @session], html: { role: "form" } do |f| %>
     <% if @session.errors.any? %>
       <div id="error_explanation">
-        <h6><%= pluralize(@event.errors.count, "error") %> prohibited this session from being created:</h6>
+        <h6><%= pluralize(@session.errors.count, "error") %> prohibited this session from being created:</h6>
 
         <ul>
-        <% @event.errors.full_messages.each do |message| %>
+        <% @session.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
         </ul>

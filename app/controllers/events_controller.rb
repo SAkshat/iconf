@@ -1,9 +1,10 @@
 class EventsController < ApplicationController
 
   before_action :set_event, only: [:show, :edit, :update]
+  skip_before_action :authenticate_user!, only: [:index]
 
   def index
-    @events = Event.all.order(:start_date).where(status: true)
+    @events = Event.where(status: true).order(:start_date)
   end
 
   def show
@@ -41,10 +42,6 @@ class EventsController < ApplicationController
     end
   end
 
-  def destroy
-    @event = Event.find_by(id: params[:id])
-  end
-
   private
 
     def set_event
@@ -53,7 +50,7 @@ class EventsController < ApplicationController
     end
 
     def event_params
-      x = params.require(:event).permit(:name, :start_date, :end_date, :description, :logo, :status, address_attributes: [:street, :city, :country, :zipcode], contact_detail_attributes: [:phone_number, :email])
+      params.require(:event).permit(:name, :start_date, :end_date, :description, :logo, :status, address_attributes: [:street, :city, :country, :zipcode], contact_detail_attributes: [:phone_number, :email])
     end
 
 end

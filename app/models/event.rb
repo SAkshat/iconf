@@ -3,6 +3,7 @@ class Event < ActiveRecord::Base
   has_one :address
   mount_uploader :logo, LogoUploader
   has_many :sessions
+  belongs_to :creator, class_name: "User", foreign_key: :creator_id
 
   accepts_nested_attributes_for :address, :contact_detail
 

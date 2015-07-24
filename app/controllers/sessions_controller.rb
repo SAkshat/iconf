@@ -1,10 +1,10 @@
 class SessionsController < ApplicationController
 
-  before_action :set_event, only: [:index, :show, :new, :edit, :create, :update,]
+  before_action :set_event, only: [:index, :show, :new, :edit, :create, :update]
   before_action :set_session, only: [:show, :edit, :update]
 
   def index
-    @sessions = @event.sessions.order(:date, :start_time).where(status: true)
+    @sessions = @event.sessions.where(status: true).order(:date, :start_time)
   end
 
   def show
@@ -49,7 +49,7 @@ class SessionsController < ApplicationController
     end
 
     def session_params
-      x = params.require(:session).permit(:session_id, :name, :topic, :date, :start_time, :end_time, :description, :status, :location)
+      params.require(:session).permit(:session_id, :name, :topic, :date, :start_time, :end_time, :description, :status, :location)
     end
 
 end

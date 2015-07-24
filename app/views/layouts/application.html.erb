@@ -10,12 +10,24 @@
   </head>
   <body>
     <div id="banner">
-      <%= image_tag('conf_logo.jpg') %>
-
-      <%= button_to 'Events', events_path, method: :get %>
-
+      <div class="col-md-3">
+        <%= image_tag('conf_logo.jpg') %>
+      </div>
+      <div class="col-md-1 col-md-offset-4">
+        <%= button_to 'Events', events_path, method: :get %>
+      </div>
+      <div class="col-md-1 col-md-offset-1">
+        <% if user_signed_in? %>
+          <%= button_to 'Logout', destroy_user_session_path, :method => :delete %>
+        <% else %>
+          <%= button_to 'Login', new_user_session_path %>
+        <% end %>
+      </div>
     </div>
     <main role="main">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, class: "alert alert-info" %>
+      <% end %>
       <%= yield %>
     </main>
   </body>

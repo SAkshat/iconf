@@ -1,17 +1,25 @@
 class EventsController < ApplicationController
 
-  before_action :set_event, only: [:show, :edit, :update]
   skip_before_action :authenticate_user!, only: [:index]
+  before_action :set_event, only: [:show, :edit, :update]
 
   def index
-    @events = Event.where(status: true).order(:start_date)
+    if params[:user_id]
+      @events = User.find_by(id: params[:user_id]).events.where(status: true).order(:start_date)
+    else
+      @events = Event.where(status: true).order(:start_date)
+    end
   end
 
   def show
   end
 
   def new
-    @event = Event.new
+    if params[:user_id]
+      @event = User.find_by(id: params[:user_id]).events.build
+    else
+      @event = Event.new
+    end
     @address = @event.build_address
     @contact_detail = @event.build_contact_detail
   end
@@ -50,7 +58,8 @@ class EventsController < ApplicationController
     end
 
     def event_params
-      params.require(:event).permit(:name, :start_date, :end_date, :description, :logo, :status, address_attributes: [:street, :city, :country, :zipcode], contact_detail_attributes: [:phone_number, :email])
+      puts params
+      params.require(:event).permit(:creator_id, :name, :start_date, :end_date, :description, :logo, :status, address_attributes: [:street, :city, :country, :zipcode], contact_detail_attributes: [:phone_number, :email])
     end
 
 end

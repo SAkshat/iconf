@@ -12,7 +12,7 @@ class Event < ActiveRecord::Base
   validate :start_date_before_end_date
 
   def start_date_cannot_be_in_past
-    errors[:start_date] << "cannot be in the past" if start_date < Time.now
+    errors[:start_date] << "cannot be in the past" if start_date < Time.current
   end
 
   def start_date_before_end_date
@@ -20,11 +20,11 @@ class Event < ActiveRecord::Base
   end
 
   def live?
-    start_date <= Time.now && end_date >= Time.now
+    start_date <= Time.current && end_date >= Time.current
   end
 
   def upcoming?
-    start_date > Time.now
+    start_date > Time.current
   end
 
 end

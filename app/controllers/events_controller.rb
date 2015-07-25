@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update]
 
   def index
-    @events = Event.all.order(:start_date).where(status: true)
+    @events = Event.where(status: true).order(:start_date)
   end
 
   def show

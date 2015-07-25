@@ -1,8 +1,8 @@
 class Event < ActiveRecord::Base
-  has_one :contact_detail, as: :contactable
-  has_one :address
+  has_one :contact_detail, as: :contactable, dependent: :destroy
+  has_one :address, dependent: :destroy
   mount_uploader :logo, LogoUploader
-  has_many :sessions
+  has_many :sessions, dependent: :destroy
 
   accepts_nested_attributes_for :address, :contact_detail
 

@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
 
+  #comment1
+
   before_action :set_event, only: [:index, :show, :new, :edit, :create, :update,]
   before_action :set_session, only: [:show, :edit, :update]
 

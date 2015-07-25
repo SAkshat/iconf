@@ -21,11 +21,11 @@ class Event < ActiveRecord::Base
   end
 
   def live?
-    start_date <= Time.now && end_date >= Time.now
+    start_date <= Time.current && end_date >= Time.current
   end
 
   def upcoming?
-    start_date > Time.now
+    start_date > Time.current
   end
 
 end

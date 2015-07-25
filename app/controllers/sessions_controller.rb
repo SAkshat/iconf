@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
 
   before_action :set_event, only: [:index, :show, :new, :edit, :create, :update]
   before_action :set_session, only: [:show, :edit, :update]
+  skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
     @sessions = @event.sessions.where(status: true).order(:date, :start_time)
@@ -42,10 +43,12 @@ class SessionsController < ApplicationController
 
     def set_event
       @event = Event.find_by(id: params[:event_id])
+      redirect_to events_path, alert: 'Couldn\'t find the required event' unless @event
     end
 
     def set_session
       @session = @event.sessions.find_by(id: params[:id])
+      redirect_to event_sessions_path, alert: 'Couldn\'t find the required session' unless @session
     end
 
     def session_params

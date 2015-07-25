@@ -13,17 +13,18 @@
       <div class="col-md-3">
         <%= image_tag('conf_logo.jpg') %>
       </div>
-      <div class="col-md-1 col-md-offset-1">
-        <%= button_to 'My Events', user_events_path(current_user), method: :get if user_signed_in? %>
+      <br>
+      <div class="col-md-1 col-md-offset-4">
+        <%= link_to 'My Events', user_events_path(current_user), class: 'btn btn-primary', method: :get if user_signed_in? %>
       </div>
-      <div class="col-md-1 col-md-offset-1">
-        <%= button_to 'Events', events_path, method: :get %>
+      <div class="col-md-1">
+        <%= link_to 'Events', events_path, class: 'btn btn-primary', method: :get %>
       </div>
-      <div class="col-md-1 col-md-offset-1">
+      <div class="col-md-1">
         <% if user_signed_in? %>
-          <%= button_to 'Logout', destroy_user_session_path, :method => :delete %>
+          <%= link_to 'Logout', destroy_user_session_path, class: 'btn btn-primary', :method => :delete %>
         <% else %>
-          <%= button_to 'Login', new_user_session_path %>
+          <%= link_to 'Login', new_user_session_path, class: 'btn btn-primary ' %>
         <% end %>
       </div>
     </div>
@@ -31,13 +32,6 @@
       <% flash.each do |name, msg| %>
         <%= content_tag :div, msg, class: "alert alert-info" %>
       <% end %>
-      <div class="row">
-        <div class="col-md-1 side">
-          <% if user_signed_in? %>
-            <%= button_to 'Create Event', new_user_event_path(current_user), method: :get %>
-          <% end %>
-        </div>
-      </div>
       <div class="row">
         <div class="col-md-12">
           <%= yield %>

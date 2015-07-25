@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
 
-  skip_before_action :authenticate_user!, only: [:index]
+  skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :set_event, only: [:show, :edit, :update]
 
   def index
@@ -12,6 +12,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    @sessions = @event.sessions
   end
 
   def new

@@ -14,14 +14,17 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-#For image processing
+# For image processing
 gem 'carrierwave'
 
-#For postgres
+# For postgres database
 gem 'pg'
 
-#For devise
+# For user login feature
 gem 'devise'
+
+# For better debugging
+gem 'better_errors'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

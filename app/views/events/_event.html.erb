@@ -1,31 +1,32 @@
-<div class="col-md-2">
-  <%= image_tag event.logo_url, alt: "Akshat", class: "img-responsive" %>
+<div class='col-md-2'>
+  <%= image_tag event.logo_url, alt: 'Akshat', class: 'img-responsive' %>
 </div>
-<div class="col-md-1">
+<div class='col-md-1'>
 </div>
-<div class="col-md-5">
-  <div class="row">
-    <div class="row">
+<div class='col-md-5'>
+  <div class='row'>
+    <div class='row'>
       <strong><%= event.name.capitalize %></strong>
     </div>
     <br>
-    <div class="row">
-      <div class="col-md-6">
+    <div class='row'>
+      <div class='col-md-6'>
         <%= get_duration_string(event.start_date, event.end_date) %>
       </div>
-      <div class="col-md-6">
+      <div class='col-md-6'>
         <%= event.address.city + ', ' + event.address.country %>
       </div>
     </div>
     <br>
-    <div class="row">
-      <%= truncate(strip_tags(event.description), length: 300) %>
+    <div class='row'>
+      <%= truncate(strip_tags(event.description), length: 300) if action_name != 'show' %>
+      <%= strip_tags(event.description) if action_name == 'show' %>
     </div>
   </div>
 </div>
-<div class="col-md-1">
-</div>
-<div class="col-md-3">
+<div class='col-md-2'>
   <h4><%= get_event_status(event) %></h4>
 </div>
-
+<div class='col-md-1'>
+  <%= link_to 'Show Event', event, class: 'btn btn-primary' if action_name != 'show' %>
+</div>

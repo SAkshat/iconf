@@ -1,8 +1,8 @@
 class Event < ActiveRecord::Base
-  has_one :contact_detail, as: :contactable
-  has_one :address
+  has_one :contact_detail, as: :contactable, dependent: :destroy
+  has_one :address, dependent: :destroy
   mount_uploader :logo, LogoUploader
-  has_many :sessions
+  has_many :sessions, dependent: :destroy
   belongs_to :creator, class_name: "User", foreign_key: :creator_id
 
   accepts_nested_attributes_for :address, :contact_detail
@@ -13,7 +13,7 @@ class Event < ActiveRecord::Base
   validate :start_date_before_end_date
 
   def start_date_cannot_be_in_past
-    errors[:start_date] << "cannot be in the past" if start_date < Time.now
+    errors[:start_date] << "cannot be in the past" if start_date < Time.current
   end
 
   def start_date_before_end_date

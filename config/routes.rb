@@ -8,8 +8,8 @@ Rails.application.routes.draw do
   end
 
 
-  resources :events do
-    resources :sessions
+  resources :events, only: [:index, :show] do
+    resources :sessions, only: [:index, :show]
   end
 
 

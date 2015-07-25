@@ -1,5 +1,22 @@
-<div class="container">
-  <div class="row">
+<br>
+<div class='container'>
+  <div class='row'>
     <%= render @event %>
+  </div>
+  <div class='row'>
+    <% unless @session %>
+      <br>
+      <strong class='alert'>No sessions exist</strong>
+    <% else %>
+      <% @session.find_in_batches(batch_size: 3) do |sessions| %>
+        <div class="row">
+          <% sessions.each do |session| %>
+            <div class="col-md-4">
+              <%= render session %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
   </div>
 </div>

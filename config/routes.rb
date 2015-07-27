@@ -4,12 +4,14 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :users do
-    resources :events
+    resources :events do
+      resources :discussions
+    end
   end
 
 
   resources :events, only: [:index, :show] do
-    resources :sessions, only: [:index, :show]
+    resources :discussions, only: [:index, :show]
   end
 
 

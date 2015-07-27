@@ -72,12 +72,12 @@
     <div class="col-md-3">
       <div class="form-group">
         <div class='checkbox-inline'>
-          <%= f.radio_button :status, true, checked: true %>
-          <%= f.label :status_enable, 'Enable', class: "control-label" %>
+          <%= f.radio_button :enabled, true, checked: true %>
+          <%= f.label :enabled_true, 'Enable', class: "control-label" %>
         </div>
         <div class='checkbox-inline'>
-          <%= f.radio_button :status, false %>
-          <%= f.label :status_disable, 'Disable', value: false , class: "control-label" %>
+          <%= f.radio_button :enabled, false %>
+          <%= f.label :enabled_false, 'Disable', class: "control-label" %>
         </div>
       </div>
     </div>

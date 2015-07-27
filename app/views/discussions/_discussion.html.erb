@@ -4,10 +4,10 @@
   </div>
   <div class="col-md-9">
     <div class="row">
-      <%= session.name + ' - ' + session.topic %>
+      <%= discussion.name + ' - ' + discussion.topic %>
     </div>
     <div class="row">
-      <%= truncate(strip_tags(session.description), length: 300) %>
+      <%= truncate(strip_tags(discussion.description), length: 300) %>
     </div>
   </div>
 </div>

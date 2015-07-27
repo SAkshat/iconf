@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724065523) do
+ActiveRecord::Schema.define(version: 20150727084246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,19 +31,7 @@ ActiveRecord::Schema.define(version: 20150724065523) do
     t.string  "contactable_type"
   end
 
-  create_table "events", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.string   "description"
-    t.string   "logo"
-    t.boolean  "status",      default: true, null: false
-    t.integer  "creator_id"
-  end
-
-  add_index "events", ["creator_id"], name: "index_events_on_creator_id", using: :btree
-
-  create_table "sessions", force: :cascade do |t|
+  create_table "discussions", force: :cascade do |t|
     t.string  "name"
     t.string  "topic"
     t.date    "date"
@@ -51,9 +39,24 @@ ActiveRecord::Schema.define(version: 20150724065523) do
     t.time    "end_time"
     t.string  "location"
     t.string  "description"
-    t.boolean "status",      default: true, null: false
+    t.boolean "enabled",     default: true, null: false
     t.integer "event_id"
+    t.integer "creator_id"
   end
+
+  add_index "discussions", ["creator_id"], name: "index_discussions_on_creator_id", using: :btree
+
+  create_table "events", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string   "description"
+    t.string   "logo"
+    t.boolean  "enabled",     default: true, null: false
+    t.integer  "creator_id"
+  end
+
+  add_index "events", ["creator_id"], name: "index_events_on_creator_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

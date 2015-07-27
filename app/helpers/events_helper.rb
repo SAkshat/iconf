@@ -21,6 +21,14 @@ module EventsHelper
     end
   end
 
+  def event_created_by?(event, user)
+    event.creator_id == user.id
+  end
+
+  def is_event_changable?(event)
+    event.upcoming?
+  end
+
   private
 
     def duration_string_for_different_years(start_date, end_date)

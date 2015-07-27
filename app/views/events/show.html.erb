@@ -4,18 +4,22 @@
     <%= render @event %>
   </div>
   <div class='row'>
-    <% unless @session %>
+    <br><hr>
+    <% if @discussions.empty? %>
       <br>
-      <strong class='alert'>No sessions exist</strong>
+      <strong class='alert'>No discussions exist</strong>
     <% else %>
-      <% @session.find_in_batches(batch_size: 3) do |sessions| %>
+      <% @discussions.find_in_batches(batch_size: 3) do |discussions| %>
         <div class="row">
-          <% sessions.each do |session| %>
-            <div class="col-md-4">
-              <%= render session %>
+          <% discussions.each do |discussion| %>
+            <div class="col-md-3">
+              <%= render discussion %>
+            </div>
+            <div class="col-md-1">
             </div>
           <% end %>
         </div>
+        <hr><br>
       <% end %>
     <% end %>
   </div>

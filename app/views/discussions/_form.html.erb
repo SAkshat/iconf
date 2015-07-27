@@ -1,15 +1,17 @@
-<%= form_for [@event, @session], html: { role: "form" } do |f| %>
-  <% if @session.errors.any? %>
+<%= form_for [@creator, @event, @discussion], html: { role: "form" } do |f| %>
+  <% if @discussion.errors.any? %>
     <div id="error_explanation">
-      <h6><%= pluralize(@session.errors.count, "error") %> prohibited this session from being created:</h6>
+      <h6><%= pluralize(@discussion.errors.count, "error") %> prohibited this discussion from being created:</h6>
 
       <ul>
-      <% @session.errors.full_messages.each do |message| %>
+      <% @discussion.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
+
+  <%= f.hidden_field :creator_id, value: current_user.id %>
 
   <div class="row">
     <div class="col-md-6">
@@ -66,12 +68,12 @@
     <div class="col-md-3">
       <div class="form-group">
         <div class='checkbox-inline'>
-          <%= f.radio_button :status, true, checked: true %>
-          <%= f.label :status_enable, 'Enable', class: "control-label" %>
+          <%= f.radio_button :enabled, true, checked: true %>
+          <%= f.label :enabled_true, 'Enable', class: "control-label" %>
         </div>
         <div class='checkbox-inline'>
-          <%= f.radio_button :status, false %>
-          <%= f.label :status_disable, 'Disable', value: false , class: "control-label" %>
+          <%= f.radio_button :enabled, false %>
+          <%= f.label :enabled_false, 'Disable', class: "control-label" %>
         </div>
       </div>
     </div>
@@ -81,7 +83,7 @@
       </div>
     </div>
     <div class="col-md-1">
-      <%= link_to "Cancel", event_path(@event), class: "btn btn-primary" , method: :get %>
+      <%= link_to "Cancel", user_event_path(@creator, @event), class: "btn btn-primary" , method: :get %>
     </div>
   </div>
 <% end %>

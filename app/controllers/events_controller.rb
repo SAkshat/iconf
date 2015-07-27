@@ -2,22 +2,23 @@ class EventsController < ApplicationController
 
   skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :set_event, only: [:show, :edit, :update]
+  before_action :set_creator, only: [:new, :edit, :create, :update]
 
   def index
     if params[:user_id]
-      @events = User.find_by(id: params[:user_id]).events.where(status: true).order(:start_date)
+      @events = User.find_by_id(params[:user_id]).events.enabled.order_by_date
     else
-      @events = Event.where(status: true).order(:start_date)
+      @events = Event.enabled.order_by_date
     end
   end
 
   def show
-    @sessions = @event.sessions
+    @discussions = @event.discussions
   end
 
   def new
     if params[:user_id]
-      @event = User.find_by(id: params[:user_id]).events.build
+      @event = User.find_by_id(params[:user_id]).events.build
     else
       @event = Event.new
     end
@@ -31,10 +32,10 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(event_params)
+    @event = Event.new(p event_params)
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event }
+        format.html { redirect_to @event, notice: 'Event successfully created' }
       else
         format.html { render :new }
       end
@@ -44,7 +45,7 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to @event }
+        format.html { redirect_to @event , notice: 'Event successfully updated' }
       else
         format.html { render :edit }
       end
@@ -53,14 +54,18 @@ class EventsController < ApplicationController
 
   private
 
+    def set_creator
+      @creator = User.find_by_id(current_user.id)
+      redirect_to events_path, alert: 'Couldn\'t find the required User' unless @creator
+    end
+
     def set_event
-      @event = Event.find_by(id: params[:id])
+      @event = Event.find_by_id(params[:id])
       redirect_to events_path, alert: 'Couldn\'t find the required event' unless @event
     end
 
     def event_params
-      puts params
-      params.require(:event).permit(:creator_id, :name, :start_date, :end_date, :description, :logo, :status, address_attributes: [:street, :city, :country, :zipcode], contact_detail_attributes: [:phone_number, :email])
+      params.require(:event).permit(:creator_id, :name, :start_date, :end_date, :description, :logo, :enabled, address_attributes: [:id, :street, :city, :country, :zipcode], contact_detail_attributes: [:id, :phone_number, :email])
     end
 
 end

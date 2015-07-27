@@ -3,6 +3,7 @@ class EventsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :set_event, only: [:show, :edit, :update]
   before_action :set_creator, only: [:new, :edit, :create, :update]
+  before_action :check_event_is_upcoming, only: [:edit, :update]
 
   def index
     if params[:user_id]
@@ -53,6 +54,12 @@ class EventsController < ApplicationController
   end
 
   private
+
+    def check_event_is_upcoming
+      unless @event.upcoming?
+        redirect_to events_path, notice: 'The event cannot be edited'
+      end
+    end
 
     def set_creator
       @creator = User.find_by_id(current_user.id)

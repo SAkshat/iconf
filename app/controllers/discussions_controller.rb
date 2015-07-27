@@ -1,7 +1,7 @@
 class DiscussionsController < ApplicationController
 
   before_action :set_event, only: [:index, :show, :new, :edit, :create, :update]
-  before_action :set_creator, only: [:index, :show, :new, :edit, :create, :update]
+  before_action :set_creator, only: [:new, :edit, :create, :update]
   before_action :set_discussion, only: [:show, :edit, :update]
   skip_before_action :authenticate_user!, only: [:index, :show]
 
@@ -23,7 +23,7 @@ class DiscussionsController < ApplicationController
     @discussion = @event.discussions.new(discussion_params)
     respond_to do |format|
       if @discussion.save
-        format.html { redirect_to Event.find_by_id(@discussion.event_id), notice: 'Discussion created successfully' }
+        format.html { redirect_to @event, notice: 'Discussion created successfully' }
       else
         format.html { render :new }
       end

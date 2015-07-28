@@ -6,7 +6,7 @@ class DiscussionsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
-    @discussions = @event.discussions.enabled.order_by_date_time
+    @discussions = @event.discussions.enabled.order_by_start_date_time
   end
 
   def show
@@ -25,7 +25,10 @@ class DiscussionsController < ApplicationController
       if @discussion.save
         format.html { redirect_to @event, notice: 'Discussion created successfully' }
       else
-        format.html { render :new }
+        format.html {
+          flash[:alert] = 'Discussion creation failed'
+          render :new
+        }
       end
     end
   end
@@ -33,9 +36,12 @@ class DiscussionsController < ApplicationController
   def update
     respond_to do |format|
       if @discussion.update(discussion_params)
-        format.html { redirect_to @event, notice: 'Discussion created successfully' }
+        format.html { redirect_to @event, notice: 'Discussion edited successfully' }
       else
-        format.html { render :edit }
+        format.html{
+          flash[:alert] = 'Unable to edit discussion'
+          render :edit
+        }
       end
     end
   end

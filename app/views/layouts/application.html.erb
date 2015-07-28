@@ -17,7 +17,7 @@
       </div>
       <br>
       <div class="col-md-1 col-md-offset-4">
-        <%= link_to 'My Events', user_events_path(current_user), class: 'btn btn-primary', method: :get if user_signed_in? %>
+        <%= link_to 'My Events', user_events_path(current_user, filter: :created), class: 'btn btn-primary', method: :get if user_signed_in? %>
       </div>
       <div class="col-md-1">
         <%= link_to 'Events', root_path, class: 'btn btn-primary', method: :get %>

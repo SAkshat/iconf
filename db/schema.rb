@@ -22,13 +22,17 @@ ActiveRecord::Schema.define(version: 20150727084246) do
     t.string  "country"
     t.string  "zipcode"
     t.integer "event_id"
-  end
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+end
 
   create_table "contact_details", force: :cascade do |t|
     t.integer "phone_number"
     t.string  "email"
     t.integer "contactable_id"
     t.string  "contactable_type"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "discussions", force: :cascade do |t|
@@ -42,6 +46,8 @@ ActiveRecord::Schema.define(version: 20150727084246) do
     t.boolean "enabled",     default: true, null: false
     t.integer "event_id"
     t.integer "creator_id"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "discussions", ["creator_id"], name: "index_discussions_on_creator_id", using: :btree
@@ -54,6 +60,8 @@ ActiveRecord::Schema.define(version: 20150727084246) do
     t.string   "logo"
     t.boolean  "enabled",     default: true, null: false
     t.integer  "creator_id"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "events", ["creator_id"], name: "index_events_on_creator_id", using: :btree

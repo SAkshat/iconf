@@ -4,6 +4,9 @@ class CreateContactDetails < ActiveRecord::Migration
       t.integer :phone_number
       t.string :email
       t.references :contactable, polymorphic: true
+
+      t.timestamps null: false
+
     end
   end
 end

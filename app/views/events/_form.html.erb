@@ -26,10 +26,19 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
-          <div class="form-group">
-            <%= f.label :logo , class: "control-label" %>
-            <%= f.file_field :logo, class: "form-control", default: @event.logo_url %>
+        <% if @event.logo_url %>
+          <div class="col-md-8">
+        <% else %>
+          <div class="col-md-12">
+        <% end %>
+            <div class="form-group">
+              <%= f.label :logo , class: "control-label" %>
+              <%= f.file_field :logo, class: "form-control" %>
+            </div>
+          </div>
+        <div class="col-md-4">
+          <div class="col-md-10">
+            Current Logo : <%= image_tag @event.logo_url, class: 'img-responsive' %>
           </div>
         </div>
       </div>

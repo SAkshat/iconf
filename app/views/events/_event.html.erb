@@ -34,11 +34,11 @@
   </div>
   <br>
   <div class="row">
-    <% if user_signed_in? && event_created_by?(event, current_user) && is_event_changable?(event) %>
+    <% if user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
       <%= link_to 'Edit Event', edit_user_event_path(current_user, event), class: 'btn btn-primary' %>
     <% end %>
     <br><br>
-    <% if action_name == 'show' && user_signed_in? && event_created_by?(event, current_user) && is_event_changable?(event) %>
+    <% if action_name == 'show' && user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
       <%= link_to 'Create Discussion', new_user_event_discussion_path(current_user, event_id: event.id), class: 'btn btn-success' %>
     <% end %></div>
 </div>

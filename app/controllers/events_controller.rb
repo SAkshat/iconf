@@ -6,10 +6,11 @@ class EventsController < ApplicationController
   before_action :check_event_is_upcoming, only: [:edit, :update]
 
   def index
-    if params[:user_id]
-      @events = User.find_by_id(params[:user_id]).events.enabled.order_by_date
+    case params[:filter]
+    when "created"
+      @events = current_user.events.enabled.order_by_start_date
     else
-      @events = Event.enabled.order_by_date
+      @events = Event.enabled.order_by_start_date
     end
   end
 
@@ -18,11 +19,7 @@ class EventsController < ApplicationController
   end
 
   def new
-    if params[:user_id]
-      @event = User.find_by_id(params[:user_id]).events.build
-    else
-      @event = Event.new
-    end
+    @event = @creator.events.build
     @address = @event.build_address
     @contact_detail = @event.build_contact_detail
   end
@@ -38,7 +35,10 @@ class EventsController < ApplicationController
       if @event.save
         format.html { redirect_to @event, notice: 'Event successfully created' }
       else
-        format.html { render :new }
+        format.html {
+          flash[:notice] = 'Event creation failed'
+          render :new
+        }
       end
     end
   end
@@ -48,7 +48,10 @@ class EventsController < ApplicationController
       if @event.update(event_params)
         format.html { redirect_to @event , notice: 'Event successfully updated' }
       else
-        format.html { render :edit }
+        format.html {
+          flash[:notice] = 'Unable to edit event'
+          render :edit
+        }
       end
     end
   end
@@ -62,12 +65,12 @@ class EventsController < ApplicationController
     end
 
     def set_creator
-      @creator = User.find_by_id(current_user.id)
+      @creator = current_user
       redirect_to events_path, alert: 'Couldn\'t find the required User' unless @creator
     end
 
     def set_event
-      @event = Event.find_by_id(params[:id])
+      @event = Event.find_by(id: params[:id])
       redirect_to events_path, alert: 'Couldn\'t find the required event' unless @event
     end
 

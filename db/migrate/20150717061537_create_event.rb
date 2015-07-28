@@ -7,6 +7,9 @@ class CreateEvent < ActiveRecord::Migration
       t.string :description
       t.string :logo
       t.boolean :status, default: true, null: false
+
+      t.timestamps null: false
+
     end
   end
 end

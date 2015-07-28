@@ -5,6 +5,8 @@ class CreateAddress < ActiveRecord::Migration
       t.string :city
       t.string :country
       t.string :zipcode
+
+      t.timestamps null: false
     end
   end
 end

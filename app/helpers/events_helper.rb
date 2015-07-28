@@ -21,11 +21,11 @@ module EventsHelper
     end
   end
 
-  def event_created_by?(event, user)
+  def is_event_owner?(event, user)
     event.creator_id == user.id
   end
 
-  def is_event_changable?(event)
+  def is_event_editable?(event)
     event.upcoming?
   end
 

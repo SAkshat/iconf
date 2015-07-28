@@ -1,0 +1,89 @@
+<%= form_for [@creator, @event, @discussion], html: { role: "form" } do |f| %>
+  <% if @discussion.errors.any? %>
+    <div id="error_explanation">
+      <h6><%= pluralize(@discussion.errors.count, "error") %> prohibited this discussion from being created:</h6>
+
+      <ul>
+      <% @discussion.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :creator_id, value: current_user.id %>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <%= f.label :name , class: "control-label" %>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.label :topic , class: "control-label" %>
+          <%= f.text_field :topic, class: "form-control" %>
+        </div>
+        <div class="col-md-6">
+          <%= f.label :date , class: "control-label" %><br>
+          <%= f.date_select :date, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :description , class: "control-label" %>
+        <%= f.text_area :description, class: "form-control", rows: 6 %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <%= f.label :start_time, class: "control-label" %><br>
+        <%= f.time_select :start_time, class: "form-control" %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <%= f.label :end_time, class: "control-label" %><br>
+        <%= f.time_select :end_time, class: "form-control"  %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :location , class: "control-label" %>
+        <%= f.text_field :location, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class='checkbox-inline'>
+          <%= f.radio_button :enabled, true, checked: true %>
+          <%= f.label :enabled_true, 'Enable', class: "control-label" %>
+        </div>
+        <div class='checkbox-inline'>
+          <%= f.radio_button :enabled, false %>
+          <%= f.label :enabled_false, 'Disable', class: "control-label" %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1">
+      <div class="form-group">
+        <%= f.submit 'Submit', class: 'btn btn-success' %>
+      </div>
+    </div>
+    <div class="col-md-1">
+      <%= link_to "Cancel", user_event_path(@creator, @event), class: "btn btn-primary" , method: :get %>
+    </div>
+  </div>
+<% end %>

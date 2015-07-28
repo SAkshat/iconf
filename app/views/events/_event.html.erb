@@ -1,0 +1,44 @@
+<div class='col-md-2'>
+  <%= image_tag event.logo_url, alt: 'Akshat', class: 'img-responsive' %>
+</div>
+<div class='col-md-1'>
+</div>
+<div class='col-md-5'>
+  <div class='row'>
+    <div class='row'>
+      <strong><%= event.name.capitalize %></strong>
+    </div>
+    <br>
+    <div class='row'>
+      <div class='col-md-6'>
+        <%= get_duration_string(event.start_date, event.end_date) %>
+      </div>
+      <div class='col-md-6'>
+        <%= event.address.city + ', ' + event.address.country %>
+      </div>
+    </div>
+    <br>
+    <div class='row'>
+      <%= truncate(strip_tags(event.description), length: 300) if action_name != 'show' %>
+      <%= strip_tags(event.description) if action_name == 'show' %>
+    </div>
+  </div>
+</div>
+<div class='col-md-2'>
+  <h4><%= get_event_status(event) %></h4>
+</div>
+<div class='col-md-1'>
+  <div class="row">
+    <br>
+    <%= link_to 'Show Event', event, class: 'btn btn-primary' if action_name != 'show' %>
+  </div>
+  <br>
+  <div class="row">
+    <% if user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
+      <%= link_to 'Edit Event', edit_user_event_path(current_user, event), class: 'btn btn-primary' %>
+    <% end %>
+    <br><br>
+    <% if action_name == 'show' && user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
+      <%= link_to 'Create Discussion', new_user_event_discussion_path(current_user, event_id: event.id), class: 'btn btn-success' %>
+    <% end %></div>
+</div>

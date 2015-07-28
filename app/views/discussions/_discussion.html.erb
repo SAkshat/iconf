@@ -1,0 +1,33 @@
+<div class = "row">
+  <div class="col-md-3">
+    <%= image_tag @event.logo_url, alt: :Akshat, class: "img-responsive" %>
+  </div>
+  <div class="col-md-9">
+    <div class="row">
+      <div class="col-md-8">
+        <strong><%= discussion.name + ' - ' + discussion.topic %></strong>
+      </div>
+      <div class="col-md-4">
+        <% if user_signed_in? %>
+          <div class="icons">
+            <%= link_to user_event_discussion_path(current_user, @event, discussion) do %>
+              <%= image_tag ('open.png'), alt: :Open, class: "img-responsive" %>
+            <% end  if controller_name == "events" %>
+            <%= link_to edit_user_event_discussion_path(current_user, @event, discussion) do %>
+              <%= image_tag ('edit.png'), alt: :Edit, class: "img-responsive" %>
+            <% end if is_event_owner?(@event, current_user)%>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <%= discussion.location + ', ' + @event.address.street + ', ' + @event.address.city %>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <%= truncate(strip_tags(discussion.description), length: 300) %>
+    </div>
+  </div>
+</div>

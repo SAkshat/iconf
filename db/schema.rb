@@ -11,46 +11,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150727084246) do
+ActiveRecord::Schema.define(version: 20150729044321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "addresses", force: :cascade do |t|
-    t.string  "street"
-    t.string  "city"
-    t.string  "country"
-    t.string  "zipcode"
-    t.integer "event_id"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-end
+    t.string   "street"
+    t.string   "city"
+    t.string   "country"
+    t.string   "zipcode"
+    t.integer  "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "contact_details", force: :cascade do |t|
-    t.integer "phone_number"
-    t.string  "email"
-    t.integer "contactable_id"
-    t.string  "contactable_type"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.integer  "phone_number"
+    t.string   "email"
+    t.integer  "contactable_id"
+    t.string   "contactable_type"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "discussions", force: :cascade do |t|
-    t.string  "name"
-    t.string  "topic"
-    t.date    "date"
-    t.time    "start_time"
-    t.time    "end_time"
-    t.string  "location"
-    t.string  "description"
-    t.boolean "enabled",     default: true, null: false
-    t.integer "event_id"
-    t.integer "creator_id"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.string   "name"
+    t.string   "topic"
+    t.date     "date"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.string   "location"
+    t.string   "description"
+    t.boolean  "enabled",     default: true, null: false
+    t.integer  "event_id"
+    t.integer  "creator_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "speaker_id"
   end
 
   add_index "discussions", ["creator_id"], name: "index_discussions_on_creator_id", using: :btree
+  add_index "discussions", ["speaker_id"], name: "index_discussions_on_speaker_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "name"
@@ -60,8 +62,8 @@ end
     t.string   "logo"
     t.boolean  "enabled",     default: true, null: false
     t.integer  "creator_id"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   add_index "events", ["creator_id"], name: "index_events_on_creator_id", using: :btree
@@ -79,6 +81,8 @@ end
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "name"
+    t.string   "designation"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -7,7 +7,7 @@ class EventsController < ApplicationController
 
   def index
     case params[:filter]
-    when "created"
+    when "my_events"
       @events = current_user.events.enabled.order_by_start_date
     else
       @events = Event.enabled.order_by_start_date
@@ -15,7 +15,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @discussions = @event.discussions
+    @discussions = @event.discussions.order_by_start_date_time
   end
 
   def new

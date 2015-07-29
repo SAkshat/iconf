@@ -21,10 +21,12 @@ class DiscussionsController < ApplicationController
 
   def create
     @discussion = @event.discussions.new(discussion_params)
+    set_speaker
     respond_to do |format|
       if @discussion.save
         format.html { redirect_to @event, notice: 'Discussion created successfully' }
       else
+        puts @discussion.errors.messages
         format.html {
           flash[:alert] = 'Discussion creation failed'
           render :new
@@ -34,6 +36,7 @@ class DiscussionsController < ApplicationController
   end
 
   def update
+    set_speaker
     respond_to do |format|
       if @discussion.update(discussion_params)
         format.html { redirect_to @event, notice: 'Discussion edited successfully' }
@@ -48,14 +51,19 @@ class DiscussionsController < ApplicationController
 
   private
 
+    def set_speaker
+      @speaker = User.find_by(email: params[:discussion][:speaker])
+      @discussion.speaker = @speaker
+    end
+
     def set_event
       @event = Event.find_by(id: params[:event_id])
       redirect_to events_path, alert: 'Couldn\'t find the required event' unless @event
     end
 
     def set_creator
-      @creator = User.find_by(id: params[:user_id])
-      redirect_to events_path, alert: 'Couldn\'t find the required User' unless @event
+      @creator = current_user
+      redirect_to events_path, alert: 'Couldn\'t find the required Creator' unless @creator
     end
 
     def set_discussion
@@ -64,7 +72,7 @@ class DiscussionsController < ApplicationController
     end
 
     def discussion_params
-      params.require(:discussion).permit(:creator_id, :discussion_id, :name, :topic, :date, :start_time, :end_time, :description, :enabled, :location)
+      params.require(:discussion).permit(:creator_id, :id, :name, :topic, :date, :start_time, :end_time, :description, :enabled, :location)
     end
 
 end

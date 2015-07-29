@@ -6,7 +6,9 @@
 <div class='col-md-5'>
   <div class='row'>
     <div class='row'>
-      <strong><%= event.name.capitalize %></strong>
+      <%= link_to event_path(event) do %>
+        <strong><%= event.name.capitalize %></strong>
+      <% end %>
     </div>
     <br>
     <div class='row'>
@@ -28,17 +30,15 @@
   <h4><%= get_event_status(event) %></h4>
 </div>
 <div class='col-md-1'>
-  <div class="row">
-    <br>
-    <%= link_to 'Show Event', event, class: 'btn btn-primary' if action_name != 'show' %>
-  </div>
   <br>
   <div class="row">
     <% if user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
-      <%= link_to 'Edit Event', edit_user_event_path(current_user, event), class: 'btn btn-primary' %>
+      <%= link_to edit_event_path(event) do %>
+        <%= image_tag 'edit.png' ,alt: 'Edit',  class: "img-responsive" %>
+      <% end %>
     <% end %>
     <br><br>
     <% if action_name == 'show' && user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
-      <%= link_to 'Create Discussion', new_user_event_discussion_path(current_user, event_id: event.id), class: 'btn btn-success' %>
+      <%= link_to 'Create Discussion', new_event_discussion_path(event_id: event.id), class: 'btn btn-success' %>
     <% end %></div>
 </div>

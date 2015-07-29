@@ -15,4 +15,12 @@ module ApplicationHelper
     end
   end
 
+  def errors_for(model, attribute)
+    if model.errors[attribute].present?
+      content_tag :div, :class => 'error_explanation' do
+        '[ ' + model.errors[attribute].join(", ") + ' ]'
+      end
+    end
+  end
+
 end

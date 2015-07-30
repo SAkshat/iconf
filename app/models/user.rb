@@ -5,4 +5,5 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :events, foreign_key: :creator_id, dependent: :destroy
+
 end

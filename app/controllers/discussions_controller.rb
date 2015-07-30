@@ -1,8 +1,9 @@
 class DiscussionsController < ApplicationController
 
-  before_action :set_event, only: [:index, :show, :new, :edit, :create, :update]
+  before_action :set_event, except: [:destroy]
   before_action :set_creator, only: [:new, :edit, :create, :update]
   before_action :set_discussion, only: [:show, :edit, :update]
+  before_action :check_discussion_is_upcoming, only: [:edit, :update]
   skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
@@ -26,7 +27,6 @@ class DiscussionsController < ApplicationController
       if @discussion.save
         format.html { redirect_to @event, notice: 'Discussion created successfully' }
       else
-        puts @discussion.errors.messages
         format.html {
           flash[:alert] = 'Discussion creation failed'
           render :new
@@ -50,6 +50,12 @@ class DiscussionsController < ApplicationController
   end
 
   private
+
+    def check_discussion_is_upcoming
+      if !(@discussion.date.to_s > Date.current.to_s)
+        redirect_to event_path(@event), notice: "Past discussions cannot be edited"
+      end
+    end
 
     def set_speaker
       @speaker = User.find_by(email: params[:discussion][:speaker])

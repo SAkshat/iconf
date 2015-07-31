@@ -19,7 +19,7 @@
         </div>
         <div class="col-md-6">
           <%= f.label :date , class: "control-label" %><br>
-          <%= f.date_select :date, class: "form-control" %>
+          <%= f.date_select :date, start_year: @event.start_date.year, end_year: @event.end_date.year, class: "form-control" %>
         </div>
       </div>
     </div>

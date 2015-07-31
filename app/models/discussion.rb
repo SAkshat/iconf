@@ -31,9 +31,7 @@ class Discussion < ActiveRecord::Base
   end
 
   def upcoming?
-    return true if date > Date.current
-    return false if date < Date.current
-    start_time > Time.current.utc
+    date > Date.current || !(date < Date.current) || start_time > Time.current.utc
   end
 
   def exists?

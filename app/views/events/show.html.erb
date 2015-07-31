@@ -1,0 +1,27 @@
+<br>
+<div class='container'>
+  <div class='row'>
+    <%= render @event %>
+  </div>
+  <div class='row'>
+    <h2>Discussions</h2>
+    <br><hr>
+    <% if @discussions.empty? %>
+      <br>
+      <strong class='alert'>No discussions exist</strong>
+    <% else %>
+      <% @discussions.find_in_batches(batch_size: 3) do |discussions| %>
+        <div class="row">
+          <% discussions.each do |discussion| %>
+            <div class="col-md-3">
+              <%= render discussion %>
+            </div>
+            <div class="col-md-1">
+            </div>
+          <% end %>
+        </div>
+        <hr><br>
+      <% end %>
+    <% end %>
+  </div>
+</div>

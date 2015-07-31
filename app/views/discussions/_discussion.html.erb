@@ -1,0 +1,89 @@
+<div class = "row">
+  <div class="col-md-3">
+    <%= link_to image_tag(@event.logo_url, alt: :Logo, class: 'img-responsive'), event_discussion_path(@event, discussion) %>
+  </div>
+  <div class="col-md-9">
+    <div class="row">
+      <div class="col-md-7">
+        <%= link_to event_discussion_path(@event, discussion) do %>
+          <strong><%= discussion.name + ' - ' + discussion.topic %></strong>
+        <% end %>
+      </div>
+      <div class="col-md-5">
+        <% if user_signed_in? && discussion.upcoming? %>
+          <div class="icons">
+            <%= link_to edit_event_discussion_path(@event, discussion) do %>
+              <%= image_tag ('edit.png'), alt: :Edit, class: "img-responsive" %>
+            <% end if is_event_owner?(@event, current_user) %>
+          </div>
+        <% end %>
+        <% if user_signed_in? && discussion.upcoming? %>
+          <% if user_attending_discussion?(discussion, current_user) %>
+            <div class="row">
+              <div class="col-md-6">
+                <%= link_to 'Yes', 'javascript:', class: 'btn btn-success'%>
+              </div>
+              <div class="col-md-6">
+                <%= link_to ' No',  delete_rsvp_path(id: discussion.id), class: 'btn btn-disabled panel panel-default', :method => :delete %>
+              </div>
+            </div>
+          <% else %>
+            <div class="row">
+              <div class="col-md-6">
+                <%= link_to 'Yes ',add_rsvp_path(id: discussion.id), class: 'btn btn-disabled panel panel-default', :method => :put  %>
+              </div>
+              <div class="col-md-6">
+                <%= link_to 'No', 'javascript:', class: 'btn btn-primary' %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-11 col-md-offset-1">
+        <%= 'Speaker : ' + discussion.speaker.designation + ' ' + discussion.speaker.name %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-11 col-md-offset-1">
+        <%= discussion.location + ', ' + @event.address.street + ', ' + @event.address.city %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-11 col-md-offset-1">
+        <%= discussion_duration(discussion) %>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <% if controller_name == "events" %>
+        <%= truncate(strip_tags(discussion.description), length: 100) %>
+      <% else %>
+        <div class="col-md-8">
+          <%= strip_tags(discussion.description) %>
+        </div>
+      <% end %>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+        <% if action_name == "show" && controller_name == "discussions" %>
+          <div class="row">
+            <strong>Attendees</strong>
+          </div>
+          <% discussion.attendees.each do |attendee| %>
+            <%= attendee.designation + ' ' + attendee.name %>
+            <br>
+          <% end %>
+          <% if discussion.attendees.count == 0 %>
+            There are no attendees
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+
+</div>

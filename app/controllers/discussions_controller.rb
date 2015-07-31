@@ -1,9 +1,9 @@
 class DiscussionsController < ApplicationController
 
-  before_action :set_event, except: [:destroy, :add_rsvp, :delete_rsvp]
+  before_action :set_event, only: [:index, :show, :new, :edit, :create, :update]
   before_action :set_creator, only: [:new, :edit, :create, :update]
   before_action :set_discussion, only: [:show, :edit, :update]
-  before_action :check_discussion_is_upcoming, only: [:edit, :update]
+  before_action :check_if_discussion_is_upcoming, only: [:edit, :update]
   skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
@@ -56,7 +56,7 @@ class DiscussionsController < ApplicationController
   end
 
   def add_rsvp
-    du = DiscussionsUser.create(user_id: current_user.id, discussion_id: params[:id])
+    DiscussionsUser.create(user_id: current_user.id, discussion_id: params[:id])
     redirect_to :back, notice: 'You have successfully RSVP\'d to this discussion'
   end
 
@@ -67,8 +67,8 @@ class DiscussionsController < ApplicationController
 
   private
 
-    def check_discussion_is_upcoming
-      if !(@discussion.date.to_s > Date.current.to_s)
+    def check_if_discussion_is_upcoming
+      if !(@discussion.upcoming?)
         redirect_to event_path(@event), notice: "Past discussions cannot be edited"
       end
     end

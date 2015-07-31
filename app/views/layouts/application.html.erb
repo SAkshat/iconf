@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "i Conference Connect 2" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Learn Rails" %>">
-    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
-    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title><%= content_for?(:title) ? yield(:title) : 'i Conference Connect 2' %></title>
+    <meta name='description' content='<%= content_for?(:description) ? yield(:description) : 'Learn Rails' %>'>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <div id="banner">
-      <div class="col-md-3">
+    <div id='banner'>
+      <div class='col-md-3'>
         <%= link_to root_path do %>
           <%= image_tag('conf_logo.jpg') %>
         <% end %>
       </div>
       <br>
-      <div class="col-md-1 col-md-offset-4">
+      <div class='col-md-2 col-md-offset-2'>
+        <%= link_to 'Events I\'m Attending', events_path(filter: :attending_events), class: 'btn btn-primary', method: :get if user_signed_in? %>
+      </div>
+      <div class='col-md-1'>
         <%= link_to 'My Events', events_path(filter: :my_events), class: 'btn btn-primary', method: :get if user_signed_in? %>
       </div>
-      <div class="col-md-1">
+      <div class='col-md-1'>
         <%= link_to 'Events', root_path, class: 'btn btn-primary', method: :get %>
       </div>
-      <div class="col-md-1">
+      <div class='col-md-1'>
         <% if user_signed_in? %>
           <%= link_to 'Logout', destroy_user_session_path, class: 'btn btn-primary', :method => :delete %>
         <% else %>
@@ -30,15 +33,15 @@
         <% end %>
       </div>
     </div>
-    <main role="main", class="mid">
-      <% flash.each do |name, message| %>
-        <div class="alert <%= bootstrap_class_for(name) %> fade in">
-          <button class="close" data-dismiss="alert">x</button>
+    <main role='main', class='mid'>
+      <% flash.each do |type, message| %>
+        <div class="alert <%= bootstrap_class_for(type) %> fade in">
+          <button class="close" data-dismiss="alert">×</button>
           <%= message %>
         </div>
       <% end %>
-      <div class="row">
-        <div class="col-md-12">
+      <div class='row'>
+        <div class='col-md-12'>
           <%= yield %>
         </div>
       </div>

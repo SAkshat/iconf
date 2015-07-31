@@ -1,6 +1,6 @@
 class DiscussionsController < ApplicationController
 
-  before_action :set_event, except: [:destroy]
+  before_action :set_event, except: [:destroy, :add_rsvp, :delete_rsvp]
   before_action :set_creator, only: [:new, :edit, :create, :update]
   before_action :set_discussion, only: [:show, :edit, :update]
   before_action :check_discussion_is_upcoming, only: [:edit, :update]
@@ -24,11 +24,14 @@ class DiscussionsController < ApplicationController
     @discussion = @event.discussions.new(discussion_params)
     set_speaker
     respond_to do |format|
-      if @discussion.save
-        format.html { redirect_to @event, notice: 'Discussion created successfully' }
+      if @discussion.update(discussion_params)
+        format.html {
+          flash[:success] = 'Discussion created successfully'
+          redirect_to @event
+        }
       else
         format.html {
-          flash[:alert] = 'Discussion creation failed'
+          flash.now[:error] = 'Discussion creation failed'
           render :new
         }
       end
@@ -39,14 +42,27 @@ class DiscussionsController < ApplicationController
     set_speaker
     respond_to do |format|
       if @discussion.update(discussion_params)
-        format.html { redirect_to @event, notice: 'Discussion edited successfully' }
+        format.html {
+          flash[:success] = 'Discussion edited successfully'
+          redirect_to @event
+        }
       else
         format.html{
-          flash[:alert] = 'Unable to edit discussion'
+          flash.now[:error] = 'Unable to edit discussion'
           render :edit
         }
       end
     end
+  end
+
+  def add_rsvp
+    du = DiscussionsUser.create(user_id: current_user.id, discussion_id: params[:id])
+    redirect_to :back, notice: 'You have successfully RSVP\'d to this discussion'
+  end
+
+  def delete_rsvp
+    DiscussionsUser.destroy(DiscussionsUser.where(user_id: current_user.id, discussion_id: params[:id]).first.id)
+    redirect_to :back, notice: 'You opted out of this discussion'
   end
 
   private

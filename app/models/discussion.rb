@@ -2,6 +2,8 @@ class Discussion < ActiveRecord::Base
   belongs_to :event
   belongs_to :creator, class_name: :User, foreign_key: :creator_id
   belongs_to :speaker, class_name: :User, foreign_key: :speaker_id
+  has_many :discussions_users
+  has_many :attendees, through: :discussions_users, source: :user
 
   validates :name, :topic, :location, presence: true
   validates :description, length: { minimum: 50, maximum: 250 }
@@ -12,7 +14,6 @@ class Discussion < ActiveRecord::Base
 
   scope :enabled, -> { where(enabled: true) }
   scope :order_by_start_date_time, -> { order(:date, :start_time) }
-
 
   def date_during_event_duration
     unless date >= event.start_date.to_date && date <= event.end_date.to_date

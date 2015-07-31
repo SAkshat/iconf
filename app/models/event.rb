@@ -7,10 +7,10 @@ class Event < ActiveRecord::Base
 
   accepts_nested_attributes_for :address, :contact_detail
 
-  validates :name, presence: true
-  validates :description, length: { maximum: 500, minimum: 50 }
-  validate :start_date_cannot_be_in_past
-  validate :start_date_before_end_date
+  # validates :name, presence: true
+  # validates :description, length: { maximum: 500, minimum: 50 }
+  # validate :start_date_cannot_be_in_past
+  # validate :start_date_before_end_date
 
   scope :enabled, -> { where(enabled: true) }
   scope :order_by_start_date_time, -> { order(:date, :start_time) }

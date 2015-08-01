@@ -10,7 +10,7 @@
       <br>
       <strong class='alert'>No discussions exist</strong>
     <% else %>
-      <% @discussions.find_in_batches(batch_size: 3) do |discussions| %>
+      <% @discussions.each_slice(3) do |discussions| %>
         <div class="row">
           <% discussions.each do |discussion| %>
             <div class="col-md-3">

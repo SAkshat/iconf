@@ -25,7 +25,6 @@ class Discussion < ActiveRecord::Base
     errors[:end_time] << "should be more than start time" if start_time >= end_time
   end
 
-
   def is_session_editable
     errors[:base] << "Discussion is in the past" unless upcoming?
   end

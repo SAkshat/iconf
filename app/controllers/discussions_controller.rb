@@ -60,9 +60,8 @@ class DiscussionsController < ApplicationController
     redirect_to :back, notice: 'You have successfully RSVP\'d to this discussion'
   end
 
-  #To Do: Optimise: dont fire two queries to destroy
   def delete_rsvp
-    DiscussionsUser.destroy(DiscussionsUser.where(user_id: current_user.id, discussion_id: params[:id]).first.id)
+    DiscussionsUser.where(user_id: current_user.id, discussion_id: params[:id]).destroy_all
     redirect_to :back, notice: 'You opted out of this discussion'
   end
 

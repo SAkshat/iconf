@@ -6,6 +6,7 @@ class Admin::UsersController < ApplicationController
     @users = User.all.order(:id)
   end
 
+  # To Do: optimise
   def enable
     @user.enabled = true
     respond_to do |format|
@@ -23,6 +24,7 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  # To Do: optimise
   def disable
     @user.enabled = false
     respond_to do |format|

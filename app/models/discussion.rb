@@ -1,5 +1,6 @@
 class Discussion < ActiveRecord::Base
   belongs_to :event
+  # To Do: why do we need to define the foreign_key?
   belongs_to :creator, class_name: :User, foreign_key: :creator_id
   belongs_to :speaker, class_name: :User, foreign_key: :speaker_id
   has_many :discussions_users
@@ -33,6 +34,7 @@ class Discussion < ActiveRecord::Base
     date > Date.current || ( date == Date.current && start_time > Time.current.utc)
   end
 
+  #To Do: Optimise
   def exists?
     Discussion.find_by(id: id)
   end

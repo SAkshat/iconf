@@ -10,6 +10,7 @@ class EventsController < ApplicationController
     when 'my_events'
       @events = current_user.events.enabled.order_by_start_date
     when 'attending_events'
+      # To Do: Change where clause. Dont use string.
       @events = Event.where('id in (?)', current_user.discussions.enabled.pluck(:event_id).uniq).order_by_start_date
     else
       @events = Event.enabled.order_by_start_date

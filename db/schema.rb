@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(version: 20150803061917) do
     t.string   "city"
     t.string   "country"
     t.string   "zipcode"
-    t.integer  "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "event_id"
   end
 
   create_table "contact_details", force: :cascade do |t|
@@ -44,10 +44,10 @@ ActiveRecord::Schema.define(version: 20150803061917) do
     t.string   "location"
     t.string   "description"
     t.boolean  "enabled",     default: true, null: false
-    t.integer  "event_id"
-    t.integer  "creator_id"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "event_id"
+    t.integer  "creator_id"
     t.string   "speaker_id"
   end
 
@@ -57,8 +57,8 @@ ActiveRecord::Schema.define(version: 20150803061917) do
   create_table "discussions_users", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "discussion_id"
-    t.datetime "created_at",    default: '2015-08-03 06:42:48', null: false
-    t.datetime "updated_at",    default: '2015-08-03 06:43:01', null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -68,9 +68,9 @@ ActiveRecord::Schema.define(version: 20150803061917) do
     t.string   "description"
     t.string   "logo"
     t.boolean  "enabled",     default: true, null: false
-    t.integer  "creator_id"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "creator_id"
   end
 
   add_index "events", ["creator_id"], name: "index_events_on_creator_id", using: :btree

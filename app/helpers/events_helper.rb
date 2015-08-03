@@ -6,6 +6,7 @@ module EventsHelper
     "Past"
   end
 
+  # To Do: Modularize.
   def get_duration_string(start_date, end_date)
     if start_date.year == end_date.year
       if start_date.month == end_date.month
@@ -31,6 +32,7 @@ module EventsHelper
 
   private
 
+  # To Do: Make Code DRY.
     def duration_string_for_different_years(start_date, end_date)
       "#{ start_date.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_date.month] } #{ start_date.year }" +
       " - #{ end_date.day.ordinalize } #{ I18n.t('date.abbr_month_names')[end_date.month] } #{ end_date.year }"

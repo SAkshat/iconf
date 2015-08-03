@@ -3,6 +3,7 @@ class Event < ActiveRecord::Base
   has_one :address, dependent: :destroy
   mount_uploader :logo, LogoUploader
   has_many :discussions, dependent: :destroy
+  # To Do: why do we need to define the foreign_key?
   belongs_to :creator, class_name: :User, foreign_key: :creator_id
 
   accepts_nested_attributes_for :address, :contact_detail
@@ -15,7 +16,7 @@ class Event < ActiveRecord::Base
   scope :enabled, -> { where(enabled: true) }
   scope :order_by_start_date_time, -> { order(:date, :start_time) }
   scope :order_by_start_date, -> { order(:start_date) }
-
+  #To Do: start_date and end_date are datetime fields. Their name should be start_time and end_time.
   def upcoming?
     start_date > Time.current
   end

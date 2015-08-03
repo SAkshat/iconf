@@ -60,6 +60,7 @@ class DiscussionsController < ApplicationController
     redirect_to :back, notice: 'You have successfully RSVP\'d to this discussion'
   end
 
+  #To Do: Optimise: dont fire two queries to destroy
   def delete_rsvp
     DiscussionsUser.destroy(DiscussionsUser.where(user_id: current_user.id, discussion_id: params[:id]).first.id)
     redirect_to :back, notice: 'You opted out of this discussion'
@@ -78,6 +79,7 @@ class DiscussionsController < ApplicationController
       @discussion.speaker = @speaker
     end
 
+    # To Do: Naming issues
     def set_event
       @event = Event.find_by(id: params[:event_id])
       redirect_to events_path, alert: 'Couldn\'t find the required event' unless @event

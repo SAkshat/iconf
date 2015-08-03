@@ -38,5 +38,6 @@
     <br><br>
     <% if action_name == 'show' && user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
       <%= link_to 'Create Discussion', new_event_discussion_path(event_id: event.id), class: 'btn btn-success' %>
-    <% end %></div>
+    <% end %>
+  </div>
 </div>

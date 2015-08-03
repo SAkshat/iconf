@@ -7,8 +7,19 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
-  namespace :admin do
-    resources :users
+  namespace :admin, only: [:index] do
+    resources :users do
+      put 'enable', to: 'users#enable', as: :enable
+      put 'disable', to: 'users#disable', as: :disable
+    end
+    resources :events do
+      put 'enable', to: 'events#enable', as: :enable
+      put 'disable', to: 'events#disable', as: :disable
+      resources :discussions do
+        put 'enable', to: 'discussions#enable', as: :enable
+        put 'disable', to: 'discussions#disable', as: :disable
+      end
+    end
   end
 
   resources :events do

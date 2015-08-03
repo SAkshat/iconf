@@ -28,3 +28,4 @@
 /test/version_tmp/
 /.bundle/
 .DS_Store
+/doc

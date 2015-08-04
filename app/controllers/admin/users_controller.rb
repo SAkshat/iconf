@@ -1,52 +1,36 @@
 class Admin::UsersController < ApplicationController
 
-  before_action :set_user, only: [:enable, :disable]
+  before_action :load_user, only: [:enable, :disable]
 
   def index
     @users = User.all.order(:id)
   end
 
-  # To Do: optimise
   def enable
-    @user.enabled = true
     respond_to do |format|
-     if @user.save
-        format.html {
-          flash[:success] = 'User successfully enabled'
-          redirect_to admin_users_path
-        }
+     if @user.update_attribute(:enabled, true)
+        format.html { redirect_to admin_users_path, success: 'User successfully enabled' }
       else
-        format.html {
-          flash.now[:error] = 'User could not be enabled'
-          redirect_to admin_users_path
-        }
+        format.html { redirect_to admin_users_path, error: 'User could not be enabled' }
       end
     end
   end
 
-  # To Do: optimise
   def disable
-    @user.enabled = false
     respond_to do |format|
-      if @user.save
-        format.html {
-          flash[:success] = 'User successfully disabled'
-          redirect_to admin_users_path
-        }
+     if @user.update_attribute(:enabled, false)
+        format.html { redirect_to admin_users_path, success: 'User successfully disabled' }
       else
-        format.html {
-          flash.now[:error] = 'User could not be disabled'
-          redirect_to admin_users_path
-        }
+        format.html { redirect_to admin_users_path, error: 'User could not be disabled' }
       end
     end
   end
 
   private
 
-    def set_user
+    def load_user
       @user = User.find_by(id: params[:user_id])
-      redirect_to admin_users_path, alert: 'Couldn\'t find the required User' unless @user
+      redirect_to admin_users_path, alert: "Couldn't find the required User" unless @user
     end
 
 end

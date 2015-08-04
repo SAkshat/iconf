@@ -1,8 +1,10 @@
 class DiscussionsController < ApplicationController
 
-  before_action :set_event, only: [:index, :show, :new, :edit, :create, :update]
-  before_action :set_creator, only: [:new, :edit, :create, :update]
-  before_action :set_discussion, only: [:show, :edit, :update]
+  include Loader
+
+  before_action :load_event, only: [:index, :show, :new, :edit, :create, :update]
+  before_action :load_creator, only: [:new, :edit, :create, :update]
+  before_action :load_discussion, only: [:show, :edit, :update]
   before_action :check_if_discussion_is_upcoming, only: [:edit, :update]
   skip_before_action :authenticate_user!, only: [:index, :show]
 
@@ -24,11 +26,8 @@ class DiscussionsController < ApplicationController
     @discussion = @event.discussions.new(discussion_params)
     set_speaker
     respond_to do |format|
-      if @discussion.update(discussion_params)
-        format.html {
-          flash[:success] = 'Discussion created successfully'
-          redirect_to @event
-        }
+      if @discussion.save
+        format.html { redirect_to @event, success: 'Discussion created successfully' }
       else
         format.html {
           flash.now[:error] = 'Discussion creation failed'
@@ -42,10 +41,7 @@ class DiscussionsController < ApplicationController
     set_speaker
     respond_to do |format|
       if @discussion.update(discussion_params)
-        format.html {
-          flash[:success] = 'Discussion edited successfully'
-          redirect_to @event
-        }
+        format.html { redirect_to @event, success: 'Discussion updated successfully' }
       else
         format.html{
           flash.now[:error] = 'Unable to edit discussion'
@@ -57,7 +53,7 @@ class DiscussionsController < ApplicationController
 
   def add_rsvp
     DiscussionsUser.create(user_id: current_user.id, discussion_id: params[:id])
-    redirect_to :back, notice: 'You have successfully RSVP\'d to this discussion'
+    redirect_to :back, notice: "You have successfully RSVP'd to this discussion"
   end
 
   def delete_rsvp
@@ -78,20 +74,14 @@ class DiscussionsController < ApplicationController
       @discussion.speaker = @speaker
     end
 
-    # To Do: Naming issues
-    def set_event
+    def load_event
       @event = Event.find_by(id: params[:event_id])
-      redirect_to events_path, alert: 'Couldn\'t find the required event' unless @event
+      redirect_to events_path, alert: "Couldn't find the required event" unless @event
     end
 
-    def set_creator
-      @creator = current_user
-      redirect_to events_path, alert: 'Couldn\'t find the required Creator' unless @creator
-    end
-
-    def set_discussion
+    def load_discussion
       @discussion = @event.discussions.find_by(id: params[:id])
-      redirect_to event_discussions_path, alert: 'Couldn\'t find the required discussion' unless @discussion
+      redirect_to event_discussions_path, alert: "Couldn't find the required discussion" unless @discussion
     end
 
     def discussion_params

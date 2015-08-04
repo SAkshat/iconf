@@ -16,10 +16,10 @@
         Creator
       </th>
       <th class="col-md-2">
-        Start Date
+        Start Time
       </th>
       <th class="col-md-2">
-        End Date
+        End Time
       </th>
       <th class="col-md-1">
         Street
@@ -52,10 +52,10 @@
         <%= event.creator.name %>
       </td>
       <td class="col-md-2">
-        <%= event.start_date.to_s(:db) %>
+        <%= event.start_time.to_s(:db) %>
       </td>
       <td class="col-md-2">
-        <%= event.end_date.to_s(:db) %>
+        <%= event.end_time.to_s(:db) %>
       </td>
       <td class="col-md-1">
         <%= event.address.street %>

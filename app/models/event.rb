@@ -14,8 +14,8 @@ class Event < ActiveRecord::Base
 
   scope :enabled, -> { where(enabled: true) }
   scope :order_by_start_date_time, -> { order(:date, :start_time) }
-  scope :order_by_start_date, -> { order(:start_time) }
-  #To Do: start_time and end_time are datetime fields. Their name should be start_time and end_time.
+  scope :order_by_start_time, -> { order(:start_time) }
+
   def upcoming?
     start_time > Time.current
   end
@@ -25,7 +25,7 @@ class Event < ActiveRecord::Base
   end
 
   def start_time_before_end_time
-    errors[:end_time] << "must be later than start date" if start_time >= end_time
+    errors[:end_time] << "must be later than start time" if start_time >= end_time
   end
 
   def live?

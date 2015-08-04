@@ -1,50 +1,42 @@
-class Admin::UsersController < ApplicationController
+class Admin::DiscussionsController < ApplicationController
 
-  before_action :set_discussion, only: [:enable, :disable]
+  before_action :load_event, only: [:index, :enable, :disable]
+  before_action :load_discussion, only: [:enable, :disable]
 
   def index
     @discussions = Discussion.all.order(:id)
   end
 
   def enable
-    @discussion.enabled = true
     respond_to do |format|
-     if @discussion.save
-        format.html {
-          flash[:success] = 'Discussion successfully enabled'
-          redirect_to admin_discussions_path
-        }
+     if @discussion.update_attribute(:enabled, true)
+        format.html { redirect_to admin_event_discussions_path(@event), success: 'Discussion successfully enabled' }
       else
-        format.html {
-          flash[:error] = 'Discussion could not be enabled'
-          redirect_to admin_discussions_path
-        }
+        format.html { redirect_to admin_event_discussions_path(@event), error: 'Discussion could not be enabled' }
       end
     end
   end
 
   def disable
-    @discussion.enabled = false
     respond_to do |format|
-      if @discussion.save
-        format.html {
-          flash[:success] = 'Discussion successfully disabled'
-          redirect_to admin_discussions_path
-        }
+     if @discussion.update_attribute(:enabled, false)
+        format.html { redirect_to admin_event_discussions_path(@event), success: 'Discussion successfully disabled' }
       else
-        format.html {
-          flash[:error] = 'Discussion could not be disabled'
-          redirect_to admin_discussions_path
-        }
+        format.html { redirect_to admin_event_discussions_path(@event), error: 'Discussion could not be disabled' }
       end
     end
   end
 
   private
 
-    def set_discussion
+    def load_event
+      @event = Event.find_by(id: params[:event_id])
+      redirect_to admin_events_path, alert: "Couldn't find the required Event" unless @event
+    end
+
+    def load_discussion
       @discussion = Discussion.find_by(id: params[:discussion_id])
-      redirect_to admin_discussions_path, alert: "Couldn't find the required Discussion" unless @discussion
+      redirect_to admin_event_discussions_path(@event), alert: "Couldn't find the required Discussion" unless @discussion
     end
 
 end

@@ -10,19 +10,11 @@ module EventsHelper
     "Past"
   end
 
-  # To Do: Modularize.
-  def get_duration_string(start_date, end_date)
-    if start_date.year == end_date.year
-      if start_date.month == end_date.month
-        if start_date.day == end_date.day
-          return "#{ start_date.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_date.month] } #{ start_date.year }"
-        end
-        return duration_string_for_different_days(start_date, end_date)
-      else
-        return duration_string_for_different_months(start_date, end_date)
-      end
+  def get_duration_string(start_time, end_time)
+    if start_time.year == end_time.year
+      check_for_month(start_time, end_time)
     else
-      return duration_string_for_different_years(start_date, end_date)
+      return duration_string_for_different_years(start_time, end_time)
     end
   end
 
@@ -36,20 +28,34 @@ module EventsHelper
 
   private
 
-  # To Do: Make Code DRY.
-    def duration_string_for_different_years(start_date, end_date)
-      "#{ start_date.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_date.month] } #{ start_date.year }" +
-      " - #{ end_date.day.ordinalize } #{ I18n.t('date.abbr_month_names')[end_date.month] } #{ end_date.year }"
+    def check_for_month(start_time, end_time)
+      if start_time.month == end_time.month
+        check_for_day(start_time, end_time)
+      else
+        return duration_string_for_different_months(start_time, end_time)
+      end
     end
 
-    def duration_string_for_different_months(start_date, end_date)
-      "#{ start_date.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_date.month] } - " +
-      "#{ end_date.day.ordinalize } #{ I18n.t('date.abbr_month_names')[end_date.month] } #{ end_date.year }"
+    def check_for_day(start_time, end_time)
+      if start_time.day == end_time.day
+        return "#{ start_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_time.month] } #{ start_time.year }"
+      end
+      return duration_string_for_different_days(start_time, end_time)
     end
 
-    def duration_string_for_different_days(start_date, end_date)
-      "#{ start_date.day.ordinalize } - #{ end_date.day.ordinalize } " +
-      "#{ I18n.t('date.abbr_month_names')[end_date.month] } #{ end_date.year }"
+    def duration_string_for_different_years(start_time, end_time)
+      "#{ start_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_time.month] } #{ start_time.year } - " + duration_string_for_end_time(end_time)
     end
 
+    def duration_string_for_different_months(start_time, end_time)
+      "#{ start_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_time.month] } - " + duration_string_for_end_time(end_time)
+    end
+
+    def duration_string_for_different_days(start_time, end_time)
+      "#{ start_time.day.ordinalize } - " + duration_string_for_end_time(end_time)
+    end
+
+    def duration_string_for_end_time(end_time)
+      "#{ end_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[end_time.month] } #{ end_time.year }"
+    end
 end

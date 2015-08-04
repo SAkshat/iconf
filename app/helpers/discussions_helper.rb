@@ -1,9 +1,9 @@
 module DiscussionsHelper
 
   def discussion_duration(discussion)
-    discussion.start_time.strftime("%H:%M") + ' - ' +
-    discussion.end_time.strftime("%H:%M") + ' , ' +
-    discussion.date.strftime("%d %b %Y")
+    discussion.start_time.to_s(:time) + ' - ' +
+    discussion.end_time.to_s(:time) + ' , ' +
+    discussion.date.to_s(:date)
   end
 
   def user_attending_discussion?(discussion, current_user)

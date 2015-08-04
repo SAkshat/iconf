@@ -15,9 +15,11 @@ Rails.application.routes.draw do
     resources :events do
       put 'enable', to: 'events#enable', as: :enable
       put 'disable', to: 'events#disable', as: :disable
-      resources :discussions, only: [] do
-        put 'enable', to: 'discussions#enable', as: :enable
-        put 'disable', to: 'discussions#disable', as: :disable
+      resources :discussions, only: [:show] do
+        member do
+          put 'enable', to: 'discussions#enable', as: :enable
+          put 'disable', to: 'discussions#disable', as: :disable
+        end
       end
     end
   end

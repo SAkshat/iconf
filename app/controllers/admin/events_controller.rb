@@ -6,6 +6,11 @@ class Admin::EventsController < ApplicationController
     @events = Event.all.order(:start_time)
   end
 
+  def show
+    @event = Event.find_by(id: params[:id])
+    @discussions = @event.discussions.order(:date, :start_time, :id)
+  end
+
   def enable
     respond_to do |format|
      if @event.update_attribute(:enabled, true)

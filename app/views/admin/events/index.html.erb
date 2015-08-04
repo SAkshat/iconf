@@ -1,92 +1,95 @@
 <div class="row">
   <h3>Listing all events</h3>
-  <br><br>
+  <hr><br>
 </div>
+<% if @events.empty? %>
+  No Events Exist
+<% else %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="col-md-1">
+          Image
+        </th>
+        <th class="col-md-1">
+          Name
+        </th>
+        <th class="col-md-1">
+          Creator
+        </th>
+        <th class="col-md-2">
+          Start Time
+        </th>
+        <th class="col-md-2">
+          End Time
+        </th>
+        <th class="col-md-1">
+          Street
+        </th>
+        <th class="col-md-1">
+          City
+        </th>
+        <th class="col-md-1">
+          Country
+        </th>
+        <th class="col-md-2">
+          Status
+        </th>
+      </tr>
+    </thead>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th class="col-md-1">
-        Image
-      </th>
-      <th class="col-md-1">
-        Name
-      </th>
-      <th class="col-md-1">
-        Creator
-      </th>
-      <th class="col-md-2">
-        Start Time
-      </th>
-      <th class="col-md-2">
-        End Time
-      </th>
-      <th class="col-md-1">
-        Street
-      </th>
-      <th class="col-md-1">
-        City
-      </th>
-      <th class="col-md-1">
-        Country
-      </th>
-      <th class="col-md-2">
-        Status
-      </th>
-    </tr>
-  </thead>
-
-  <% @events.each do |event| %>
-    <tr>
-      <td class="col-md-1">
-        <%= link_to event_path(event) do %>
-          <%= image_tag event.logo_url, height: '50px' %>
-        <% end %>
-      </td>
-      <td class="col-md-1">
-        <%= link_to event_path(event) do %>
-          <%= event.name %>
-        <% end %>
-      </td>
-      <td class="col-md-1">
-        <%= event.creator.name %>
-      </td>
-      <td class="col-md-2">
-        <%= event.start_time.to_s(:db) %>
-      </td>
-      <td class="col-md-2">
-        <%= event.end_time.to_s(:db) %>
-      </td>
-      <td class="col-md-1">
-        <%= event.address.street %>
-      </td>
-      <td class="col-md-1">
-        <%= event.address.city %>
-      </td>
-      <td class="col-md-1">
-        <%= event.address.country %>
-      </td>
-      <td class="col-md-2">
-        <% if is_event_editable?(event) %>
-          <% if event_enabled?(event) %>
-            <div class="col-md-6">
-              <%= link_to 'Enable', 'javascript:', class: 'btn btn-success'%>
-            </div>
-            <div class="col-md-6">
-              <%= link_to ' Disable',  admin_event_disable_path(event), class: 'btn panel panel-default', :method => :put %>
-            </div>
-          <% else %>
-            <div class="col-md-6">
-              <%= link_to 'Enable ',admin_event_enable_path(event), class: 'btn panel panel-default', :method => :put  %>
-            </div>
-            <div class="col-md-6">
-              <%= link_to 'Disable', 'javascript:', class: 'btn btn-primary' %>
-            </div>
+    <% @events.each do |event| %>
+      <tr>
+        <td class="col-md-1">
+          <%= link_to admin_event_path(event) do %>
+            <%= image_tag event.logo_url, height: '50px' %>
           <% end %>
-        <% else %>
-          <%= event_enabled?(event) ? 'Enabled' : 'Diabled' %> (Past)
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-</table>
+        </td>
+        <td class="col-md-1">
+          <%= link_to admin_event_path(event) do %>
+            <%= event.name %>
+          <% end %>
+        </td>
+        <td class="col-md-1">
+          <%= event.creator.designation + ' ' + event.creator.name %>
+        </td>
+        <td class="col-md-2">
+          <%= event.start_time.to_s(:db) %>
+        </td>
+        <td class="col-md-2">
+          <%= event.end_time.to_s(:db) %>
+        </td>
+        <td class="col-md-1">
+          <%= event.address.street %>
+        </td>
+        <td class="col-md-1">
+          <%= event.address.city %>
+        </td>
+        <td class="col-md-1">
+          <%= event.address.country %>
+        </td>
+        <td class="col-md-2">
+          <% if is_event_editable?(event) %>
+            <% if event_enabled?(event) %>
+              <div class="col-md-6">
+                <%= link_to 'Enable', 'javascript:', class: 'btn btn-success'%>
+              </div>
+              <div class="col-md-6">
+                <%= link_to ' Disable',  admin_event_disable_path(event), class: 'btn panel panel-default', :method => :put %>
+              </div>
+            <% else %>
+              <div class="col-md-6">
+                <%= link_to 'Enable ',admin_event_enable_path(event), class: 'btn panel panel-default', :method => :put  %>
+              </div>
+              <div class="col-md-6">
+                <%= link_to 'Disable', 'javascript:', class: 'btn btn-primary' %>
+              </div>
+            <% end %>
+          <% else %>
+            <%= event_enabled?(event) ? 'Enabled' : 'Diabled' %> (Past)
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

@@ -1,0 +1,123 @@
+<br>
+
+<div class="row">
+  <div class='col-md-2'>
+    <%= link_to image_tag(@event.logo_url, alt: 'Akshat', class: 'img-responsive'), event_path(@event) %>
+  </div>
+  <div class='col-md-5 col-md-offset-1'>
+    <div class='row'>
+      <div class='row'>
+        <h3><%= @event.name.capitalize %></h3>
+      </div>
+      <br>
+      <div class='row'>
+        <div class='col-md-6'>
+          <%= get_duration_string(@event.start_time, @event.end_time) %>
+        </div>
+        <div class='col-md-6'>
+          <%= @event.address.city + ', ' + @event.address.country %>
+        </div>
+      </div>
+      <br>
+      <div class='row'>
+        <%= strip_tags(@event.description) %>
+      </div>
+    </div>
+  </div>
+  <div class='col-md-2'>
+    <h4><%= get_event_status(@event) %></h4>
+  </div>
+</div>
+
+<h3> Discussions </h3>
+<hr>
+
+<% if @discussions.empty? %>
+  No discussions exist
+<% else %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="col-md-1">
+          Name
+        </th>
+        <th class="col-md-1">
+          Topic
+        </th>
+        <th class="col-md-1">
+          Creator
+        </th>
+        <th class="col-md-1">
+          Date
+        </th>
+        <th class="col-md-1">
+          Start Time
+        </th>
+        <th class="col-md-1">
+          End Time
+        </th>
+        <th class="col-md-1">
+          Location
+        </th>
+        <th class="col-md-1">
+          Speaker
+        </th>
+        <th class="col-md-2">
+          Status
+        </th>
+      </tr>
+    </thead>
+
+    <% @discussions.each do |discussion| %>
+      <tr>
+        <td class="col-md-1">
+          <%= link_to admin_event_discussion_path(@event, discussion) do %>
+            <%= discussion.name %>
+          <% end %>
+        </td>
+        <td class="col-md-1">
+          <%= discussion.topic %>
+        </td>
+        <td class="col-md-1">
+          <%= discussion.creator.designation + ' ' + discussion.creator.name %>
+        </td>
+        <td class="col-md-1">
+          <%= discussion.date %>
+        </td>
+        <td class="col-md-1">
+          <%= discussion.start_time.to_s(:time) %>
+        </td>
+        <td class="col-md-1">
+          <%= discussion.end_time.to_s(:time) %>
+        </td>
+        <td class="col-md-1">
+          <%= discussion.location %>
+        </td>
+        <td class="col-md-1">
+          <%= discussion.speaker.designation + ' ' +  discussion.speaker.name %>
+        </td>
+        <td class="col-md-2">
+          <% if discussion.upcoming? %>
+            <% if discussion.enabled? %>
+              <div class="col-md-6">
+                <%= link_to 'Enable', 'javascript:', class: 'btn btn-success'%>
+              </div>
+              <div class="col-md-6">
+                <%= link_to ' Disable', disable_admin_event_discussion_path(@event, discussion), class: 'btn panel panel-default', :method => :put %>
+              </div>
+            <% else %>
+              <div class="col-md-6">
+                <%= link_to 'Enable ', enable_admin_event_discussion_path(@event, discussion), class: 'btn panel panel-default', :method => :put  %>
+              </div>
+              <div class="col-md-6">
+                <%= link_to 'Disable', 'javascript:', class: 'btn btn-primary' %>
+              </div>
+            <% end %>
+          <% else %>
+            <%= discussion.enabled? ? 'Enabled' : 'Diabled' %> (Past)
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

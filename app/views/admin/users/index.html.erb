@@ -1,31 +1,31 @@
-<div class="row">
-  <div class="col-md-6">
+<div class='row'>
+  <div class='col-md-6'>
     <h3>Listing all users</h3>
   </div>
   <br>
 </div>
-<div class="row col-md-5">
+<div class='row col-md-5'>
   <% @users.each do |user| %>
-    <div class="row">
-      <div class="col-md-4">
+    <div class='row'>
+      <div class='col-md-4'>
         <%= user.designation + ' ' + user.name %>
       </div>
-      <div class="col-md-4">
+      <div class='col-md-4'>
         <%= user.email %>
       </div>
-      <div class="col-md-4">
+      <div class='col-md-4'>
         <% if user_enabled?(user) %>
-          <div class="col-md-6">
+          <div class='col-md-6'>
             <%= link_to 'Enable', 'javascript:', class: 'btn btn-success'%>
           </div>
-          <div class="col-md-6">
+          <div class='col-md-6'>
             <%= link_to ' Disable',  admin_user_disable_path(user), class: 'btn btn-disabled panel panel-default', :method => :put %>
           </div>
         <% else %>
-          <div class="col-md-6">
+          <div class='col-md-6'>
             <%= link_to 'Enable ',admin_user_enable_path(user), class: 'btn btn-disabled panel panel-default', :method => :put  %>
           </div>
-          <div class="col-md-6">
+          <div class='col-md-6'>
             <%= link_to 'Disable', 'javascript:', class: 'btn btn-primary' %>
           </div>
         <% end %>

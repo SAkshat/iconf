@@ -74,12 +74,12 @@ class EventsController < ApplicationController
 
     def set_creator
       @creator = current_user
-      redirect_to events_path, alert: 'Couldn\'t find the required User' unless @creator
+      redirect_to events_path, alert: "Couldn't find the required User" unless @creator
     end
 
     def set_event
       @event = Event.find_by(id: params[:id])
-      redirect_to events_path, alert: 'Couldn\'t find the required event' unless @event
+      redirect_to events_path, alert: "Couldn't find the required event" unless @event
     end
 
     def event_params

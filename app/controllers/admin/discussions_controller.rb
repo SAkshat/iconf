@@ -1,22 +1,14 @@
-class Admin::DiscussionsController < ApplicationController
+class Admin::DiscussionsController < AdminController
 
-  before_action :load_event, only: [:index, :enable, :disable, :show]
+  before_action :load_event, only: [:enable, :disable]
   before_action :load_discussion, only: [:enable, :disable]
-
-  def index
-    @discussions = Discussion.all.order(:id)
-  end
-
-  def show
-    @discussion = @event.find_by(id: params[:id])
-  end
 
   def enable
     respond_to do |format|
      if @discussion.update_attribute(:enabled, true)
         format.html { redirect_to admin_event_path(@event), success: 'Discussion successfully enabled' }
       else
-        format.html { redirect_to admin_event_path(@event), error: 'Discussion could not be enabled' }
+        format.html { redirect_to admin_event_path(@event), flash: { error: 'Discussion could not be enabled' } }
       end
     end
   end
@@ -26,7 +18,7 @@ class Admin::DiscussionsController < ApplicationController
      if @discussion.update_attribute(:enabled, false)
         format.html { redirect_to admin_event_path(@event), success: 'Discussion successfully disabled' }
       else
-        format.html { redirect_to admin_event_path(@event), error: 'Discussion could not be disabled' }
+        format.html { redirect_to admin_event_path(@event), flash: { error: 'Discussion could not be disabled' } }
       end
     end
   end

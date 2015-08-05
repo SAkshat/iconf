@@ -1,4 +1,4 @@
-class Admin::UsersController < ApplicationController
+class Admin::UsersController < AdminController
 
   before_action :load_user, only: [:enable, :disable]
 
@@ -11,7 +11,7 @@ class Admin::UsersController < ApplicationController
      if @user.update_attribute(:enabled, true)
         format.html { redirect_to admin_users_path, success: 'User successfully enabled' }
       else
-        format.html { redirect_to admin_users_path, error: 'User could not be enabled' }
+        format.html { redirect_to admin_users_path, flash: { error: 'User could not be enabled' } }
       end
     end
   end
@@ -21,7 +21,7 @@ class Admin::UsersController < ApplicationController
      if @user.update_attribute(:enabled, false)
         format.html { redirect_to admin_users_path, success: 'User successfully disabled' }
       else
-        format.html { redirect_to admin_users_path, error: 'User could not be disabled' }
+        format.html { redirect_to admin_users_path, flash: { error: 'User could not be disabled' } }
       end
     end
   end

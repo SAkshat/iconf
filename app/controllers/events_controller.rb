@@ -14,6 +14,7 @@ class EventsController < ApplicationController
     when 'attending_events'
       @events = Event.where(id: current_user.discussions.enabled.pluck(:event_id).uniq).order_by_start_time
     else
+      puts Event.enabled
       @events = Event.enabled.order_by_start_time
     end
   end
@@ -74,7 +75,7 @@ class EventsController < ApplicationController
     end
 
     def event_params
-      params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :enabled, address_attributes: [:id, :street, :city, :country, :zipcode], contact_detail_attributes: [:id, :phone_number, :email])
+      params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :logo_cache, :enabled, address_attributes: [:id, :street, :city, :country, :zipcode], contact_detail_attributes: [:id, :phone_number, :email])
     end
 
 end

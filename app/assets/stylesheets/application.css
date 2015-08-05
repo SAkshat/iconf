@@ -20,7 +20,7 @@
   font: small-caps 20px/20px "Times New Roman", serif;
   color: #282;
   text-align: center;
-  height: 120px;
+  height: 140px;
   width: 100%;
 
   img {
@@ -29,6 +29,19 @@
     width: auto;
     height: 100px;
   }
+}
+
+.header {
+  color: #222c88;
+  font: small-caps "Times New Roman", serif;
+  font-size: 40px;
+}
+
+.email {
+  color: white;
+  font-variant: normal;
+  font: "Times New Roman", serif;
+  font-size: 15px;
 }
 
 .mid {

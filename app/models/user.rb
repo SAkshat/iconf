@@ -9,4 +9,9 @@ class User < ActiveRecord::Base
   has_many :discussions_users, dependent: :destroy
   has_many :discussions, through: :discussions_users, dependent: :destroy
 
+  scope :enabled, -> { where(enabled: true) }
+
+  validates :name, presence: true
+  validates :designation, presence: true
+
 end

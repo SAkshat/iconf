@@ -1,4 +1,4 @@
-class Admin::EventsController < ApplicationController
+class Admin::EventsController < AdminController
 
   before_action :load_event, only: [:enable, :disable]
 
@@ -16,7 +16,7 @@ class Admin::EventsController < ApplicationController
      if @event.update_attribute(:enabled, true)
         format.html { redirect_to admin_events_path, success: 'Event successfully enabled' }
       else
-        format.html { redirect_to admin_events_path, error: 'Event could not be enabled' }
+        format.html { redirect_to admin_events_path, flash: { error: 'Event could not be enabled' } }
       end
     end
   end
@@ -26,7 +26,7 @@ class Admin::EventsController < ApplicationController
      if @event.update_attribute(:enabled, false)
         format.html { redirect_to admin_events_path, success: 'Event successfully disabled' }
       else
-        format.html { redirect_to admin_events_path, error: 'Event could not be disabled' }
+        format.html { redirect_to admin_events_path, flash: { error: 'Event could not be disabled' } }
       end
     end
   end

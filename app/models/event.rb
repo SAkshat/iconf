@@ -12,7 +12,7 @@ class Event < ActiveRecord::Base
   validate :start_time_cannot_be_in_past
   validate :start_time_before_end_time
 
-  scope :enabled, -> { where(enabled: true) }
+  scope :enabled, -> { where(enabled: true, creator_id: User.enabled.pluck(:id)) }
   scope :order_by_start_date_time, -> { order(:date, :start_time) }
   scope :order_by_start_time, -> { order(:start_time) }
 

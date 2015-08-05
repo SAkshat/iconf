@@ -115,22 +115,12 @@
         <td class="col-md-1">
           <%= discussion.speaker.designation + ' ' +  discussion.speaker.name %>
         </td>
-        <td class="col-md-2">
+        <td class="col-md-1">
           <% if discussion.upcoming? %>
             <% if discussion.enabled? %>
-              <div class="col-md-6">
-                <%= link_to 'Enable', 'javascript:', class: 'btn btn-success'%>
-              </div>
-              <div class="col-md-6">
-                <%= link_to ' Disable', disable_admin_event_discussion_path(@event, discussion), class: 'btn panel panel-default', :method => :put %>
-              </div>
+              <%= link_to ' Disable', disable_admin_event_discussion_path(@event, discussion), class: 'btn btn-primary', :method => :put %>
             <% else %>
-              <div class="col-md-6">
-                <%= link_to 'Enable ', enable_admin_event_discussion_path(@event, discussion), class: 'btn panel panel-default', :method => :put  %>
-              </div>
-              <div class="col-md-6">
-                <%= link_to 'Disable', 'javascript:', class: 'btn btn-primary' %>
-              </div>
+              <%= link_to 'Enable ', enable_admin_event_discussion_path(@event, discussion), class: 'btn btn-success', :method => :put  %>
             <% end %>
           <% else %>
             <%= discussion.enabled? ? 'Enabled' : 'Diabled' %> (Past)

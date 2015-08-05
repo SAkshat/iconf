@@ -68,22 +68,12 @@
         <td class="col-md-1">
           <%= event.address.country %>
         </td>
-        <td class="col-md-2">
+        <td class="col-md-1">
           <% if is_event_editable?(event) %>
             <% if event_enabled?(event) %>
-              <div class="col-md-6">
-                <%= link_to 'Enable', 'javascript:', class: 'btn btn-success'%>
-              </div>
-              <div class="col-md-6">
-                <%= link_to ' Disable',  admin_event_disable_path(event), class: 'btn panel panel-default', :method => :put %>
-              </div>
+              <%= link_to ' Disable',  admin_event_disable_path(event), class: 'btn btn-primary', :method => :put %>
             <% else %>
-              <div class="col-md-6">
-                <%= link_to 'Enable ',admin_event_enable_path(event), class: 'btn panel panel-default', :method => :put  %>
-              </div>
-              <div class="col-md-6">
-                <%= link_to 'Disable', 'javascript:', class: 'btn btn-primary' %>
-              </div>
+              <%= link_to 'Enable ',admin_event_enable_path(event), class: 'btn btn-success', :method => :put  %>
             <% end %>
           <% else %>
             <%= event_enabled?(event) ? 'Enabled' : 'Diabled' %> (Past)

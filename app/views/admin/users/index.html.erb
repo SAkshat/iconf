@@ -8,33 +8,39 @@
   No Users Exist
 <% else %>
   <div class='row col-md-5'>
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="col-md-4">
+          Name
+        </th>
+        <th class="col-md-1">
+          Email
+        </th>
+        <th class="col-md-1">
+          Status
+        </th>
+      </tr>
+    </thead>
+
     <% @users.each do |user| %>
-      <div class='row'>
-        <div class='col-md-4'>
+      <tr>
+        <td class='col-md-4'>
           <%= user.designation + ' ' + user.name %>
-        </div>
-        <div class='col-md-4'>
+        </td>
+        <td class='col-md-4'>
           <%= user.email %>
-        </div>
-        <div class='col-md-4'>
-          <% if user_enabled?(user) %>
-            <div class='col-md-6'>
-              <%= link_to 'Enable', 'javascript:', class: 'btn btn-success'%>
-            </div>
-            <div class='col-md-6'>
-              <%= link_to ' Disable',  admin_user_disable_path(user), class: 'btn btn-disabled panel panel-default', :method => :put %>
-            </div>
-          <% else %>
-            <div class='col-md-6'>
-              <%= link_to 'Enable ',admin_user_enable_path(user), class: 'btn btn-disabled panel panel-default', :method => :put  %>
-            </div>
-            <div class='col-md-6'>
-              <%= link_to 'Disable', 'javascript:', class: 'btn btn-primary' %>
-            </div>
+        </td>
+        <td class='col-md-4'>
+          <% if !user.admin? %>
+            <% if user_enabled?(user) %>
+              <%= link_to ' Disable',  admin_user_disable_path(user), class: 'btn btn-primary', :method => :put %>
+            <% else %>
+              <%= link_to 'Enable ',admin_user_enable_path(user), class: 'btn btn-success', :method => :put  %>
+            <% end %>
           <% end %>
-        </div>
-        <hr>
-      </div>
+        </td>
+      </tr>
     <% end %>
   </div>
 <% end %>

@@ -20,8 +20,8 @@
   font: small-caps 20px/20px "Times New Roman", serif;
   color: #282;
   text-align: center;
-  height: 140px;
   width: 100%;
+  margin-bottom: 0px;
 
   img {
     margin-left: 100px;
@@ -45,8 +45,8 @@
 }
 
 .mid {
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .red {

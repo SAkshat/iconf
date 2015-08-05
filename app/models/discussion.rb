@@ -10,7 +10,7 @@ class Discussion < ActiveRecord::Base
   validates :speaker, presence: { message: "does not have a valid email id" }
   validate :time_during_event_duration
   validate :end_time_greater_than_start_time
-  validate :is_session_editable, if: :exists?
+  validate :is_session_editable, if: :persisted?
 
   scope :enabled, -> { where(enabled: true) }
   scope :order_by_start_date_time, -> { order(:date, :start_time) }
@@ -31,10 +31,6 @@ class Discussion < ActiveRecord::Base
 
   def upcoming?
     date > Date.current || ( date == Date.current && start_time > Time.current.utc)
-  end
-
-  def exists?
-    persisted?
   end
 
 end

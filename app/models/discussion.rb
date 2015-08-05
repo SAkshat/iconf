@@ -16,8 +16,8 @@ class Discussion < ActiveRecord::Base
   scope :order_by_start_date_time, -> { order(:date, :start_time) }
 
   def date_during_event_duration
-    unless date >= event.start_date.to_date && date <= event.end_date.to_date
-      errors[:date] << "must be within the event date [#{ event.start_date.to_date } -- #{ event.end_date.to_date }]"
+    unless date >= event.start_time.to_date && date <= event.end_time.to_date
+      errors[:date] << "must be within the event date [#{ event.start_time.to_date } -- #{ event.end_time.to_date }]"
     end
   end
 

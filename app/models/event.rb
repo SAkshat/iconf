@@ -14,22 +14,22 @@ class Event < ActiveRecord::Base
 
   scope :enabled, -> { where(enabled: true) }
   scope :order_by_start_date_time, -> { order(:date, :start_time) }
-  scope :order_by_start_date, -> { order(:start_date) }
+  scope :order_by_start_date, -> { order(:start_time) }
 
   def upcoming?
-    start_date > Time.current
+    start_time > Time.current
   end
 
   def start_date_cannot_be_in_past
-    errors[:start_date] << "cannot be in the past" if start_date <= Time.current
+    errors[:start_time] << "cannot be in the past" if start_time <= Time.current
   end
 
   def start_date_before_end_date
-    errors[:end_date] << "must be later than start date" if start_date >= end_date
+    errors[:end_time] << "must be later than start date" if start_time >= end_time
   end
 
   def live?
-    start_date <= Time.current && end_date >= Time.current
+    start_time <= Time.current && end_time >= Time.current
   end
 
 end

@@ -9,7 +9,7 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <div id='banner'>
+    <div id='banner' class="navbar navbar-default" role="navigation">
       <div class="row col-md-offset-7 email">
         <%= 'Logged in as ' + current_user.email if signed_in? %>
       </div>

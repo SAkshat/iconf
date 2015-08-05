@@ -4,9 +4,8 @@
   </div>
   <div class="col-md-1 col-md-offset-4">
     <br>
-    <% if user_signed_in? %>
-      <%= link_to 'Create Event', new_user_event_path(current_user), class: 'btn btn-success' %>
-    <% end %>
+
+      <%= link_to 'Create Event', new_event_path, class: 'btn btn-success' %>
   </div>
 </div>
 <br><hr><br>

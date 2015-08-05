@@ -1,9 +1,11 @@
 class Discussion < ActiveRecord::Base
   belongs_to :event
-  belongs_to :creator, class_name: :user, foreign_key: :creator_id
+  belongs_to :creator, class_name: :User, foreign_key: :creator_id
+  belongs_to :speaker, class_name: :User, foreign_key: :speaker_id
 
   validates :name, :topic, :location, presence: true
   validates :description, length: { minimum: 50, maximum: 250 }
+  validates :speaker, presence: { message: "does not have a valid email id" }
   validate :date_during_event_duration
   validate :end_time_greater_than_start_time
   validate :is_session_editable, if: :exists?
@@ -19,7 +21,7 @@ class Discussion < ActiveRecord::Base
   end
 
   def end_time_greater_than_start_time
-    errors[:end_time] << "should be more than start time" if start_time > end_time
+    errors[:end_time] << "should be more than start time" if start_time >= end_time
   end
 
 

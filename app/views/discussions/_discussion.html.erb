@@ -1,28 +1,38 @@
 <div class = "row">
   <div class="col-md-3">
-    <%= image_tag @event.logo_url, alt: :Akshat, class: "img-responsive" %>
+    <%= image_tag @event.logo_url, alt: :Logo, class: "img-responsive" %>
   </div>
   <div class="col-md-9">
     <div class="row">
       <div class="col-md-8">
-        <strong><%= discussion.name + ' - ' + discussion.topic %></strong>
+        <%= link_to event_discussion_path(@event, discussion) do %>
+          <strong><%= discussion.name + ' - ' + discussion.topic %></strong>
+        <% end %>
       </div>
       <div class="col-md-4">
         <% if user_signed_in? %>
           <div class="icons">
-            <%= link_to user_event_discussion_path(current_user, @event, discussion) do %>
-              <%= image_tag ('open.png'), alt: :Open, class: "img-responsive" %>
-            <% end  if controller_name == "events" %>
-            <%= link_to edit_user_event_discussion_path(current_user, @event, discussion) do %>
+            <%= link_to edit_event_discussion_path(@event, discussion) do %>
               <%= image_tag ('edit.png'), alt: :Edit, class: "img-responsive" %>
             <% end if is_event_owner?(@event, current_user)%>
           </div>
         <% end %>
       </div>
     </div>
+    <br>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-11 col-md-offset-1">
+        <%= 'Speaker : ' + discussion.speaker.designation + ' ' + discussion.speaker.name %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-11 col-md-offset-1">
         <%= discussion.location + ', ' + @event.address.street + ', ' + @event.address.city %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-11 col-md-offset-1">
+        <%= discussion_duration(discussion) %>
       </div>
     </div>
     <br>

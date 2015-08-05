@@ -2,19 +2,11 @@ Rails.application.routes.draw do
 
   root "events#index"
 
-  devise_for :users
-  resources :users do
-    resources :events do
-      resources :discussions
-    end
+  devise_for :users, controllers: { registrations: 'users/registrations' }
+
+  resources :events do
+    resources :discussions
   end
-
-
-  resources :events, only: [:index, :show] do
-    resources :discussions, only: [:index, :show]
-  end
-
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

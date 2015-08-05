@@ -10,7 +10,7 @@ class EventsController < ApplicationController
   def index
     case params[:filter]
     when 'my_events'
-      @events = current_user.events.enabled.order_by_start_time
+      @events = current_user.events.order_by_start_time
     when 'attending_events'
       @events = Event.where(id: current_user.discussions.enabled.pluck(:event_id).uniq).order_by_start_time
     else

@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
 
-  root "events#index"
+  root 'events#index'
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
+
+  namespace :admin do
+    resources :users
+  end
+
+  resources :discussions_users, only: [:create, :destroy]
 
   resources :events do
     resources :discussions

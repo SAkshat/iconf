@@ -1,19 +1,17 @@
 <div class='col-md-2'>
-  <%= image_tag event.logo_url, alt: 'Akshat', class: 'img-responsive' %>
+  <%= link_to image_tag(event.logo_url, alt: 'Akshat', class: 'img-responsive'), event_path(event) %>
 </div>
-<div class='col-md-1'>
-</div>
-<div class='col-md-5'>
+<div class='col-md-5 col-md-offset-1'>
   <div class='row'>
     <div class='row'>
       <%= link_to event_path(event) do %>
-        <strong><%= event.name.capitalize %></strong>
+        <h3><%= event.name.capitalize %></h3>
       <% end %>
     </div>
     <br>
     <div class='row'>
       <div class='col-md-6'>
-        <%= get_duration_string(event.start_date, event.end_date) %>
+        <%= get_duration_string(event.start_time, event.end_time) %>
       </div>
       <div class='col-md-6'>
         <%= event.address.city + ', ' + event.address.country %>

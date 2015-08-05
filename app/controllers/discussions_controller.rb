@@ -1,9 +1,9 @@
 class DiscussionsController < ApplicationController
 
-  before_action :set_event, except: [:destroy]
+  before_action :set_event, only: [:index, :show, :new, :edit, :create, :update]
   before_action :set_creator, only: [:new, :edit, :create, :update]
   before_action :set_discussion, only: [:show, :edit, :update]
-  before_action :check_discussion_is_upcoming, only: [:edit, :update]
+  before_action :check_if_discussion_is_upcoming, only: [:edit, :update]
   skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
@@ -24,11 +24,14 @@ class DiscussionsController < ApplicationController
     @discussion = @event.discussions.new(discussion_params)
     set_speaker
     respond_to do |format|
-      if @discussion.save
-        format.html { redirect_to @event, notice: 'Discussion created successfully' }
+      if @discussion.update(discussion_params)
+        format.html {
+          flash[:success] = 'Discussion created successfully'
+          redirect_to @event
+        }
       else
         format.html {
-          flash[:alert] = 'Discussion creation failed'
+          flash.now[:error] = 'Discussion creation failed'
           render :new
         }
       end
@@ -39,10 +42,13 @@ class DiscussionsController < ApplicationController
     set_speaker
     respond_to do |format|
       if @discussion.update(discussion_params)
-        format.html { redirect_to @event, notice: 'Discussion edited successfully' }
+        format.html {
+          flash[:success] = 'Discussion edited successfully'
+          redirect_to @event
+        }
       else
         format.html{
-          flash[:alert] = 'Unable to edit discussion'
+          flash.now[:error] = 'Unable to edit discussion'
           render :edit
         }
       end
@@ -51,8 +57,8 @@ class DiscussionsController < ApplicationController
 
   private
 
-    def check_discussion_is_upcoming
-      if !(@discussion.date.to_s > Date.current.to_s)
+    def check_if_discussion_is_upcoming
+      if !(@discussion.upcoming?)
         redirect_to event_path(@event), notice: "Past discussions cannot be edited"
       end
     end

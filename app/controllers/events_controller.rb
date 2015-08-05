@@ -7,8 +7,10 @@ class EventsController < ApplicationController
 
   def index
     case params[:filter]
-    when "my_events"
+    when 'my_events'
       @events = current_user.events.enabled.order_by_start_date
+    when 'attending_events'
+      @events = Event.where('id in (?)', current_user.discussions.enabled.pluck(:event_id).uniq).order_by_start_date
     else
       @events = Event.enabled.order_by_start_date
     end
@@ -32,11 +34,14 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     respond_to do |format|
-      if @event.save
-        format.html { redirect_to @event, notice: 'Event successfully created' }
+      if @event.update(event_params)
+        format.html {
+          flash[:success] = 'Event successfully created'
+          redirect_to @event
+        }
       else
         format.html {
-          flash[:notice] = 'Event creation failed'
+          flash.now[:error] = 'Event creation failed'
           render :new
         }
       end
@@ -46,10 +51,13 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to @event , notice: 'Event successfully updated' }
+        format.html {
+          flash[:success] = 'Event successfully updated'
+          redirect_to @event
+        }
       else
         format.html {
-          flash[:notice] = 'Unable to edit event'
+          flash.now[:error] = 'Unable to edit event'
           render :edit
         }
       end
@@ -60,7 +68,7 @@ class EventsController < ApplicationController
 
     def check_event_is_upcoming
       unless @event.upcoming?
-        redirect_to events_path, notice: 'The event cannot be edited'
+        redirect_to events_path, alert: 'The event cannot be edited'
       end
     end
 
@@ -75,7 +83,7 @@ class EventsController < ApplicationController
     end
 
     def event_params
-      params.require(:event).permit(:creator_id, :name, :start_date, :end_date, :description, :logo, :enabled, address_attributes: [:id, :street, :city, :country, :zipcode], contact_detail_attributes: [:id, :phone_number, :email])
+      params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :enabled, address_attributes: [:id, :street, :city, :country, :zipcode], contact_detail_attributes: [:id, :phone_number, :email])
     end
 
 end

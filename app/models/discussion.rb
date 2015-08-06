@@ -7,7 +7,7 @@ class Discussion < ActiveRecord::Base
 
   validates :name, :topic, :location, presence: true
   validates :description, length: { minimum: 50, maximum: 250 }
-  validates :speaker, presence: { message: "does not have a valid email id" }
+  validates :speaker, presence: { message: 'does not have a valid email id' }
   validate :time_during_event_duration
   validate :end_time_greater_than_start_time
   validate :is_session_editable, if: :persisted?
@@ -22,11 +22,11 @@ class Discussion < ActiveRecord::Base
   end
 
   def end_time_greater_than_start_time
-    errors[:end_time] << "should be more than start time" if start_time >= end_time
+    errors[:end_time] << 'should be more than start time' if start_time >= end_time
   end
 
   def is_session_editable
-    errors[:base] << "Discussion is in the past" unless upcoming?
+    errors[:base] << 'Discussion is in the past' unless upcoming?
   end
 
   def upcoming?

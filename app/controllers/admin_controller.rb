@@ -6,7 +6,7 @@ class AdminController < ApplicationController
 
     def authenticate_admin
       if !current_user.admin?
-        redirect_to :root, flash: { error: "Access Denied" }
+        redirect_to :root, flash: { error: 'Access Denied' }
       end
     end
 

@@ -28,7 +28,7 @@ class Admin::DiscussionsController < AdminController
 
     def can_discussion_be_enabled
       if !(@event.enabled? && @discussion.creator.enabled?)
-        redirect_to :back, flash: { error: "Discussion cannot be enabled." }
+        redirect_to :back, flash: { error: 'Discussion cannot be enabled.' }
       end
     end
 

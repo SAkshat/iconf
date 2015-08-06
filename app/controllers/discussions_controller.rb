@@ -55,7 +55,7 @@ class DiscussionsController < ApplicationController
 
     def check_if_discussion_is_upcoming
       if !(@discussion.upcoming?)
-        redirect_to event_path(@event), notice: "Past discussions cannot be edited"
+        redirect_to event_path(@event), notice: 'Past discussions cannot be edited'
       end
     end
 

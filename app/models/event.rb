@@ -21,11 +21,11 @@ class Event < ActiveRecord::Base
   end
 
   def start_time_cannot_be_in_past
-    errors[:start_time] << "cannot be in the past" if start_time <= Time.current
+    errors[:start_time] << 'cannot be in the past' if start_time <= Time.current
   end
 
   def start_time_before_end_time
-    errors[:end_time] << "must be later than start time" if start_time >= end_time
+    errors[:end_time] << 'must be later than start time' if start_time >= end_time
   end
 
   def live?

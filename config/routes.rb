@@ -2,9 +2,6 @@ Rails.application.routes.draw do
 
   root 'events#index'
 
-  put 'discussions/:id/rsvp', to: 'discussions#add_rsvp', as: :add_rsvp
-  delete 'discussions/:id/rsvp', to: 'discussions#delete_rsvp', as: :delete_rsvp
-
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
   namespace :admin, only: [:index, :show] do
@@ -23,6 +20,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :discussions_users, only: [:create, :destroy]
 
   resources :events do
     resources :discussions

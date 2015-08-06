@@ -51,16 +51,6 @@ class DiscussionsController < ApplicationController
     end
   end
 
-  def add_rsvp
-    DiscussionsUser.create(user_id: current_user.id, discussion_id: params[:id])
-    redirect_to :back, notice: "You have successfully RSVP'd to this discussion"
-  end
-
-  def delete_rsvp
-    DiscussionsUser.where(user_id: current_user.id, discussion_id: params[:id]).destroy_all
-    redirect_to :back, notice: 'You opted out of this discussion'
-  end
-
   private
 
     def check_if_discussion_is_upcoming

@@ -23,14 +23,14 @@
               <div class='col-md-6'>
                 <%= link_to 'Yes', 'javascript:', class: 'btn btn-success'%>
               </div>
-              <div class='col-md-6'>
-                <%= link_to ' No',  delete_rsvp_path(id: discussion.id), class: 'btn btn-disabled panel panel-default', :method => :delete %>
+              <div class="col-md-6">
+                <%= link_to ' No',  discussions_user_path(id: discussion.id), class: 'btn btn-disabled panel panel-default', :method => :delete %>
               </div>
             </div>
           <% else %>
-            <div class='row'>
-              <div class='col-md-6'>
-                <%= link_to 'Yes ',add_rsvp_path(id: discussion.id), class: 'btn btn-disabled panel panel-default', :method => :put  %>
+            <div class="row">
+              <div class="col-md-6">
+                <%= link_to 'Yes ',discussions_users_path(id: discussion.id), class: 'btn btn-disabled panel panel-default', :method => :post  %>
               </div>
               <div class='col-md-6'>
                 <%= link_to 'No', 'javascript:', class: 'btn btn-primary' %>

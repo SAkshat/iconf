@@ -76,7 +76,7 @@
               <%= link_to 'Enable ',admin_event_enable_path(event), class: 'btn btn-success', method: :put, data: { confirm: "Are you sure?" } %>
             <% end %>
           <% else %>
-            <%= event_enabled?(event) ? 'Enabled' : 'Diabled' %> (Past)
+            <%= event_enabled?(event) ? 'Enabled' : 'Disabled' %> (Past)
           <% end %>
         </td>
       </tr>

@@ -9,9 +9,9 @@ class Admin::UsersController < AdminController
   def enable
     respond_to do |format|
      if @user.update_attribute(:enabled, true)
-        format.html { redirect_to admin_users_path, success: 'User successfully enabled' }
+        format.html { redirect_to :back, flash: { success: 'User successfully enabled' } }
       else
-        format.html { redirect_to admin_users_path, flash: { error: 'User could not be enabled' } }
+        format.html { redirect_to :back, flash: { error: 'User could not be enabled' } }
       end
     end
   end
@@ -19,9 +19,9 @@ class Admin::UsersController < AdminController
   def disable
     respond_to do |format|
      if @user.update_attribute(:enabled, false)
-        format.html { redirect_to admin_users_path, success: 'User successfully disabled' }
+        format.html { redirect_to :back, flash: { success: 'User successfully disabled' } }
       else
-        format.html { redirect_to admin_users_path, flash: { error: 'User could not be disabled' } }
+        format.html { redirect_to :back, flash: { error: 'User could not be disabled' } }
       end
     end
   end
@@ -30,7 +30,7 @@ class Admin::UsersController < AdminController
 
     def load_user
       @user = User.find_by(id: params[:user_id])
-      redirect_to admin_users_path, alert: "Couldn't find the required User" unless @user
+      redirect_to :back, alert: "Couldn't find the required User" unless @user
     end
 
 end

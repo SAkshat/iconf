@@ -1,6 +1,7 @@
 class Admin::EventsController < AdminController
 
   before_action :load_event, only: [:enable, :disable]
+  before_action :is_creator_enabled?, only: [:enable]
 
   def index
     @events = Event.all.order(:start_time)
@@ -14,9 +15,9 @@ class Admin::EventsController < AdminController
   def enable
     respond_to do |format|
      if @event.update_attribute(:enabled, true)
-        format.html { redirect_to admin_events_path, success: 'Event successfully enabled' }
+        format.html { redirect_to :back, flash: { success: 'Event successfully enabled' } }
       else
-        format.html { redirect_to admin_events_path, flash: { error: 'Event could not be enabled' } }
+        format.html { redirect_to :back, flash: { error: 'Event could not be enabled' } }
       end
     end
   end
@@ -24,18 +25,25 @@ class Admin::EventsController < AdminController
   def disable
     respond_to do |format|
      if @event.update_attribute(:enabled, false)
-        format.html { redirect_to admin_events_path, success: 'Event successfully disabled' }
+        format.html { redirect_to :back, flash: { success: 'Event successfully disabled' } }
       else
-        format.html { redirect_to admin_events_path, flash: { error: 'Event could not be disabled' } }
+        format.html { redirect_to :back, flash: { error: 'Event could not be disabled' } }
       end
     end
   end
 
   private
 
+    def is_creator_enabled?
+      @creator = @event.creator
+      if !@creator.enabled?
+        redirect_to :back, flash: { error: "Creator #{ @creator.name } is disabled. Event cannot be enabled." }
+      end
+    end
+
     def load_event
       @event = Event.find_by(id: params[:event_id])
-      redirect_to admin_events_path, alert: "Couldn't find the required Event" unless @event
+      redirect_to :back, alert: "Couldn't find the required Event" unless @event
     end
 
 end

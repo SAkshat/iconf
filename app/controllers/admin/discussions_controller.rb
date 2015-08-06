@@ -2,13 +2,14 @@ class Admin::DiscussionsController < AdminController
 
   before_action :load_event, only: [:enable, :disable]
   before_action :load_discussion, only: [:enable, :disable]
+  before_action :can_discussion_be_enabled, only: [:enable]
 
   def enable
     respond_to do |format|
      if @discussion.update_attribute(:enabled, true)
-        format.html { redirect_to admin_event_path(@event), success: 'Discussion successfully enabled' }
+        format.html { redirect_to :back, flash: { success: 'Discussion successfully enabled' } }
       else
-        format.html { redirect_to admin_event_path(@event), flash: { error: 'Discussion could not be enabled' } }
+        format.html { redirect_to :back, flash: { error: 'Discussion could not be enabled' } }
       end
     end
   end
@@ -16,23 +17,29 @@ class Admin::DiscussionsController < AdminController
   def disable
     respond_to do |format|
      if @discussion.update_attribute(:enabled, false)
-        format.html { redirect_to admin_event_path(@event), success: 'Discussion successfully disabled' }
+        format.html { redirect_to :back, flash: { success: 'Discussion successfully disabled' } }
       else
-        format.html { redirect_to admin_event_path(@event), flash: { error: 'Discussion could not be disabled' } }
+        format.html { redirect_to :back, flash: { error: 'Discussion could not be disabled' } }
       end
     end
   end
 
   private
 
+    def can_discussion_be_enabled
+      if !(@event.enabled? && @discussion.creator.enabled?)
+        redirect_to :back, flash: { error: "Discussion cannot be enabled." }
+      end
+    end
+
     def load_event
       @event = Event.find_by(id: params[:event_id])
-      redirect_to admin_events_path, alert: "Couldn't find the required Event" unless @event
+      redirect_to :back, alert: "Couldn't find the required Event" unless @event
     end
 
     def load_discussion
       @discussion = @event.discussions.find_by(id: params[:id])
-      redirect_to admin_event_path(@event), alert: "Couldn't find the required Discussion" unless @discussion
+      redirect_to :back, alert: "Couldn't find the required Discussion" unless @discussion
     end
 
 end

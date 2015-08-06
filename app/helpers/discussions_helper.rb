@@ -10,4 +10,8 @@ module DiscussionsHelper
     discussion.attendees.ids.include?(current_user.id)
   end
 
+  def discussion_enabled?(discussion)
+    discussion.enabled? && discussion.event.enabled? && discussion.creator.enabled?
+  end
+
 end

@@ -27,22 +27,12 @@
   <div class='col-md-2'>
     <h4><%= get_event_status(@event) %></h4>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-1">
     <% if is_event_editable?(@event) %>
       <% if event_enabled?(@event) %>
-        <div class="col-md-6">
-          <%= link_to 'Enable', 'javascript:', class: 'btn btn-success'%>
-        </div>
-        <div class="col-md-6">
-          <%= link_to ' Disable',  admin_event_disable_path(@event), class: 'btn panel panel-default', :method => :put %>
-        </div>
+        <%= link_to ' Disable',  admin_event_disable_path(@event), class: 'btn btn-primary', method: :put, data: { confirm: "Are you sure?" } %>
       <% else %>
-        <div class="col-md-6">
-          <%= link_to 'Enable ',admin_event_enable_path(@event), class: 'btn panel panel-default', :method => :put  %>
-        </div>
-        <div class="col-md-6">
-          <%= link_to 'Disable', 'javascript:', class: 'btn btn-primary' %>
-        </div>
+        <%= link_to 'Enable ',admin_event_enable_path(@event), class: 'btn btn-success', method: :put, data: { confirm: "Are you sure?" }  %>
       <% end %>
     <% else %>
       <%= event_enabled?(@event) ? 'Enabled' : 'Diabled' %> (Past)
@@ -117,10 +107,10 @@
         </td>
         <td class="col-md-1">
           <% if discussion.upcoming? %>
-            <% if discussion.enabled? %>
-              <%= link_to ' Disable', disable_admin_event_discussion_path(@event, discussion), class: 'btn btn-primary', :method => :put %>
+            <% if discussion_enabled?(discussion) %>
+              <%= link_to 'Disable', disable_admin_event_discussion_path(@event, discussion), class: 'btn btn-primary', method: :put, data: { confirm: "Are you sure?" } %>
             <% else %>
-              <%= link_to 'Enable ', enable_admin_event_discussion_path(@event, discussion), class: 'btn btn-success', :method => :put  %>
+              <%= link_to 'Enable ', enable_admin_event_discussion_path(@event, discussion), class: 'btn btn-success', method: :put, data: { confirm: "Are you sure?" }  %>
             <% end %>
           <% else %>
             <%= discussion.enabled? ? 'Enabled' : 'Diabled' %> (Past)

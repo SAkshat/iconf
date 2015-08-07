@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
 
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: [:index, :show, :search]
   before_action :set_event, only: [:show, :edit, :update]
   before_action :set_creator, only: [:new, :edit, :create, :update]
   before_action :check_event_is_upcoming, only: [:edit, :update]
@@ -62,6 +62,12 @@ class EventsController < ApplicationController
         }
       end
     end
+  end
+
+  def search
+    @events = Event.search_keyword(params[:keywords])
+    @events = Event.all if params[:keywords].blank?
+    render 'index'
   end
 
   private

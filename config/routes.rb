@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   resources :discussions_users, only: [:create, :destroy]
 
   resources :events do
+    collection do
+      post "search" => "events#search", as: :search
+    end
     resources :discussions
   end
 

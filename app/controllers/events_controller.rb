@@ -65,8 +65,8 @@ class EventsController < ApplicationController
   end
 
   def search
-    @events = Event.search_keyword(params[:keywords])
-    @events = Event.all if params[:keywords].blank?
+    @events = Event.enabled.search_keyword(params[:keywords])
+    @events = Event.all.enabled if params[:keywords].blank?
     render 'index'
   end
 

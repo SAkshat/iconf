@@ -1,6 +1,6 @@
 class Admin::EventsController < AdminController
 
-  before_action :load_event, only: [:enable, :disable]
+  before_action :load_event, only: [:enable, :disable, :show]
   before_action :is_creator_enabled?, only: [:enable]
 
   def index
@@ -8,7 +8,6 @@ class Admin::EventsController < AdminController
   end
 
   def show
-    @event = Event.find_by(id: params[:id])
     @discussions = @event.discussions.order(:date, :start_time, :id)
   end
 
@@ -42,7 +41,7 @@ class Admin::EventsController < AdminController
     end
 
     def load_event
-      @event = Event.find_by(id: params[:event_id])
+      @event = Event.find_by(id: params[:id])
       redirect_to :back, alert: "Couldn't find the required Event" unless @event
     end
 

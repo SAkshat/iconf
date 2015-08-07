@@ -71,9 +71,9 @@
         <td class="col-md-1">
           <% if is_event_editable?(event) %>
             <% if event_enabled?(event) %>
-              <%= link_to ' Disable',  admin_event_disable_path(event), class: 'btn btn-primary', method: :put, data: { confirm: "Are you sure?" } %>
+              <%= link_to ' Disable',  disable_admin_event_path(event), class: 'btn btn-primary', method: :put, data: { confirm: "Are you sure?" } %>
             <% else %>
-              <%= link_to 'Enable ',admin_event_enable_path(event), class: 'btn btn-success', method: :put, data: { confirm: "Are you sure?" } %>
+              <%= link_to 'Enable ',enable_admin_event_path(event), class: 'btn btn-success', method: :put, data: { confirm: "Are you sure?" } %>
             <% end %>
           <% else %>
             <%= event_enabled?(event) ? 'Enabled' : 'Disabled' %> (Past)

@@ -16,8 +16,6 @@
 !/log/.keep
 /tmp
 /.bundle
-/config/database.yml
-/config/secrets.yml
 /log/*.log
 /tmp
 /public/uploads

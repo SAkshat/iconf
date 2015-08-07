@@ -6,4 +6,4 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-User.create(name: :admin, designation: :Mr, admin: true, email: 'admin@example.com', password: 'test1234')
+User.create_with(name: :Admin, designation: :Mr, admin: true, password: 'test1234').find_or_create_by(email: 'admin@example.com')

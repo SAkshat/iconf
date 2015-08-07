@@ -1,4 +1,10 @@
 class Event < ActiveRecord::Base
+  include PgSearch
+  pg_search_scope :search_keyword, against: :name, associated_against: {
+    address: [:city, :country],
+    discussions: :topic
+  }
+
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_one :address, dependent: :destroy
   mount_uploader :logo, LogoUploader

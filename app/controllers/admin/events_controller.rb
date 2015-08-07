@@ -4,7 +4,7 @@ class Admin::EventsController < AdminController
   before_action :is_creator_enabled?, only: [:enable]
 
   def index
-    @events = Event.all.order(:start_time)
+    @events = Event.order(:start_time)
   end
 
   def show

@@ -13,7 +13,7 @@ class Admin::EventsController < AdminController
 
   def enable
     respond_to do |format|
-     if @event.update_attribute(:enabled, true)
+     if @event.update_column(:enabled, true)
         format.html { redirect_to :back, flash: { success: 'Event successfully enabled' } }
       else
         format.html { redirect_to :back, flash: { error: 'Event could not be enabled' } }
@@ -23,7 +23,7 @@ class Admin::EventsController < AdminController
 
   def disable
     respond_to do |format|
-     if @event.update_attribute(:enabled, false)
+     if @event.update_column(:enabled, false)
         format.html { redirect_to :back, flash: { success: 'Event successfully disabled' } }
       else
         format.html { redirect_to :back, flash: { error: 'Event could not be disabled' } }

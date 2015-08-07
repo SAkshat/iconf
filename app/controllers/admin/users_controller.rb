@@ -3,12 +3,12 @@ class Admin::UsersController < AdminController
   before_action :load_user, only: [:enable, :disable]
 
   def index
-    @users = User.all.order(:id)
+    @users = User.order(:id)
   end
 
   def enable
     respond_to do |format|
-     if @user.update_attribute(:enabled, true)
+     if @user.update_column(:enabled, true)
         format.html { redirect_to :back, flash: { success: 'User successfully enabled' } }
       else
         format.html { redirect_to :back, flash: { error: 'User could not be enabled' } }
@@ -18,7 +18,7 @@ class Admin::UsersController < AdminController
 
   def disable
     respond_to do |format|
-     if @user.update_attribute(:enabled, false)
+     if @user.update_column(:enabled, false)
         format.html { redirect_to :back, flash: { success: 'User successfully disabled' } }
       else
         format.html { redirect_to :back, flash: { error: 'User could not be disabled' } }

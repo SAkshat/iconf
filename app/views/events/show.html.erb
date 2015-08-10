@@ -11,12 +11,12 @@
       <strong class='alert'>No discussions exist</strong>
     <% else %>
       <% @discussions.each_slice(3) do |discussions| %>
-        <div class="row">
+        <div class='row'>
           <% discussions.each do |discussion| %>
-            <div class="col-md-3">
+            <div class='col-md-3'>
               <%= render discussion %>
             </div>
-            <div class="col-md-1">
+            <div class='col-md-1'>
             </div>
           <% end %>
         </div>

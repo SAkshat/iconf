@@ -1,5 +1,9 @@
 module EventsHelper
 
+  def event_enabled?(event)
+    event.enabled && event.creator.enabled?
+  end
+
   def get_event_status(event)
     return "Ongoing" if event.live?
     return "Upcoming" if event.upcoming?
@@ -8,14 +12,7 @@ module EventsHelper
 
   def get_duration_string(start_time, end_time)
     if start_time.year == end_time.year
-      if start_time.month == end_time.month
-        if start_time.day == end_time.day
-          return "#{ start_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_time.month] } #{ start_time.year }"
-        end
-        return duration_string_for_different_days(start_time, end_time)
-      else
-        return duration_string_for_different_months(start_time, end_time)
-      end
+      check_for_month(start_time, end_time)
     else
       return duration_string_for_different_years(start_time, end_time)
     end
@@ -31,19 +28,34 @@ module EventsHelper
 
   private
 
+    def check_for_month(start_time, end_time)
+      if start_time.month == end_time.month
+        check_for_day(start_time, end_time)
+      else
+        return duration_string_for_different_months(start_time, end_time)
+      end
+    end
+
+    def check_for_day(start_time, end_time)
+      if start_time.day == end_time.day
+        return "#{ start_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_time.month] } #{ start_time.year }"
+      end
+      return duration_string_for_different_days(start_time, end_time)
+    end
+
     def duration_string_for_different_years(start_time, end_time)
-      "#{ start_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_time.month] } #{ start_time.year }" +
-      " - #{ end_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[end_time.month] } #{ end_time.year }"
+      "#{ start_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_time.month] } #{ start_time.year } - " + duration_string_for_end_time(end_time)
     end
 
     def duration_string_for_different_months(start_time, end_time)
-      "#{ start_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_time.month] } - " +
-      "#{ end_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[end_time.month] } #{ end_time.year }"
+      "#{ start_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[start_time.month] } - " + duration_string_for_end_time(end_time)
     end
 
     def duration_string_for_different_days(start_time, end_time)
-      "#{ start_time.day.ordinalize } - #{ end_time.day.ordinalize } " +
-      "#{ I18n.t('date.abbr_month_names')[end_time.month] } #{ end_time.year }"
+      "#{ start_time.day.ordinalize } - " + duration_string_for_end_time(end_time)
     end
 
+    def duration_string_for_end_time(end_time)
+      "#{ end_time.day.ordinalize } #{ I18n.t('date.abbr_month_names')[end_time.month] } #{ end_time.year }"
+    end
 end

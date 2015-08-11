@@ -37,6 +37,9 @@ gem 'sdoc',                                             '~> 0.4.0', group: :doc
 gem 'quiet_assets',                                     '~> 1.1.0'
 
 gem 'pg_search',                                        '~> 1.0.4'
+
+gem 'omniauth-twitter',                                 '~> 1.1.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

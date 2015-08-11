@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
   pg_search_scope :search_keyword, against: :name, associated_against: {
     address: [:city, :country],
     discussions: :topic
-  }
+  }, using: { tsearch: { prefix: true } }
 
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_one :address, dependent: :destroy

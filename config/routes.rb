@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   root 'events#index'
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
-  get '/auth/:provider/callback', to: 'user/sessions#create', as: :create
+
+  devise_scope :user do
+    get '/auth/:provider/callback', to: 'sessions#create', as: :create
+  end
 
   namespace :admin, only: [:index, :show] do
     resources :users do

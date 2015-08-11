@@ -12,6 +12,7 @@ class EventsController < ApplicationController
     when 'my_events'
       @events = current_user.events.order_by_start_time
     when 'attending_events'
+      # [TODO - S] No need for scopes like order_by_start_time, order_by_start_date_time
       @events = Event.where(id: current_user.discussions.enabled.pluck(:event_id).uniq).order_by_start_time
     else
       puts Event.enabled
@@ -81,6 +82,7 @@ class EventsController < ApplicationController
     end
 
     def event_params
+      # [TODO - S] Please break this in multiple lines. Ideal column length for a line is usually around 80.
       params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :logo_cache, :enabled, address_attributes: [:id, :street, :city, :country, :zipcode], contact_detail_attributes: [:id, :phone_number, :email])
     end
 

@@ -15,6 +15,7 @@
       </div>
 
       <div class="row">
+        <!-- # [TODO - S] Please extract to a partial for navigation bar / menu bar etc. -->
         <% if current_user && current_user.admin? %>
           <div class='col-md-3'>
             <%= link_to admin_events_path do %>

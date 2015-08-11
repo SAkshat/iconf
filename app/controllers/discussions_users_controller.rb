@@ -1,6 +1,7 @@
 class DiscussionsUsersController < ApplicationController
 
   def create
+    # [TODO - S] Should check if the discussion with this id exist.
     if current_user.discussions_users.create(discussion_id: params[:id])
       redirect_to :back, notice: "You have successfully RSVP'd to this discussion"
     else
@@ -9,6 +10,7 @@ class DiscussionsUsersController < ApplicationController
   end
 
   def destroy
+    # [TODO - S] nil.destroy will raise exception.
     if current_user.discussions_users.find_by(discussion_id: params[:id]).destroy
       redirect_to :back, notice: 'You opted out of this discussion'
     else

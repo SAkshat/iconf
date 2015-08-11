@@ -8,12 +8,14 @@ class Admin::EventsController < AdminController
   end
 
   def show
+    # [TODO - S] Why are we ordering by id?
     @discussions = @event.discussions.order(:date, :start_time, :id)
   end
 
   def enable
     respond_to do |format|
-     if @event.update_column(:enabled, true)
+      # [TODO - S] Why using update_column?
+      if @event.update_column(:enabled, true)
         format.html { redirect_to :back, flash: { success: 'Event successfully enabled' } }
       else
         format.html { redirect_to :back, flash: { error: 'Event could not be enabled' } }
@@ -23,7 +25,8 @@ class Admin::EventsController < AdminController
 
   def disable
     respond_to do |format|
-     if @event.update_column(:enabled, false)
+      # [TODO - S] Why using update_column?
+      if @event.update_column(:enabled, false)
         format.html { redirect_to :back, flash: { success: 'Event successfully disabled' } }
       else
         format.html { redirect_to :back, flash: { error: 'Event could not be disabled' } }
@@ -33,6 +36,7 @@ class Admin::EventsController < AdminController
 
   private
 
+    # [TODO - S] Should be a model validation.
     def is_creator_enabled?
       @creator = @event.creator
       if !@creator.enabled?

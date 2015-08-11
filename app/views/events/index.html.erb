@@ -18,6 +18,7 @@
 <% if @events.empty? %>
   <strong>No Events available</strong>
 <% else %>
+  <!-- # [TODO - S] Try rendering the whole collection -->
   <% @events.each do |event| %>
     <div class='row'>
       <%= render event %>

@@ -5,6 +5,8 @@ class Event < ActiveRecord::Base
     discussions: :topic
   }, using: { tsearch: { prefix: true } }
 
+  # [TODO - S] Please seggregate into sections. Like all associations together, all validations together.
+  # # [TODO - S] Try to follow this convention everywhere. Leads to cleaner and more readable code.
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_one :address, dependent: :destroy
   mount_uploader :logo, LogoUploader
@@ -16,8 +18,10 @@ class Event < ActiveRecord::Base
   validates :name, presence: true
   validates :description, length: { maximum: 500, minimum: 50 }
   validate :start_time_cannot_be_in_past
+  # [TODO - S] It can be implemented by using rails validation method.
   validate :start_time_before_end_time
 
+  # [TODO - S] What does it do? Why specify creator_id??
   scope :enabled, -> { where(enabled: true, creator_id: User.enabled.pluck(:id)) }
   scope :order_by_start_date_time, -> { order(:date, :start_time) }
   scope :order_by_start_time, -> { order(:start_time) }
@@ -30,6 +34,7 @@ class Event < ActiveRecord::Base
     errors[:start_time] << 'cannot be in the past' if start_time <= Time.current
   end
 
+  # [TODO - S] Method name is different than its function.
   def start_time_before_end_time
     errors[:end_time] << 'must be later than start time' if start_time >= end_time
   end

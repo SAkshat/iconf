@@ -8,8 +8,11 @@ class Discussion < ActiveRecord::Base
   validates :name, :topic, :location, presence: true
   validates :description, length: { minimum: 50, maximum: 250 }
   validates :speaker, presence: { message: 'does not have a valid email id' }
+  # [TODO - S] Please rename.
   validate :time_during_event_duration
+  # [TODO - S] Can be implemented using Rails validations.
   validate :end_time_greater_than_start_time
+  # [TODO - S] This should not be a validation. Why??
   validate :is_session_editable, if: :persisted?
 
   scope :enabled, -> { where(enabled: true) }

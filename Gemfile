@@ -54,6 +54,7 @@ group :development, :test do
   gem 'web-console',                                    '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  # [TODO - S] How does spring work? I need a session from you.
   gem 'spring',                                         '~> 1.3.6'
 end
 

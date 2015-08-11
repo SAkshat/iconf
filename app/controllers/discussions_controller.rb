@@ -53,6 +53,7 @@ class DiscussionsController < ApplicationController
 
   private
 
+    # [TODO - S] discussion is past. Incorrect name.
     def check_if_discussion_is_upcoming
       if !(@discussion.upcoming?)
         redirect_to event_path(@event), notice: 'Past discussions cannot be edited'
@@ -60,6 +61,7 @@ class DiscussionsController < ApplicationController
     end
 
     def set_speaker
+      # [TODO - S] No need to make it instance variable.
       @speaker = User.find_by(email: params[:discussion][:speaker])
       @discussion.speaker = @speaker
     end
@@ -75,6 +77,7 @@ class DiscussionsController < ApplicationController
     end
 
     def discussion_params
+      # [TODO - S] Why permitting id? Also, is creator_id being set via a hidden field?
       params.require(:discussion).permit(:creator_id, :id, :name, :topic, :date, :start_time, :end_time, :description, :enabled, :location)
     end
 

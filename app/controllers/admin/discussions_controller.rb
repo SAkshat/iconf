@@ -6,6 +6,7 @@ class Admin::DiscussionsController < AdminController
 
   def enable
     respond_to do |format|
+     # [TODO - S] update_attribute will never return false.
      if @discussion.update_attribute(:enabled, true)
         format.html { redirect_to :back, flash: { success: 'Discussion successfully enabled' } }
       else
@@ -16,7 +17,8 @@ class Admin::DiscussionsController < AdminController
 
   def disable
     respond_to do |format|
-     if @discussion.update_attribute(:enabled, false)
+      # [TODO - S] update_attribute will never return false.
+      if @discussion.update_attribute(:enabled, false)
         format.html { redirect_to :back, flash: { success: 'Discussion successfully disabled' } }
       else
         format.html { redirect_to :back, flash: { error: 'Discussion could not be disabled' } }
@@ -26,6 +28,7 @@ class Admin::DiscussionsController < AdminController
 
   private
 
+    # [TODO - S] This should be a model validation.
     def can_discussion_be_enabled
       if !(@event.enabled? && @discussion.creator.enabled?)
         redirect_to :back, flash: { error: 'Discussion cannot be enabled.' }

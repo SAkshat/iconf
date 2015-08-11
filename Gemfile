@@ -40,6 +40,8 @@ gem 'pg_search',                                        '~> 1.0.4'
 
 gem 'active_model_serializers',                         '~> 0.9.3'
 
+gem 'omniauth-twitter',                                 '~> 1.1.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

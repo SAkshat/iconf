@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :events, foreign_key: :creator_id, dependent: :destroy
   has_many :discussions_users, dependent: :destroy
-  has_many :discussions, through: :discussions_users, dependent: :destroy
+  has_many :discussions, through: :discussions_users
 
   scope :enabled, -> { where(enabled: true) }
 

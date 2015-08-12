@@ -1,7 +1,5 @@
 class DiscussionsController < ApplicationController
 
-  include Loader
-
   before_action :load_event, only: [:index, :show, :new, :edit, :create, :update]
   before_action :load_creator, only: [:new, :edit, :create, :update]
   before_action :load_discussion, only: [:show, :edit, :update]
@@ -78,7 +76,7 @@ class DiscussionsController < ApplicationController
 
     def discussion_params
       # [TODO - S] Why permitting id? Also, is creator_id being set via a hidden field?
-      params.require(:discussion).permit(:creator_id, :id, :name, :topic, :date, :start_time, :end_time, :description, :enabled, :location)
+      params.require(:discussion).permit(:creator_id, :name, :topic, :date, :start_time, :end_time, :description, :enabled, :location)
     end
 
 end

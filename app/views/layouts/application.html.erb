@@ -17,7 +17,7 @@
       <div class="row">
         <!-- # [DONE TODO - S] Please extract to a partial for navigation bar / menu bar etc. -->
         <% if current_user && current_user.admin? %>
-          <%= render 'admin_nav_bar' %>
+          <%= render 'admin/admin_nav_bar' %>
         <% else %>
           <%= render 'users/user_nav_bar' %>
       <% end %>

@@ -16,7 +16,6 @@ class Discussion < ActiveRecord::Base
   validate :is_session_editable, if: :persisted?
 
   scope :enabled, -> { where(enabled: true) }
-  scope :order_by_start_date_time, -> { order(:date, :start_time) }
 
   def time_during_event_duration
     start_time, end_time = event.start_time.to_date, event.end_time.to_date

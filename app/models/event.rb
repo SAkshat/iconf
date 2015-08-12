@@ -1,5 +1,7 @@
 class Event < ActiveRecord::Base
+
   include PgSearch
+  # [TODO - G] See if there exists an option to return all records on empty string
   pg_search_scope :search_keyword, against: :name, associated_against: {
     address: [:city, :country],
     discussions: :topic
@@ -9,9 +11,9 @@ class Event < ActiveRecord::Base
   # # [TODO - S] Try to follow this convention everywhere. Leads to cleaner and more readable code.
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_one :address, dependent: :destroy
-  mount_uploader :logo, LogoUploader
   has_many :discussions, dependent: :destroy
   belongs_to :creator, class_name: :User
+  mount_uploader :logo, LogoUploader
 
   accepts_nested_attributes_for :address, :contact_detail
 
@@ -23,8 +25,6 @@ class Event < ActiveRecord::Base
 
   # [TODO - S] What does it do? Why specify creator_id??
   scope :enabled, -> { where(enabled: true, creator_id: User.enabled.pluck(:id)) }
-  scope :order_by_start_date_time, -> { order(:date, :start_time) }
-  scope :order_by_start_time, -> { order(:start_time) }
 
   def upcoming?
     start_time > Time.current

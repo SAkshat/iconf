@@ -10,18 +10,17 @@ class EventsController < ApplicationController
   def index
     case params[:filter]
     when 'my_events'
-      @events = current_user.events.order_by_start_time
+      @events = current_user.events.order(:start_time)
     when 'attending_events'
       # [TODO - S] No need for scopes like order_by_start_time, order_by_start_date_time
-      @events = Event.where(id: current_user.discussions.enabled.pluck(:event_id).uniq).order_by_start_time
+      @events = Event.where(id: current_user.discussions.enabled.pluck(:event_id).uniq).order(:start_time)
     else
-      puts Event.enabled
-      @events = Event.enabled.order_by_start_time
+      @events = Event.enabled.order(:start_time)
     end
   end
 
   def show
-    @discussions = @event.discussions.enabled.order_by_start_date_time
+    @discussions = @event.discussions.enabled.order(:date, :start_time)
   end
 
   def new
@@ -63,8 +62,11 @@ class EventsController < ApplicationController
   end
 
   def search
-    @events = Event.enabled.search_keyword(params[:keywords])
-    @events = Event.enabled if params[:keywords].blank?
+    if params[:keywords].blank?
+      @events = Event.enabled
+    else
+      @events = Event.enabled.search_keyword(params[:keywords])
+    end
     render 'index'
   end
 
@@ -82,8 +84,10 @@ class EventsController < ApplicationController
     end
 
     def event_params
-      # [TODO - S] Please break this in multiple lines. Ideal column length for a line is usually around 80.
-      params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :logo_cache, :enabled, address_attributes: [:id, :street, :city, :country, :zipcode], contact_detail_attributes: [:id, :phone_number, :email])
+      # [DONE: TODO - S] Please break this in multiple lines. Ideal column length for a line is usually around 80.
+      params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :logo_cache, :enabled,
+                                    contact_detail_attributes: [:id, :phone_number, :email],
+                                    address_attributes: [:id, :street, :city, :country, :zipcode])
     end
 
 end

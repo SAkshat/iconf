@@ -28,4 +28,6 @@
 .DS_Store
 /doc
 
-# [TODO - S] Add secrets.yml in here.
+# [DONE TODO - S] Add secrets.yml in here.
+# Ignore secret files
+config/secrets.yml

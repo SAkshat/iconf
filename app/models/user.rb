@@ -13,4 +13,6 @@ class User < ActiveRecord::Base
   validates :name, presence: true
   validates :designation, presence: true
 
+  TITLES_LIST = ['Mr', 'Mrs', 'Ms', 'Dr']
+
 end

@@ -9,7 +9,7 @@ class DiscussionsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
-    @discussions = @event.discussions.enabled.order_by_start_date_time
+    @discussions = @event.discussions.enabled.order(:date, :start_time)
   end
 
   def show

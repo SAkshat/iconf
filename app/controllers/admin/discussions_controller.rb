@@ -6,8 +6,8 @@ class Admin::DiscussionsController < AdminController
 
   def enable
     respond_to do |format|
-     # [TODO - S] update_attribute will never return false.
-     if @discussion.update_attribute(:enabled, true)
+     # [DONE TODO - S] update_attribute will never return false.
+     if @discussion.update_attributes(:enabled, true)
         format.html { redirect_to :back, flash: { success: 'Discussion successfully enabled' } }
       else
         format.html { redirect_to :back, flash: { error: 'Discussion could not be enabled' } }
@@ -17,8 +17,8 @@ class Admin::DiscussionsController < AdminController
 
   def disable
     respond_to do |format|
-      # [TODO - S] update_attribute will never return false.
-      if @discussion.update_attribute(:enabled, false)
+      # [DONE TODO - S] update_attributes will never return false.
+      if @discussion.update_attributes(:enabled, false)
         format.html { redirect_to :back, flash: { success: 'Discussion successfully disabled' } }
       else
         format.html { redirect_to :back, flash: { error: 'Discussion could not be disabled' } }

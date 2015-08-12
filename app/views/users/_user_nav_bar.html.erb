@@ -1,0 +1,15 @@
+<div class='col-md-3'>
+  <%= link_to root_path do %>
+    <%= image_tag('conf_logo.jpg') %>
+  <% end %>
+</div>
+<br>
+<div class='col-md-2 col-md-offset-3'>
+  <%= link_to "Events I'm Attending", events_path(filter: :attending_events), class: 'btn btn-primary', method: :get if user_signed_in? %>
+</div>
+<div class='col-md-1'>
+  <%= link_to 'My Events', events_path(filter: :my_events), class: 'btn btn-primary', method: :get if user_signed_in? %>
+</div>
+<div class='col-md-1'>
+  <%= link_to 'Events', root_path, class: 'btn btn-primary', method: :get %>
+</div>

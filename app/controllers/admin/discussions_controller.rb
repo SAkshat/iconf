@@ -1,4 +1,4 @@
-class Admin::DiscussionsController < AdminController
+class Admin::DiscussionsController < Admin::AdminController
 
   before_action :load_event, only: [:enable, :disable]
   before_action :load_discussion, only: [:enable, :disable]

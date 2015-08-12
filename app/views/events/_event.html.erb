@@ -1,47 +1,50 @@
-<div class='col-md-2'>
-  <%= link_to image_tag(event.logo_url, alt: 'Akshat', class: 'img-responsive'), event_path(event) %>
-</div>
-<div class='col-md-5 col-md-offset-1'>
-  <div class='row'>
+<div class="row">
+  <div class='col-md-2'>
+    <%= link_to image_tag(event.logo_url, alt: 'Akshat', class: 'img-responsive'), event_path(event) %>
+  </div>
+  <div class='col-md-5 col-md-offset-1'>
     <div class='row'>
-      <%= link_to event_path(event) do %>
-        <h3><%= event.name.capitalize %></h3>
-      <% end %>
-    </div>
-    <br>
-    <div class='row'>
-      <div class='col-md-6'>
-        <%= get_duration_string(event.start_time, event.end_time) %>
+      <div class='row'>
+        <%= link_to event_path(event) do %>
+          <h3><%= event.name.capitalize %></h3>
+        <% end %>
       </div>
-      <div class='col-md-6'>
-        <%= event.address.city + ', ' + event.address.country %>
+      <br>
+      <div class='row'>
+        <div class='col-md-6'>
+          <%= get_duration_string(event.start_time, event.end_time) %>
+        </div>
+        <div class='col-md-6'>
+          <%= event.address.city + ', ' + event.address.country %>
+        </div>
       </div>
-    </div>
-    <br>
-    <div class='row'>
-      <%= truncate(strip_tags(event.description), length: 300) if action_name != 'show' %>
-      <%= strip_tags(event.description) if action_name == 'show' %>
+      <br>
+      <div class='row'>
+        <%= truncate(strip_tags(event.description), length: 300) if action_name != 'show' %>
+        <%= strip_tags(event.description) if action_name == 'show' %>
+      </div>
     </div>
   </div>
-</div>
-<div class='col-md-2'>
-  <h4><%= get_event_status(event) + ' ' %></h4>
-  <% if params[:filter] == 'my_events' %>
-    <h5><%= event.enabled? ? '(Enabled)' : '(Disabled)' %></h5>
-  <% end %>
+  <div class='col-md-2'>
+    <h4><%= get_event_status(event) + ' ' %></h4>
+    <% if params[:filter] == 'my_events' %>
+      <h5><%= event.enabled? ? '(Enabled)' : '(Disabled)' %></h5>
+    <% end %>
 
-</div>
-<div class='col-md-1'>
-  <br>
-  <div class="row">
-    <% if user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
-      <%= link_to edit_event_path(event) do %>
-        <%= image_tag 'edit.png' ,alt: 'Edit',  class: "img-responsive" %>
+  </div>
+  <div class='col-md-1'>
+    <br>
+    <div class="row">
+      <% if user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
+        <%= link_to edit_event_path(event) do %>
+          <%= image_tag 'edit.png' ,alt: 'Edit',  class: "img-responsive" %>
+        <% end %>
       <% end %>
-    <% end %>
-    <br><br>
-    <% if action_name == 'show' && user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
-      <%= link_to 'Create Discussion', new_event_discussion_path(event_id: event.id), class: 'btn btn-success' %>
-    <% end %>
+      <br><br>
+      <% if action_name == 'show' && user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
+        <%= link_to 'Create Discussion', new_event_discussion_path(event_id: event.id), class: 'btn btn-success' %>
+      <% end %>
+    </div>
   </div>
 </div>
+<br><hr>

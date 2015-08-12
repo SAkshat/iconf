@@ -1,16 +1,16 @@
-class Admin::UsersController < AdminController
+class Admin::UsersController < Admin::AdminController
 
   before_action :load_user, only: [:enable, :disable]
 
   def index
-    # [TODO - S] Why order by id?
-    @users = User.order(:id)
+    # [DONE TODO - S] Why order by id? Needed a field for default order.
+    @users = User.order(:created_at)
   end
 
   def enable
     respond_to do |format|
-      # [TODO - S] Why update_column?
-      if @user.update_column(:enabled, true)
+      # [DONE TODO - S] Why update_column?
+      if @user.update_attributes(enabled: true)
         format.html { redirect_to :back, flash: { success: 'User successfully enabled' } }
       else
         format.html { redirect_to :back, flash: { error: 'User could not be enabled' } }
@@ -20,8 +20,8 @@ class Admin::UsersController < AdminController
 
   def disable
     respond_to do |format|
-      # [TODO - S] Why update_column? Should have a very strong reason to use it.
-      if @user.update_column(:enabled, false)
+      # [DONE TODO - S] Why update_column? Should have a very strong reason to use it.
+      if @user.update_attributes(enabled: false)
         format.html { redirect_to :back, flash: { success: 'User successfully disabled' } }
       else
         format.html { redirect_to :back, flash: { error: 'User could not be disabled' } }

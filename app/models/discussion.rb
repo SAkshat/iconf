@@ -8,17 +8,18 @@ class Discussion < ActiveRecord::Base
   validates :name, :topic, :location, presence: true
   validates :description, length: { minimum: 50, maximum: 250 }
   validates :speaker, presence: { message: 'does not have a valid email id' }
-  # [TODO - S] Please rename.
-  validate :time_during_event_duration
-  # [TODO - S] Can be implemented using Rails validations.
+  # [DONE TODO - S] Please rename.
+  validate :discussion_timing
+  # [TODO DOUBT - S] Can be implemented using Rails validations.
   validate :end_time_greater_than_start_time
-  # [TODO - S] This should not be a validation. Why??
+  # [TODO DOUBT - S] This should not be a validation. Why??
+  # I need to stop event modification on a db level as well. Thus this is required?
   validate :is_session_editable, if: :persisted?
   validate :can_discussion_be_enabled, on: [:enable, :disable]
 
   scope :enabled, -> { where(enabled: true) }
 
-  def time_during_event_duration
+  def discussion_timing
     start_time, end_time = event.start_time.to_date, event.end_time.to_date
     unless date >= start_time && date <= end_time
       errors[:date] << "must be within the event duration [#{ start_time } -- #{ end_time }]"

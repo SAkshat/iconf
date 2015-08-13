@@ -50,7 +50,7 @@ class DiscussionsController < ApplicationController
 
   private
 
-    # [TODO - S] discussion is past. Incorrect name.
+    # [DONE TODO - S] discussion is past. Incorrect name.
     def check_if_discussion_is_past
       if !(@discussion.upcoming?)
         redirect_to event_path(@event), notice: 'Past discussions cannot be edited'

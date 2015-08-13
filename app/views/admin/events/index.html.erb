@@ -69,7 +69,7 @@
           <%= event.address.country %>
         </td>
         <td class="col-md-1">
-          <% if is_event_editable?(event) %>
+          <% if event.upcoming? %>
             <% if event_enabled?(event) %>
               <%= link_to ' Disable',  disable_admin_event_path(event), class: 'btn btn-primary', method: :put, data: { confirm: "Are you sure?" } %>
             <% else %>

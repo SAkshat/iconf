@@ -35,13 +35,13 @@
   <div class='col-md-1'>
     <br>
     <div class="row">
-      <% if user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
+      <% if user_signed_in? && is_event_owner?(event, current_user) && event.upcoming? %>
         <%= link_to edit_event_path(event) do %>
           <%= image_tag 'edit.png' ,alt: 'Edit',  class: "img-responsive" %>
         <% end %>
       <% end %>
       <br><br>
-      <% if action_name == 'show' && user_signed_in? && is_event_owner?(event, current_user) && is_event_editable?(event) %>
+      <% if action_name == 'show' && user_signed_in? && is_event_owner?(event, current_user) && event.upcoming? %>
         <%= link_to 'Create Discussion', new_event_discussion_path(event_id: event.id), class: 'btn btn-success' %>
       <% end %>
     </div>

@@ -22,10 +22,6 @@ module EventsHelper
     event.creator_id == user.id
   end
 
-  def is_event_editable?(event)
-    event.upcoming?
-  end
-
   private
 
     def check_for_month(start_time, end_time)

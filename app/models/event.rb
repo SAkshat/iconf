@@ -20,16 +20,16 @@ class Event < ActiveRecord::Base
   validates :name, presence: true
   validates :description, length: { maximum: 500, minimum: 50 }
   validate :start_time_cannot_be_in_past
-  # [TODO - S] It can be implemented by using rails validation method.
+  # [TODO MIN - S] It can be implemented by using rails validation method.
   validate :start_time_before_end_time
   validate :is_creator_enabled
-  # [TODO - S] What does it do? Why specify creator_id??
+  # [TODO EXTRACT - S] What does it do? Why specify creator_id??
   scope :enabled, -> { where(enabled: true, creator_id: User.enabled.pluck(:id)) }
 
   def upcoming?
     start_time > Time.current
   end
-
+  # [TODO]
   def start_time_cannot_be_in_past
     errors[:start_time] << 'cannot be in the past' if start_time <= Time.current
   end

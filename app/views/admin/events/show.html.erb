@@ -28,7 +28,7 @@
     <h4><%= get_event_status(@event) %></h4>
   </div>
   <div class="col-md-1">
-    <% if is_event_editable?(@event) %>
+    <% if @event.upcoming? %>
       <% if event_enabled?(@event) %>
         <%= link_to ' Disable',  disable_admin_event_path(@event), class: 'btn btn-primary', method: :put, data: { confirm: "Are you sure?" } %>
       <% else %>
@@ -108,7 +108,7 @@
           <%= discussion.speaker.designation + ' ' +  discussion.speaker.name %>
         </td>
         <td class="col-md-1">
-          <!-- # [TODO - S] Use either discussion.upcoming? Or the helper you created is_event_editable?. I'd prefer first one. -->
+          <!-- # [DONE TODO - S] Use either discussion.upcoming? Or the helper you created is_event_editable?. I'd prefer first one. -->
           <% if discussion.upcoming? %>
             <% if discussion_enabled?(discussion) %>
               <!-- # [TODO - S] Make all enable / disable actions as ajax actions. -->

@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
 
   def create
     auth = request.env['omniauth.auth']
-    user = User.create_with(nickname: auth[:info][:nickname], image_path: auth[:info][:image], twitter_url: auth[:info][:urls][:Twitter]).find_or_create_by(uid: auth[:uid])
+    user = User.create_with(name: auth[:info][:name], nickname: auth[:info][:nickname], image_path: auth[:info][:image], twitter_url: auth[:info][:urls][:Twitter]).find_or_create_by(uid: auth[:uid])
     user.save(validate: false)
     sign_in_and_redirect user
   end

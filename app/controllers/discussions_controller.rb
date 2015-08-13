@@ -2,7 +2,7 @@ class DiscussionsController < ApplicationController
 
   before_action :load_event, only: [:index, :show, :new, :edit, :create, :update]
   before_action :load_discussion, only: [:show, :edit, :update]
-  before_action :check_if_discussion_is_upcoming, only: [:edit, :update]
+  before_action :check_if_discussion_is_past, only: [:edit, :update]
   skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
@@ -51,7 +51,7 @@ class DiscussionsController < ApplicationController
   private
 
     # [TODO - S] discussion is past. Incorrect name.
-    def check_if_discussion_is_upcoming
+    def check_if_discussion_is_past
       if !(@discussion.upcoming?)
         redirect_to event_path(@event), notice: 'Past discussions cannot be edited'
       end

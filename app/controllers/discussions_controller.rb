@@ -1,7 +1,6 @@
 class DiscussionsController < ApplicationController
 
   before_action :load_event, only: [:index, :show, :new, :edit, :create, :update]
-  before_action :load_creator, only: [:new, :edit, :create, :update]
   before_action :load_discussion, only: [:show, :edit, :update]
   before_action :check_if_discussion_is_upcoming, only: [:edit, :update]
   skip_before_action :authenticate_user!, only: [:index, :show]
@@ -59,9 +58,8 @@ class DiscussionsController < ApplicationController
     end
 
     def set_speaker
-      # [TODO - S] No need to make it instance variable.
-      @speaker = User.find_by(email: params[:discussion][:speaker])
-      @discussion.speaker = @speaker
+      # [DONE TODO - S] No need to make it instance variable.
+      @discussion.speaker = User.find_by(email: params[:discussion][:speaker])
     end
 
     def load_event
@@ -75,7 +73,7 @@ class DiscussionsController < ApplicationController
     end
 
     def discussion_params
-      # [TODO - S] Why permitting id? Also, is creator_id being set via a hidden field?
+      # [DONE TODO - S] Why permitting id? Also, is creator_id being set via a hidden field? Yes.
       params.require(:discussion).permit(:creator_id, :name, :topic, :date, :start_time, :end_time, :description, :enabled, :location)
     end
 

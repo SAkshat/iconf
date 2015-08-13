@@ -1,10 +1,7 @@
 class EventsController < ApplicationController
 
-  include Loader
-
   skip_before_action :authenticate_user!, only: [:index, :show, :search]
   before_action :load_event, only: [:show, :edit, :update]
-  before_action :load_creator, only: [:new, :edit, :create, :update]
   before_action :check_event_is_upcoming, only: [:edit, :update]
 
   def index
@@ -24,7 +21,7 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = @creator.events.build
+    @event = Event.new
     @address = @event.build_address
     @contact_detail = @event.build_contact_detail
   end

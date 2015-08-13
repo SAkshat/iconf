@@ -1,7 +1,6 @@
 class Admin::EventsController < Admin::AdminController
 
   before_action :load_event, only: [:enable, :disable, :show]
-  before_action :is_creator_enabled?, only: [:enable]
 
   def index
     @events = Event.order(:start_time)
@@ -36,13 +35,7 @@ class Admin::EventsController < Admin::AdminController
 
   private
 
-    # [TODO - S] Should be a model validation.
-    def is_creator_enabled?
-      @creator = @event.creator
-      if !@creator.enabled?
-        redirect_to :back, flash: { error: "Creator #{ @creator.name } is disabled. Event cannot be enabled." }
-      end
-    end
+    # [DONE TODO - S] Should be a model validation.
 
     def load_event
       @event = Event.find_by(id: params[:id])

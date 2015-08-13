@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   validate :start_time_cannot_be_in_past
   # [TODO - S] It can be implemented by using rails validation method.
   validate :start_time_before_end_time
-
+  validate :is_creator_enabled
   # [TODO - S] What does it do? Why specify creator_id??
   scope :enabled, -> { where(enabled: true, creator_id: User.enabled.pluck(:id)) }
 
@@ -42,5 +42,12 @@ class Event < ActiveRecord::Base
   def live?
     start_time <= Time.current && end_time >= Time.current
   end
+
+  def is_creator_enabled
+    if !creator.enabled?
+      errors[:base] << 'Cannot be enabled'
+    end
+  end
+
 
 end

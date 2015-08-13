@@ -14,6 +14,7 @@ class Discussion < ActiveRecord::Base
   validate :end_time_greater_than_start_time
   # [TODO - S] This should not be a validation. Why??
   validate :is_session_editable, if: :persisted?
+  validate :can_discussion_be_enabled, on: [:enable, :disable]
 
   scope :enabled, -> { where(enabled: true) }
 
@@ -24,8 +25,14 @@ class Discussion < ActiveRecord::Base
     end
   end
 
+  def can_discussion_be_enabled
+    if !(event.enabled? && creator.enabled?)
+      errors[:base] << 'cannot be enabled'
+    end
+  end
+
   def end_time_greater_than_start_time
-    errors[:end_time] << 'should be more than start time' if start_time >= end_time
+    errors[:end_time] << 'should be more than start time' if start_time > end_time
   end
 
   def is_session_editable

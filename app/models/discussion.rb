@@ -9,17 +9,18 @@ class Discussion < ActiveRecord::Base
   validates :description, length: { minimum: 50, maximum: 250 }
   validates :speaker, presence: { message: 'does not have a valid email id' }
   # [DONE TODO - S] Please rename.
-  validate :discussion_timing
-  # [TODO DOUBT - S] Can be implemented using Rails validations.
+  validate :is_discussion_between_event_time
+  # [DONE TODO - S] Can be implemented using Rails validations.
+  # A - Cannot be implemented using numericality or length
   validate :end_time_greater_than_start_time
   # [TODO DOUBT - S] This should not be a validation. Why??
-  # I need to stop event modification on a db level as well. Thus this is required?
+  # Implement using callbacks
   validate :is_session_editable, if: :persisted?
   validate :can_discussion_be_enabled, on: [:enable, :disable]
 
   scope :enabled, -> { where(enabled: true) }
 
-  def discussion_timing
+  def is_discussion_between_event_time
     start_time, end_time = event.start_time.to_date, event.end_time.to_date
     unless date >= start_time && date <= end_time
       errors[:date] << "must be within the event duration [#{ start_time } -- #{ end_time }]"

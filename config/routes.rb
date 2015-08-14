@@ -27,7 +27,7 @@ Rails.application.routes.draw do
 
   resources :events do
     collection do
-      post 'search', to: 'events#search', as: :search
+      get 'search', to: 'events#search', as: :search
     end
     resources :discussions
   end

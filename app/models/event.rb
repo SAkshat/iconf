@@ -7,8 +7,8 @@ class Event < ActiveRecord::Base
     discussions: :topic
   }, using: { tsearch: { prefix: true } }
 
-  # [TODO - S] Please seggregate into sections. Like all associations together, all validations together.
-  # # [TODO - S] Try to follow this convention everywhere. Leads to cleaner and more readable code.
+  # [DONE TODO - S] Please seggregate into sections. Like all associations together, all validations together.
+  # # [DONE TODO - S] Try to follow this convention everywhere. Leads to cleaner and more readable code.
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_one :address, dependent: :destroy
   has_many :discussions, dependent: :destroy
@@ -19,9 +19,9 @@ class Event < ActiveRecord::Base
 
   validates :name, presence: true
   validates :description, length: { maximum: 500, minimum: 50 }
-  validate :start_time_cannot_be_in_past
-  # [TODO MIN - S] It can be implemented by using rails validation method.
-  validate :start_time_before_end_time
+  validate :start_time_not_be_in_past
+  # [DONE TODO - S] It can be implemented by using rails validation method.
+  validate :end_time_is_after_start_time
   validate :is_creator_enabled
   # [TODO EXTRACT - S] What does it do? Why specify creator_id??
   scope :enabled, -> { where(enabled: true, creator_id: User.enabled.pluck(:id)) }
@@ -29,13 +29,13 @@ class Event < ActiveRecord::Base
   def upcoming?
     start_time > Time.current
   end
-  # [TODO]
-  def start_time_cannot_be_in_past
+  # [DONE TODO]
+  def start_time_not_be_in_past
     errors[:start_time] << 'cannot be in the past' if start_time <= Time.current
   end
 
-  # [TODO - S] Method name is different than its function.
-  def start_time_before_end_time
+  # [DONE TODO - S] Method name is different than its function.
+  def end_time_is_after_start_time
     errors[:end_time] << 'must be later than start time' if start_time >= end_time
   end
 

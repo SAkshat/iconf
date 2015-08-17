@@ -2,6 +2,7 @@ class DiscussionsController < ApplicationController
 
   before_action :load_event, only: [:index, :show, :new, :edit, :create, :update]
   before_action :load_discussion, only: [:show, :edit, :update]
+  before_action :is_session_editable, only: [:update]
   before_action :check_if_discussion_is_past, only: [:edit, :update]
   skip_before_action :authenticate_user!, only: [:index, :show]
 
@@ -75,6 +76,10 @@ class DiscussionsController < ApplicationController
     def discussion_params
       # [DONE TODO - S] Why permitting id? Also, is creator_id being set via a hidden field? Yes.
       params.require(:discussion).permit(:creator_id, :name, :topic, :date, :start_time, :end_time, :description, :enabled, :location)
+    end
+
+    def is_session_editable
+      errors[:base] << 'Discussion is in the past' unless @discussion.upcoming?
     end
 
 end

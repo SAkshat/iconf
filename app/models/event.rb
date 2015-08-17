@@ -23,8 +23,8 @@ class Event < ActiveRecord::Base
   # [DONE TODO - S] It can be implemented by using rails validation method.
   validate :end_time_is_after_start_time
   validate :is_creator_enabled
-  # [TODO EXTRACT - S] What does it do? Why specify creator_id??
-  scope :enabled, -> { where(enabled: true, creator_id: User.enabled.pluck(:id)) }
+  # [DONE TODO EXTRACT - S] What does it do? Why specify creator_id??
+  scope :enabled, -> { where(enabled: true) }
 
   def upcoming?
     start_time > Time.current

@@ -12,7 +12,7 @@ class EventsController < ApplicationController
       # [DONE TODO - S] No need for scopes like order_by_start_time, order_by_start_date_time
       @events = Event.includes(:address).where(id: current_user.discussions.enabled.pluck(:event_id).uniq).order(:start_time)
     else
-      @events = Event.includes(:address).enabled.order(:start_time)
+      @events = Event.includes(:address).enabled.where(creator_id: User.enabled.pluck(:id)).order(:start_time)
     end
   end
 
@@ -60,9 +60,9 @@ class EventsController < ApplicationController
 
   def search
     if params[:keywords].blank?
-      @events = Event.enabled
+      @events = Event.enabled.where(creator_id: User.enabled.pluck(:id))
     else
-      @events = Event.enabled.search_keyword(params[:keywords])
+      @events = Event.enabled.where(creator_id: User.enabled.pluck(:id)).search_keyword(params[:keywords])
     end
     render 'index'
   end

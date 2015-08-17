@@ -13,9 +13,8 @@ class Discussion < ActiveRecord::Base
   # [DONE TODO - S] Can be implemented using Rails validations.
   # A - Cannot be implemented using numericality or length
   validate :end_time_greater_than_start_time
-  # [TODO DOUBT - S] This should not be a validation. Why??
+  # [DONE TODO DOUBT - S] This should not be a validation. Why??
   # Implement using callbacks
-  validate :is_session_editable, if: :persisted?
   validate :can_discussion_be_enabled, on: [:enable, :disable]
 
   scope :enabled, -> { where(enabled: true) }
@@ -35,10 +34,6 @@ class Discussion < ActiveRecord::Base
 
   def end_time_greater_than_start_time
     errors[:end_time] << 'should be more than start time' if start_time > end_time
-  end
-
-  def is_session_editable
-    errors[:base] << 'Discussion is in the past' unless upcoming?
   end
 
   def upcoming?

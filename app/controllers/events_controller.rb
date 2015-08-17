@@ -7,12 +7,12 @@ class EventsController < ApplicationController
   def index
     case params[:filter]
     when 'my_events'
-      @events = current_user.events.order(:start_time)
+      @events = current_user.events.order(:start_time).includes(:address)
     when 'attending_events'
       # [DONE TODO - S] No need for scopes like order_by_start_time, order_by_start_date_time
-      @events = Event.where(id: current_user.discussions.enabled.pluck(:event_id).uniq).order(:start_time)
+      @events = Event.includes(:address).where(id: current_user.discussions.enabled.pluck(:event_id).uniq).order(:start_time)
     else
-      @events = Event.enabled.order(:start_time)
+      @events = Event.includes(:address).enabled.order(:start_time)
     end
   end
 

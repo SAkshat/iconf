@@ -17,7 +17,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @discussions = @event.discussions.enabled.order(:date, :start_time)
+    @discussions = @event.discussions.includes(:attendees).enabled.order(:date, :start_time)
   end
 
   def new

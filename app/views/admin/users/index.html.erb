@@ -34,9 +34,9 @@
         <td class='col-md-4'>
           <% if !user.admin? %>
             <% if user_enabled?(user) %>
-              <%= link_to ' Disable',  admin_user_disable_path(user), class: 'btn btn-primary', method: :put, data: { confirm: "Are you sure?" } %>
+              <%= link_to ' Disable',  admin_user_disable_path(user), class: 'btn btn-primary toggle', method: :put, data: { confirm: "Are you sure?" }, type: :json, remote: true %>
             <% else %>
-              <%= link_to 'Enable ',admin_user_enable_path(user), class: 'btn btn-success', method: :put, data: { confirm: "Are you sure?" }  %>
+              <%= link_to 'Enable ',admin_user_enable_path(user), class: 'btn btn-success toggle', method: :put, data: { confirm: "Are you sure?" }, type: :json, remote: true  %>
             <% end %>
           <% end %>
         </td>

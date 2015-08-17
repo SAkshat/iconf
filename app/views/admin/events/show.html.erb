@@ -30,9 +30,9 @@
   <div class="col-md-1">
     <% if @event.upcoming? %>
       <% if event_enabled?(@event) %>
-        <%= link_to ' Disable',  disable_admin_event_path(@event), class: 'btn btn-primary', method: :put, data: { confirm: "Are you sure?" } %>
+        <%= link_to ' Disable',  disable_admin_event_path(@event), class: 'btn btn-primary toggle', method: :put, data: { confirm: "Are you sure?" }, type: :json,  remote: true %>
       <% else %>
-        <%= link_to 'Enable ',enable_admin_event_path(@event), class: 'btn btn-success', method: :put, data: { confirm: "Are you sure?" }  %>
+        <%= link_to 'Enable ',enable_admin_event_path(@event), class: 'btn btn-success toggle', method: :put, data: { confirm: "Are you sure?" }, type: :json,  remote: true %>
       <% end %>
     <% else %>
       <%= event_enabled?(@event) ? 'Enabled' : 'Disabled' %> (Past)
@@ -77,7 +77,6 @@
       </tr>
     </thead>
 
-    <% puts "Test" %>
     <!-- # [TODO - S] How many queries are being fired here?? -->
     <% @discussions.each do |discussion| %>
       <tr>
@@ -110,11 +109,11 @@
         <td class="col-md-1">
           <!-- # [DONE TODO - S] Use either discussion.upcoming? Or the helper you created is_event_editable?. I'd prefer first one. -->
           <% if discussion.upcoming? %>
-            <% if discussion_enabled?(discussion) %>
-              <!-- # [TODO - S] Make all enable / disable actions as ajax actions. -->
-              <%= link_to 'Disable', disable_admin_event_discussion_path(@event, discussion), class: 'btn btn-primary', method: :put, data: { confirm: "Are you sure?" } %>
+            <!-- # [TODO - S] Make all enable / disable actions as ajax actions. -->
+            <% if discussion.enabled? %>
+              <%= link_to "DISABLE", disable_admin_event_discussion_path(@event, discussion), method: :put, data: {remote: true, confirm: 'Are you sure?', type: 'json'}, class: 'btn btn-primary toggle' %>
             <% else %>
-              <%= link_to 'Enable ', enable_admin_event_discussion_path(@event, discussion), class: 'btn btn-success', method: :put, data: { confirm: "Are you sure?" }  %>
+              <%= link_to "ENABLE", enable_admin_event_discussion_path(@event, discussion), method: :put, data: {remote: true, confirm: 'Are you sure?', type: 'json'}, class: 'btn btn-success toggle' %>
             <% end %>
           <% else %>
             <%= discussion.enabled? ? 'Enabled' : 'Disabled' %> (Past)

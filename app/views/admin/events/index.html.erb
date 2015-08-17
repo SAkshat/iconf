@@ -71,9 +71,9 @@
         <td class="col-md-1">
           <% if event.upcoming? %>
             <% if event_enabled?(event) %>
-              <%= link_to ' Disable',  disable_admin_event_path(event), class: 'btn btn-primary', method: :put, data: { confirm: "Are you sure?" } %>
+              <%= link_to 'Disable',  disable_admin_event_path(event), class: 'btn btn-primary toggle', method: :put, data: { confirm: "Are you sure?" }, type: :json, remote: true %>
             <% else %>
-              <%= link_to 'Enable ',enable_admin_event_path(event), class: 'btn btn-success', method: :put, data: { confirm: "Are you sure?" } %>
+              <%= link_to 'Enable',enable_admin_event_path(event), class: 'btn btn-success toggle', method: :put, data: { confirm: "Are you sure?" }, type: :json, remote: true %>
             <% end %>
           <% else %>
             <%= event_enabled?(event) ? 'Enabled' : 'Disabled' %> (Past)

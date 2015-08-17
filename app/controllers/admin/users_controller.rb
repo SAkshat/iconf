@@ -12,8 +12,10 @@ class Admin::UsersController < Admin::AdminController
       # [DONE TODO - S] Why update_column?
       if @user.update_attributes(enabled: true)
         format.html { redirect_to :back, flash: { success: 'User successfully enabled' } }
+        format.json { render json: { enabled: true, url: admin_user_disable_path(@user)} }
       else
         format.html { redirect_to :back, flash: { error: 'User could not be enabled' } }
+        format.json { redirect_to :back, flash: { error: 'User could not be disabled' } }
       end
     end
   end
@@ -23,8 +25,10 @@ class Admin::UsersController < Admin::AdminController
       # [DONE TODO - S] Why update_column? Should have a very strong reason to use it.
       if @user.update_attributes(enabled: false)
         format.html { redirect_to :back, flash: { success: 'User successfully disabled' } }
+        format.json { render json: { enabled: true, url: admin_user_disable_path(@user)} }
       else
         format.html { redirect_to :back, flash: { error: 'User could not be disabled' } }
+        format.json { redirect_to :back, flash: { error: 'User could not be disabled' } }
       end
     end
   end

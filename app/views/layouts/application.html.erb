@@ -31,6 +31,11 @@
         <% else %>
           <%= render 'users/user_nav_bar' %>
         <% end %>
+        <div class="col-md-1">
+          <%= link_to "localhost:3000/auth/twitter" do %>
+            <%= image_tag('twitter.jpeg', height: '30px') %>
+          <% end %>
+        </div>
       </div>
     </div>
     <main role='main', class='mid body'>

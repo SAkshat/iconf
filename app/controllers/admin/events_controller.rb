@@ -13,22 +13,26 @@ class Admin::EventsController < Admin::AdminController
 
   def enable
     respond_to do |format|
-      # [DONE TODO - S] Why using update_column?
-      if @event.update_attributes(enabled: true)
+      # [DONE TODO - S] update_attribute will never return false.
+      if @event.update(enabled: true)
         format.html { redirect_to :back, flash: { success: 'Event successfully enabled' } }
+        format.json { render json: { enabled: true, link: disable_admin_event_path(@event) } }
       else
         format.html { redirect_to :back, flash: { error: 'Event could not be enabled' } }
+        format.json
       end
     end
   end
 
   def disable
     respond_to do |format|
-      # [DONE TODO - S] Why using update_column?
-      if @event.update_attributes(enabled: false)
+      # [DONE TODO - S] update_attributes will never return false.
+      if @event.update(enabled: false)
         format.html { redirect_to :back, flash: { success: 'Event successfully disabled' } }
+        format.json { render json: { enabled: false, link: enable_admin_event_path(@event) } }
       else
         format.html { redirect_to :back, flash: { error: 'Event could not be disabled' } }
+        format.json
       end
     end
   end

@@ -39,18 +39,16 @@ StatusHandler.prototype.display_flash_message = function(object, result, action)
   var flashMessagetext = result ? ' successfully ' : ' could not be ';
   var flashMessageClass = result ? ' alert-success' : ' alert-danger';
   this.$flashMessageContainer.empty().text(object + flashMessagetext + action).removeClass().addClass('fade in alert' + flashMessageClass);
-  this.addDismissButton();
+  this.createAndAddDismissButton();
 }
 
-StatusHandler.prototype.addDismissButton = function() {
+StatusHandler.prototype.createAndAddDismissButton = function() {
   var dismissButton = $('<button/>',
                             {
                               text: 'x',
                               class: 'close',
+                              click: function() { $(this).closest('div').removeClass().empty(); }
                             });
-  dismissButton.bind('click', function() {
-    $(this).closest('div').removeClass().empty();
-  });
   this.$flashMessageContainer.append(dismissButton);
 }
 

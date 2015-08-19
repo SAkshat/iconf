@@ -16,10 +16,10 @@ class Admin::EventsController < Admin::AdminController
       # [DONE TODO - S] update_attribute will never return false.
       if @event.update(enabled: true)
         format.html { redirect_to :back, flash: { success: 'Event successfully enabled' } }
-        format.json { render json: { enabled: true, link: disable_admin_event_path(@event) } }
+        format.json { render json: { enabled: true, link: disable_admin_event_path(@event), type: :Event, success_action: :enabled } }
       else
         format.html { redirect_to :back, flash: { error: 'Event could not be enabled' } }
-        format.json
+        format.json { render json: { invalid: true, type: :Event, failure_action: :enabled } }
       end
     end
   end
@@ -29,10 +29,10 @@ class Admin::EventsController < Admin::AdminController
       # [DONE TODO - S] update_attributes will never return false.
       if @event.update(enabled: false)
         format.html { redirect_to :back, flash: { success: 'Event successfully disabled' } }
-        format.json { render json: { enabled: false, link: enable_admin_event_path(@event) } }
+        format.json { render json: { enabled: false, link: enable_admin_event_path(@event), type: :Event, success_action: :disabled } }
       else
         format.html { redirect_to :back, flash: { error: 'Event could not be disabled' } }
-        format.json
+        format.json { render json: { invalid: true, type: :Event, failure_action: :disabled } }
       end
     end
   end

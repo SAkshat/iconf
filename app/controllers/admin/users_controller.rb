@@ -12,10 +12,10 @@ class Admin::UsersController < Admin::AdminController
       # [DONE TODO - S] Why update_column?
       if @user.update(enabled: true)
         format.html { redirect_to :back, flash: { success: 'User successfully enabled' } }
-        format.json { render json: { enabled: true, url: admin_user_disable_path(@user)} }
+        format.json { render json: { enabled: true, link: admin_user_disable_path(@user), type: :User, success_action: :enabled } }
       else
         format.html { redirect_to :back, flash: { error: 'User could not be enabled' } }
-        format.json
+        format.json { render json: { invalid: true, type: :User, failure_action: :enabled } }
       end
     end
   end
@@ -25,10 +25,10 @@ class Admin::UsersController < Admin::AdminController
       # [DONE TODO - S] Why update_column? Should have a very strong reason to use it.
       if @user.update(enabled: false)
         format.html { redirect_to :back, flash: { success: 'User successfully disabled' } }
-        format.json { render json: { enabled: false, url: admin_user_enable_path(@user)} }
+        format.json { render json: { enabled: false, link: admin_user_enable_path(@user), type: :User, success_action: :disabled } }
       else
         format.html { redirect_to :back, flash: { error: 'User could not be disabled' } }
-        format.json
+        format.json { render json: { invalid: true, type: :User, failure_action: :enabled } }
       end
     end
   end

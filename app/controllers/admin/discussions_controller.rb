@@ -9,10 +9,10 @@ class Admin::DiscussionsController < Admin::AdminController
       # [DONE TODO - S] update_attribute will never return false.
       if @discussion.update(enabled: true)
         format.html { redirect_to :back, flash: { success: 'Discussion successfully enabled' } }
-        format.json { render json: { enabled: true, link: disable_admin_event_discussion_path(@event, @discussion) } }
+        format.json { render json: { enabled: true, link: disable_admin_event_discussion_path(@event, @discussion), type: :Discussion, success_action: :enabled } }
       else
         format.html { redirect_to :back, flash: { error: 'Discussion could not be enabled' } }
-        format.json
+        format.json { render json: { invalid: true, type: :Discussion, failure_action: :enabled } }
       end
     end
   end
@@ -22,10 +22,10 @@ class Admin::DiscussionsController < Admin::AdminController
       # [DONE TODO - S] update_attributes will never return false.
       if @discussion.update(enabled: false)
         format.html { redirect_to :back, flash: { success: 'Discussion successfully disabled' } }
-        format.json { render json: { enabled: false, link: enable_admin_event_discussion_path(@event, @discussion) } }
+        format.json { render json: { enabled: false, link: enable_admin_event_discussion_path(@event, @discussion), type: :Discussion, success_action: :disabled } }
       else
         format.html { redirect_to :back, flash: { error: 'Discussion could not be disabled' } }
-        format.json
+        format.json { render json: { invalid: true, type: :Discussion, failure_action: :enabled } }
       end
     end
   end

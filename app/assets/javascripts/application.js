@@ -16,7 +16,7 @@
 
 function StatusHandler(args) {
   this.$container = $('body');
-  this.$toggleButtons = this.$container.find('.' + args.toggleButtonClass);
+  this.$toggleButtonClass = args.toggleButtonClass;
   this.$flashMessageContainer = this.$container.find('#' + args.flashMessageContainerId);
   this.init()
 };
@@ -27,7 +27,7 @@ StatusHandler.prototype.init = function() {
 
 StatusHandler.prototype.bindEvents = function() {
   var _this = this
-  $('body').on('ajax:success','.toggle' ,function (evt, data, status, xhr) {
+  this.$container.on('ajax:success', '.' + this.$toggleButtonClass ,function (evt, data, status, xhr) {
     if(data.invalid)
       _this.display_flash_message(data.type, false, data.failure_action);
     else

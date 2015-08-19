@@ -75,7 +75,7 @@ class DiscussionsController < ApplicationController
     end
 
     def discussion_params
-      params.require(:discussion).permit(:creator_id, :id, :name, :topic, :date, :start_time, :end_time, :description, :enabled, :location)
+      params.require(:discussion).permit(:creator_id, :name, :topic, :date, :start_time, :end_time, :description, :enabled, :location)
     end
 
 end

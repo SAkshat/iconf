@@ -14,7 +14,6 @@ class EventsController < ApplicationController
     when 'attending_events'
       @events = Event.where(id: current_user.discussions.enabled.pluck(:event_id).uniq).order_by_start_time
     else
-      puts Event.enabled
       @events = Event.enabled.order_by_start_time
     end
   end

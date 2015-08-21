@@ -22,7 +22,8 @@ class Event < ActiveRecord::Base
   validate :end_time_is_after_start_time
   validate :is_creator_enabled
 
-  scope :enabled, -> { where(enabled: true) }
+  scope :enabled, -> { where(enabled: true, creator_id: User.enabled.pluck(:id)) }
+  scope :forthcoming, -> { where('start_time > ?', Time.now)}
 
   def upcoming?
     start_time > Time.current

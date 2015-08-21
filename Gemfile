@@ -36,6 +36,8 @@ gem 'sdoc',                                             '~> 0.4.0', group: :doc
 
 gem 'quiet_assets',                                     '~> 1.1.0'
 
+gem 'active_model_serializers',                         '~> 0.9.3'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -1,7 +1,9 @@
-class Api::V1::UsersController < Api::ApiController
+class API::V1::UsersController < API::V1::ApplicationController
 
-  def index
-    redirect_to root_path
+  before_action :load_user, only: [:discussions]
+
+  def discussions
+    render json: @user.discussions
   end
 
 end

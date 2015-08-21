@@ -1,7 +1,17 @@
-class Api::V1::DiscussionsController < Api::ApiController
+class API::V1::DiscussionsController < API::V1::ApplicationController
 
-  def index
-    redirect_to root_path
+  before_action :load_discussion, only: [:attendees]
+
+  def attendees
+    render json: @discussion.attendees, each_serializer: UserSerializer
   end
+
+
+  private
+
+    def load_discussion
+      @discussion = Discussion.find_by(id: params[:discussion_id])
+      render json: { error: "Discussion doesn't exist", status: 404 } if !@discussion
+    end
 
 end

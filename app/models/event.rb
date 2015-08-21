@@ -15,6 +15,7 @@ class Event < ActiveRecord::Base
   scope :enabled, -> { where(enabled: true, creator_id: User.enabled.pluck(:id)) }
   scope :order_by_start_date_time, -> { order(:date, :start_time) }
   scope :order_by_start_time, -> { order(:start_time) }
+  scope :forthcoming, -> { where('start_time > ?', Time.now)}
 
   def upcoming?
     start_time > Time.current

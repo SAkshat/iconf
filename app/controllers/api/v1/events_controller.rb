@@ -1,7 +1,7 @@
-class Api::V1::EventsController < Api::ApiController
+class API::V1::EventsController < API::V1::ApplicationController
 
   def index
-    redirect_to root_path
+    render json: Event.enabled.forthcoming
   end
 
 end

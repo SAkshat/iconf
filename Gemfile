@@ -36,6 +36,7 @@ gem 'sdoc',                                             '~> 0.4.0', group: :doc
 
 gem 'quiet_assets',                                     '~> 1.1.0'
 
+gem 'pg_search',                                        '~> 1.0.4'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -53,6 +54,7 @@ group :development, :test do
   gem 'web-console',                                    '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  # [TODO - S] How does spring work? I need a session from you.
   gem 'spring',                                         '~> 1.3.6'
 end
 

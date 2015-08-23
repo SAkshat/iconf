@@ -1,44 +1,42 @@
-class Admin::EventsController < AdminController
+class Admin::EventsController < Admin::AdminController
 
   before_action :load_event, only: [:enable, :disable, :show]
-  before_action :is_creator_enabled?, only: [:enable]
 
   def index
     @events = Event.order(:start_time)
   end
 
   def show
-    @discussions = @event.discussions.order(:date, :start_time, :id)
+    @discussions = @event.discussions.order(:date, :start_time, :created_at)
   end
 
   def enable
     respond_to do |format|
-     if @event.update_column(:enabled, true)
+      if @event.update(enabled: true)
         format.html { redirect_to :back, flash: { success: 'Event successfully enabled' } }
+        format.json { render json: { enabled: true, link: disable_admin_event_path(@event), type: :Event, success_action: :enabled } }
       else
         format.html { redirect_to :back, flash: { error: 'Event could not be enabled' } }
+        format.json { render json: { invalid: true, type: :Event, failure_action: :enabled } }
       end
     end
   end
 
   def disable
     respond_to do |format|
-     if @event.update_column(:enabled, false)
+      if @event.update(enabled: false)
         format.html { redirect_to :back, flash: { success: 'Event successfully disabled' } }
+        format.json { render json: { enabled: false, link: enable_admin_event_path(@event), type: :Event, success_action: :disabled } }
       else
         format.html { redirect_to :back, flash: { error: 'Event could not be disabled' } }
+        format.json { render json: { invalid: true, type: :Event, failure_action: :disabled } }
       end
     end
   end
 
   private
 
-    def is_creator_enabled?
-      @creator = @event.creator
-      if !@creator.enabled?
-        redirect_to :back, flash: { error: "Creator #{ @creator.name } is disabled. Event cannot be enabled." }
-      end
-    end
+    # [DONE TODO - S] Should be a model validation.
 
     def load_event
       @event = Event.find_by(id: params[:id])

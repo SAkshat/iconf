@@ -1,10 +1,10 @@
-class AdminController < ApplicationController
+class Admin::AdminController < ApplicationController
 
-  before_action :authenticate_admin
+  before_action :check_user_access
 
   private
 
-    def authenticate_admin
+    def check_user_access
       if !current_user.admin?
         redirect_to :root, flash: { error: 'Access Denied' }
       end

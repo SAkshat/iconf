@@ -1,36 +1,34 @@
-class Admin::DiscussionsController < AdminController
+class Admin::DiscussionsController < Admin::AdminController
 
   before_action :load_event, only: [:enable, :disable]
   before_action :load_discussion, only: [:enable, :disable]
-  before_action :can_discussion_be_enabled, only: [:enable]
+  before_action :is_session_editanle, only: [:update]
 
   def enable
     respond_to do |format|
-     if @discussion.update_attribute(:enabled, true)
+      if @discussion.update(enabled: true)
         format.html { redirect_to :back, flash: { success: 'Discussion successfully enabled' } }
+        format.json { render json: { enabled: true, link: disable_admin_event_discussion_path(@event, @discussion), type: :Discussion, success_action: :enabled } }
       else
         format.html { redirect_to :back, flash: { error: 'Discussion could not be enabled' } }
+        format.json { render json: { invalid: true, type: :Discussion, failure_action: :enabled } }
       end
     end
   end
 
   def disable
     respond_to do |format|
-     if @discussion.update_attribute(:enabled, false)
+      if @discussion.update(enabled: false)
         format.html { redirect_to :back, flash: { success: 'Discussion successfully disabled' } }
+        format.json { render json: { enabled: false, link: enable_admin_event_discussion_path(@event, @discussion), type: :Discussion, success_action: :disabled } }
       else
         format.html { redirect_to :back, flash: { error: 'Discussion could not be disabled' } }
+        format.json { render json: { invalid: true, type: :Discussion, failure_action: :enabled } }
       end
     end
   end
 
   private
-
-    def can_discussion_be_enabled
-      if !(@event.enabled? && @discussion.creator.enabled?)
-        redirect_to :back, flash: { error: 'Discussion cannot be enabled.' }
-      end
-    end
 
     def load_event
       @event = Event.find_by(id: params[:event_id])

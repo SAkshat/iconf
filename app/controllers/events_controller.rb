@@ -1,30 +1,26 @@
 class EventsController < ApplicationController
 
-  include Loader
-
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: [:index, :show, :search]
   before_action :load_event, only: [:show, :edit, :update]
-  before_action :load_creator, only: [:new, :edit, :create, :update]
   before_action :check_event_is_upcoming, only: [:edit, :update]
 
   def index
     case params[:filter]
     when 'my_events'
-      @events = current_user.events.order_by_start_time
+      @events = current_user.events.order(:start_time).includes(:address)
     when 'attending_events'
-      @events = Event.where(id: current_user.discussions.enabled.pluck(:event_id).uniq).order_by_start_time
+      @events = Event.includes(:address).where(id: current_user.discussions.enabled.pluck(:event_id).uniq).order(:start_time)
     else
-      puts Event.enabled
-      @events = Event.enabled.order_by_start_time
+      @events = Event.includes(:address).enabled.where(creator_id: User.enabled.pluck(:id)).order(:start_time)
     end
   end
 
   def show
-    @discussions = @event.discussions.enabled.order_by_start_date_time
+    @discussions = @event.discussions.includes(:attendees).enabled.order(:date, :start_time)
   end
 
   def new
-    @event = @creator.events.build
+    @event = Event.new
     @address = @event.build_address
     @contact_detail = @event.build_contact_detail
   end
@@ -61,6 +57,15 @@ class EventsController < ApplicationController
     end
   end
 
+  def search
+    if params[:keywords].blank?
+      @events = Event.enabled.where(creator_id: User.enabled.pluck(:id))
+    else
+      @events = Event.enabled.where(creator_id: User.enabled.pluck(:id)).search_keyword(params[:keywords])
+    end
+    render 'index'
+  end
+
   private
 
     def check_event_is_upcoming
@@ -75,7 +80,9 @@ class EventsController < ApplicationController
     end
 
     def event_params
-      params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :logo_cache, :enabled, address_attributes: [:id, :street, :city, :country, :zipcode], contact_detail_attributes: [:id, :phone_number, :email])
+      params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :logo_cache, :enabled,
+                                    contact_detail_attributes: [:id, :phone_number, :email],
+                                    address_attributes: [:id, :street, :city, :country, :zipcode])
     end
 
 end

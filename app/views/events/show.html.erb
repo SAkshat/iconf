@@ -10,6 +10,7 @@
       <br>
       <strong class='alert'>No discussions exist</strong>
     <% else %>
+    <!-- Iterates over the enumerable object and returns records in the quantities specified for each iteration -->
       <% @discussions.each_slice(3) do |discussions| %>
         <div class='row'>
           <% discussions.each do |discussion| %>

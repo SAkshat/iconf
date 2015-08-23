@@ -1,10 +1,6 @@
 
 <h3>Listing Discussions </h3>
 <div class='container'>
-  <% @discussions.each do |discussion| %>
-    <div class='row'>
-      <br><hr>
-      <%= render discussion %>
-    </div>
-  <% end %>
+  <!-- # [TODO - S] Please check how many times it renders the partial. -->
+  <% render @discussions %>
 </div>

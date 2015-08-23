@@ -1,15 +1,13 @@
 class DiscussionsController < ApplicationController
 
-  include Loader
-
   before_action :load_event, only: [:index, :show, :new, :edit, :create, :update]
-  before_action :load_creator, only: [:new, :edit, :create, :update]
   before_action :load_discussion, only: [:show, :edit, :update]
-  before_action :check_if_discussion_is_upcoming, only: [:edit, :update]
+  before_action :is_session_editable, only: [:update]
+  before_action :check_if_discussion_is_past, only: [:edit, :update]
   skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
-    @discussions = @event.discussions.enabled.order_by_start_date_time
+    @discussions = @event.discussions.enabled.order(:date, :start_time)
   end
 
   def show
@@ -53,15 +51,14 @@ class DiscussionsController < ApplicationController
 
   private
 
-    def check_if_discussion_is_upcoming
+    def check_if_discussion_is_past
       if !(@discussion.upcoming?)
         redirect_to event_path(@event), notice: 'Past discussions cannot be edited'
       end
     end
 
     def set_speaker
-      @speaker = User.find_by(email: params[:discussion][:speaker])
-      @discussion.speaker = @speaker
+      @discussion.speaker = User.find_by(email: params[:discussion][:speaker])
     end
 
     def load_event
@@ -75,7 +72,11 @@ class DiscussionsController < ApplicationController
     end
 
     def discussion_params
-      params.require(:discussion).permit(:creator_id, :id, :name, :topic, :date, :start_time, :end_time, :description, :enabled, :location)
+      params.require(:discussion).permit(:creator_id, :name, :topic, :date, :start_time, :end_time, :description, :enabled, :location)
+    end
+
+    def is_session_editable
+      errors[:base] << 'Discussion is in the past' unless @discussion.upcoming?
     end
 
 end

@@ -27,3 +27,7 @@
 /.bundle/
 .DS_Store
 /doc
+
+# [DONE TODO - S] Add secrets.yml in here.
+# Ignore secret files
+config/secrets.yml

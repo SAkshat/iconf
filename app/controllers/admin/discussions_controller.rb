@@ -6,7 +6,6 @@ class Admin::DiscussionsController < Admin::AdminController
 
   def enable
     respond_to do |format|
-      # [DONE TODO - S] update_attribute will never return false.
       if @discussion.update(enabled: true)
         format.html { redirect_to :back, flash: { success: 'Discussion successfully enabled' } }
         format.json { render json: { enabled: true, link: disable_admin_event_discussion_path(@event, @discussion), type: :Discussion, success_action: :enabled } }
@@ -19,7 +18,6 @@ class Admin::DiscussionsController < Admin::AdminController
 
   def disable
     respond_to do |format|
-      # [DONE TODO - S] update_attributes will never return false.
       if @discussion.update(enabled: false)
         format.html { redirect_to :back, flash: { success: 'Discussion successfully disabled' } }
         format.json { render json: { enabled: false, link: enable_admin_event_discussion_path(@event, @discussion), type: :Discussion, success_action: :disabled } }
@@ -31,8 +29,6 @@ class Admin::DiscussionsController < Admin::AdminController
   end
 
   private
-
-    # [DONE TODO - S] This should be a model validation.
 
     def load_event
       @event = Event.find_by(id: params[:event_id])

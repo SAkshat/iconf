@@ -109,7 +109,6 @@
           <%= discussion.speaker.designation + ' ' +  discussion.speaker.name %>
         </td>
         <td class="col-md-1">
-          <!-- # [DONE TODO - S] Use either discussion.upcoming? Or the helper you created is_event_editable?. I'd prefer first one. -->
           <% if discussion.upcoming? %>
             <!-- # [TODO - S] Make all enable / disable actions as ajax actions. -->
             <% if discussion.enabled? %>

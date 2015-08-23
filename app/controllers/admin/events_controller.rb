@@ -7,13 +7,11 @@ class Admin::EventsController < Admin::AdminController
   end
 
   def show
-    # [DONE TODO - S] Why are we ordering by id? Needed a field in case the first two fields were the same
     @discussions = @event.discussions.order(:date, :start_time, :created_at)
   end
 
   def enable
     respond_to do |format|
-      # [DONE TODO - S] update_attribute will never return false.
       if @event.update(enabled: true)
         format.html { redirect_to :back, flash: { success: 'Event successfully enabled' } }
         format.json { render json: { enabled: true, link: disable_admin_event_path(@event), type: :Event, success_action: :enabled } }
@@ -26,7 +24,6 @@ class Admin::EventsController < Admin::AdminController
 
   def disable
     respond_to do |format|
-      # [DONE TODO - S] update_attributes will never return false.
       if @event.update(enabled: false)
         format.html { redirect_to :back, flash: { success: 'Event successfully disabled' } }
         format.json { render json: { enabled: false, link: enable_admin_event_path(@event), type: :Event, success_action: :disabled } }

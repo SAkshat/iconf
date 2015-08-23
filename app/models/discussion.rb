@@ -8,13 +8,8 @@ class Discussion < ActiveRecord::Base
   validates :name, :topic, :location, presence: true
   validates :description, length: { minimum: 50, maximum: 250 }
   validates :speaker, presence: { message: 'does not have a valid email id' }
-  # [DONE TODO - S] Please rename.
   validate :is_discussion_between_event_time
-  # [DONE TODO - S] Can be implemented using Rails validations.
-  # A - Cannot be implemented using numericality or length
   validate :end_time_greater_than_start_time
-  # [DONE TODO DOUBT - S] This should not be a validation. Why??
-  # Implement using callbacks
 
   scope :enabled, -> { where(enabled: true) }
 

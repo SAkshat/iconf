@@ -3,13 +3,11 @@ class Admin::UsersController < Admin::AdminController
   before_action :load_user, only: [:enable, :disable]
 
   def index
-    # [DONE TODO - S] Why order by id? Needed a field for default order.
     @users = User.order(:created_at)
   end
 
   def enable
     respond_to do |format|
-      # [DONE TODO - S] Why update_column?
       if @user.update(enabled: true)
         format.html { redirect_to :back, flash: { success: 'User successfully enabled' } }
         format.json { render json: { enabled: true, link: admin_user_disable_path(@user), type: :User, success_action: :enabled } }
@@ -22,7 +20,6 @@ class Admin::UsersController < Admin::AdminController
 
   def disable
     respond_to do |format|
-      # [DONE TODO - S] Why update_column? Should have a very strong reason to use it.
       if @user.update(enabled: false)
         format.html { redirect_to :back, flash: { success: 'User successfully disabled' } }
         format.json { render json: { enabled: false, link: admin_user_enable_path(@user), type: :User, success_action: :disabled } }

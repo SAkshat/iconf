@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
   devise_scope :user do
-    get '/auth/:provider/callback', to: 'sessions#create', as: :create
+    get '/auth/:provider/callback', to: 'sessions#create'
   end
 
   namespace :admin, only: [:index, :show] do

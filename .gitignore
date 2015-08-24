@@ -27,3 +27,7 @@
 /.bundle/
 .DS_Store
 /doc
+
+# Ignore secret files
+config/secrets.yml
+config/database.yml

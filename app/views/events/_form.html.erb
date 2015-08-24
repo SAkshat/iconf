@@ -24,11 +24,13 @@
               <%= f.hidden_field :logo_cache, class: 'form-control' %>
             </div>
           </div>
-        <div class='col-md-4'>
-          <div class='col-md-10'>
-            Current Logo : <%= image_tag @event.logo_url, class: 'img-responsive' %>
+        <% if action_name == 'edit' %>
+          <div class='col-md-4'>
+            <div class='col-md-10'>
+              Current Logo : <%= image_tag @event.logo_url, class: 'img-responsive' %>
+            </div>
           </div>
-        </div>
+        <% end %>
       </div>
     </div>
     <div class='col-md-6'>
@@ -87,4 +89,7 @@
       <%= link_to 'Cancel', events_path, class: 'btn btn-primary' , method: :get %>
     </div>
   </div>
+
+  <%= link_to 'Add Discussion', { action: :new, controller: :discussions }, { class: 'btn btn-primary', method: :get, data: { type: :json, remote: true } } %>
+
 <% end %>

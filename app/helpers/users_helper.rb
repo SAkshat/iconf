@@ -4,7 +4,7 @@ module UsersHelper
     user.enabled
   end
 
-  def get_user_credentials(user)
+  def get_user_name(user)
     if user.nickname?
       user.nickname
     else

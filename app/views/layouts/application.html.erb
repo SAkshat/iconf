@@ -12,7 +12,7 @@
     <div id='banner' class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="row col-md-offset-7 email">
         <% if signed_in? %>
-          <%= 'Logged in as ' + get_user_credentials(current_user) %>
+          <%= 'Logged in as ' + get_user_name(current_user) %>
         <% end %>
       </div>
       <div class="row">

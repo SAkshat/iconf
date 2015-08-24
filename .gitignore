@@ -31,3 +31,4 @@
 # [DONE TODO - S] Add secrets.yml in here.
 # Ignore secret files
 config/secrets.yml
+config/database.yml

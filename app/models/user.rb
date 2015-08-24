@@ -15,4 +15,11 @@ class User < ActiveRecord::Base
 
   TITLES_LIST = ['Mr', 'Mrs', 'Ms', 'Dr']
 
+
+  def self.find_or_create_from_twitter_params(auth_params)
+    user = User.create_with(name: auth_params[:info][:name], nickname: auth_params[:info][:nickname], image_path: auth_params[:info][:image], twitter_url: auth_params[:info][:urls][:Twitter]).find_or_initialize_by(uid: auth_params[:uid])
+    user.save(validate: false)
+    user
+  end
+
 end

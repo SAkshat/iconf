@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   scope :enabled, -> { where(enabled: true) }
 
   validates :name, presence: true
-  validates :designation, presence: true
+  validates :title, presence: true
 
   TITLES_LIST = ['Mr', 'Mrs', 'Ms', 'Dr']
 

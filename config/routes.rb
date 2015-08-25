@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
   devise_scope :user do
-    get '/auth/:provider/callback', to: 'sessions#create'
+    get '/auth/:provider/callback', to: 'user/sessions#create'
   end
 
   devise_scope :user do

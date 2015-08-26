@@ -1,6 +1,6 @@
 <%= javascript_include_tag 'dynamic_fields_handler.js' %>
 
-<%= form_for [@event], html: { role: 'form' } do |f| %>
+<%= form_for @event, html: { role: 'form' } do |f| %>
 
   <%= f.hidden_field :creator_id, value: current_user.id %>
 
@@ -91,22 +91,16 @@
       <%= link_to 'Cancel', events_path, class: 'btn btn-primary' , method: :get %>
     </div>
   </div>
-
-  <% if action_name == 'edit' %>
-    <br><hr><br>
-    <h3>Edit Discussions</h3><br><hr>
+  <% if f.object.discussions %>
     <%= f.fields_for :discussions do |discussion_builder| %>
-      <%= render partial: 'discussions/edit_nested_discussion', locals: { f: discussion_builder } %>
+      <%= render partial: 'discussions/edit_nested_discussion', collection: f.object.discussions, locals: { f: discussion_builder } %>
     <% end %>
-  <% else %>
-    <br><hr><br>
-    <h3>Create Discussions</h3><br><hr>
   <% end %>
 
   <div id="discussions-container">
     <div id='create-discussion' class='btn btn-primary'>Add Discussion</div>
     <div id='discussion-data-store' class='hidden'>
-      <%= f.fields_for :discussions, @discussion = f.object.discussions.build do |builder| %>
+      <%= f.fields_for :discussions, f.object.discussions.build do |builder| %>
         <%= render 'discussions/new_nested_discussion', f: builder %>
       <% end %>
     </div>

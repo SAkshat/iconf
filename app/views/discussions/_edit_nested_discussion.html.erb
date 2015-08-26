@@ -1,7 +1,6 @@
 <%= javascript_include_tag 'form_handler.js' %>
 
-
-<div class='discussion-form'>
+<div class='discussion-container'>
   <%= f.check_box :_destroy, id: 'remove-discussion' %>
   <%= f.label :_destroy, 'Remove discussion : ' + f.object.name %>
 

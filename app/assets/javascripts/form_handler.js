@@ -28,6 +28,6 @@ FormHandler.prototype.showContainer = function(trigger) {
 }
 
 $(document).ready(function() {
-  args = { containerClass: 'discussion-form', triggerButtonId: 'remove-discussion' };
+  args = { containerClass: 'discussion-container', triggerButtonId: 'remove-discussion' };
   var discussionHandler = new FormHandler(args);
 });

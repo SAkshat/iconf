@@ -1,3 +1,5 @@
+<%= javascript_include_tag 'dynamic_fields_handler.js' %>
+
 <%= form_for [@event], html: { role: 'form' } do |f| %>
 
   <%= f.hidden_field :creator_id, value: current_user.id %>
@@ -58,10 +60,10 @@
 
 
 
-  <%= f.fields_for :address, @address do |builder| %>
+  <%= f.fields_for :address do |builder| %>
     <%= render 'addresses/form', address_form: builder %>
   <% end %>
-  <%= f.fields_for :contact_detail, @contact_detail do |builder| %>
+  <%= f.fields_for :contact_detail do |builder| %>
     <%= render 'contact_details/form', contact_form: builder %>
   <% end %>
 
@@ -90,6 +92,12 @@
     </div>
   </div>
 
-  <%= link_to 'Add Discussion', { action: :new, controller: :discussions }, { class: 'btn btn-primary', method: :get, data: { type: :json, remote: true } } %>
+  <br><hr><br>
+  <h3>Discussions</h3>
+  <br><br>
+
+  <%= f.fields_for :discussions do |discussion_builder| %>
+    <%= render partial: 'discussions/edit', locals: { f: discussion_builder } %>
+  <% end %>
 
 <% end %>

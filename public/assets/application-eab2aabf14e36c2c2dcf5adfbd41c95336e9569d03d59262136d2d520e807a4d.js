@@ -10856,22 +10856,3 @@ d.trigger("activate.bs.scrollspy")},b.prototype.clear=function(){a(this.selector
 
 
 
-
-function Toggler() {
-
-  var displayError = function() {
-    alert("ajax error")
-  }
-
-  $('body').on('ajax:error','.toggle' ,function (evt, data, status, xhr) {
-    if(data.enabled)
-      $(this).text('Disable').addClass('btn-primary').removeClass('btn-success').attr('href', data.link)
-    else
-      $(this).text('Enable').addClass('btn-success').removeClass('btn-primary').attr('href', data.link)
-  }).on('ajax:error', displayError)
-
-};
-
-$(document).ready(function() {
-  var toggle_status = new Toggler()
-});

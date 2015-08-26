@@ -53,13 +53,13 @@
           <% end %>
         </td>
         <td class="col-md-1">
-          <%= event.creator.designation + ' ' + event.creator.name %>
+          <%= event.creator.title + ' ' + event.creator.name %>
         </td>
         <td class="col-md-2">
-          <%= event.start_time.to_s(:db) %>
+          <%= event.start_time.to_s(:date_time) %>
         </td>
         <td class="col-md-2">
-          <%= event.end_time.to_s(:db) %>
+          <%= event.end_time.to_s(:date_time) %>
         </td>
         <td class="col-md-1">
           <%= event.address.street %>

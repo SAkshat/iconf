@@ -85,11 +85,13 @@ class EventsController < ApplicationController
     end
 
     def event_params
-      params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :logo_cache,
+      x = params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :logo_cache,
                                     :enabled, discussions_attributes: [:id, :name, :topic, :_destroy, :creator_id,
                                       :date, :start_time, :end_time, :description, :enabled, :location, :speaker],
                                     contact_detail_attributes: [:id, :phone_number, :email],
                                     address_attributes: [:id, :street, :city, :country, :zipcode])
+      x[:discussions_attributes].each_pair { |k,v| x[:discussions_attributes][k][:speaker] = User.find_by(email: v[:speaker]) }
+      x
     end
 
 end

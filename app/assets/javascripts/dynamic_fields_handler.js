@@ -14,7 +14,7 @@ DynamicFieldsHandler.prototype.init = function() {
 
 DynamicFieldsHandler.prototype.bindEvents = function() {
   var _this = this
-  this.$triggerButton.on('click', function(event) {
+  this.$triggerButton.on('click', function() {
     _this.create_and_append_div();
   })
 }

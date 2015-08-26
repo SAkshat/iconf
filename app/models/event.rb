@@ -14,7 +14,8 @@ class Event < ActiveRecord::Base
 
   mount_uploader :logo, LogoUploader
 
-  accepts_nested_attributes_for  :address, :contact_detail, :discussions, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :address, :contact_detail
+  accepts_nested_attributes_for :discussions, allow_destroy: true, reject_if: :all_blank
 
   validates :name, :description, :start_time, :end_time, presence: true
   validates :description, length: { maximum: 500, minimum: 50 }, allow_blank: true

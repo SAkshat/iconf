@@ -7,3 +7,4 @@ Rails.application.initialize!
 
 Time::DATE_FORMATS[:time] = "%H:%M"
 Time::DATE_FORMATS[:date] = "%d %b %Y"
+Time::DATE_FORMATS[:date_time] = "%d %b %Y, %H:%M"

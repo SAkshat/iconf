@@ -2,6 +2,7 @@ class EventsController < ApplicationController
 
   skip_before_action :authenticate_user!, only: [:index, :show, :search]
   before_action :load_event, only: [:show, :edit, :update]
+  before_action :load_discussions, only: [:show, :edit]
   before_action :check_event_is_upcoming, only: [:edit, :update]
 
   def index
@@ -16,13 +17,13 @@ class EventsController < ApplicationController
   end
 
   def show
-    @discussions = @event.discussions.includes(:attendees).enabled.order(:date, :start_time)
   end
 
   def new
     @event = Event.new
     @address = @event.build_address
     @contact_detail = @event.build_contact_detail
+    @discussions = @event.discussions.build
   end
 
   def edit
@@ -68,6 +69,10 @@ class EventsController < ApplicationController
 
   private
 
+    def load_discussions
+      @discussions = @event.discussions.includes(:attendees).enabled.order(:date, :start_time)
+    end
+
     def check_event_is_upcoming
       unless @event.upcoming?
         redirect_to events_path, alert: 'The event cannot be edited'
@@ -80,7 +85,9 @@ class EventsController < ApplicationController
     end
 
     def event_params
-      params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :logo_cache, :enabled,
+      params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :logo_cache,
+                                    :enabled, discussions_attributes: [:id, :name, :topic, :_destroy,
+                                      :date, :start_time, :end_time, :description, :enabled, :location],
                                     contact_detail_attributes: [:id, :phone_number, :email],
                                     address_attributes: [:id, :street, :city, :country, :zipcode])
     end

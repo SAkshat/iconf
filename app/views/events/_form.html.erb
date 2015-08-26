@@ -58,8 +58,6 @@
     </div>
   </div>
 
-
-
   <%= f.fields_for :address do |builder| %>
     <%= render 'addresses/form', address_form: builder %>
   <% end %>
@@ -91,10 +89,9 @@
       <%= link_to 'Cancel', events_path, class: 'btn btn-primary' , method: :get %>
     </div>
   </div>
-  <% debugger %>
-  <% if f.object.discussions %>
+  <% if @discussions %>
     <%= f.fields_for :discussions do |discussion_builder| %>
-      <%= render partial: 'discussions/edit_nested_discussion', collection: f.object.discussions, locals: { f: discussion_builder } %>
+      <%= render partial: 'discussions/edit_nested_discussion', locals: { f: discussion_builder } %>
     <% end %>
   <% end %>
 

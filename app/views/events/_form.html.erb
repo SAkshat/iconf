@@ -84,7 +84,7 @@
     </div>
     <div class='col-md-1'>
       <div class='form-group'>
-        <%= f.submit 'Submit', class: 'btn btn-success' %>
+        <%= f.submit 'Submit', class: 'btn btn-success', id: 'submit' %>
       </div>
     </div>
     <div class='col-md-1'>
@@ -92,12 +92,24 @@
     </div>
   </div>
 
-  <br><hr><br>
-  <h3>Discussions</h3>
-  <br><br>
-
-  <%= f.fields_for :discussions do |discussion_builder| %>
-    <%= render partial: 'discussions/edit', locals: { f: discussion_builder } %>
+  <% if action_name == 'edit' %>
+    <br><hr><br>
+    <h3>Edit Discussions</h3><br><hr>
+    <%= f.fields_for :discussions do |discussion_builder| %>
+      <%= render partial: 'discussions/edit_nested_discussion', locals: { f: discussion_builder } %>
+    <% end %>
+  <% else %>
+    <br><hr><br>
+    <h3>Create Discussions</h3><br><hr>
   <% end %>
+
+  <div id="discussions-container">
+    <div id='create-discussion' class='btn btn-primary'>Add Discussion</div>
+    <div id='discussion-data-store' class='hidden'>
+      <%= f.fields_for :discussions, @discussion = f.object.discussions.build do |builder| %>
+        <%= render 'discussions/new_nested_discussion', f: builder %>
+      <% end %>
+    </div>
+  </div>
 
 <% end %>

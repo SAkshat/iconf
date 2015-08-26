@@ -29,18 +29,18 @@ Rails.application.routes.draw do
 
   namespace :admin, only: [:index, :show] do
     resources :users do
-      put 'enable', to: 'users#enable', as: :enable
-      put 'disable', to: 'users#disable', as: :disable
+      put 'enable' => :enable
+      put 'disable' => :disable
     end
     resources :events do
       member do
-        put 'enable', to: 'events#enable', as: :enable
-        put 'disable', to: 'events#disable', as: :disable
+        put 'enable' => :enable
+        put 'disable' => :disable
       end
       resources :discussions, only: [] do
         member do
-          put 'enable', to: 'discussions#enable', as: :enable
-          put 'disable', to: 'discussions#disable', as: :disable
+          put 'enable' => :enable
+          put 'disable' => :disable
         end
       end
     end
@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
   resources :events do
     collection do
-      get 'search', to: 'events#search', as: :search
+      get 'search' => :search
     end
     resources :discussions
   end

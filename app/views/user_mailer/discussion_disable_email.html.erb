@@ -4,14 +4,15 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Hello <%= @user.name %></h1>
+    <h1>Hello <%= @user.title + ' ' + @user.name %></h1>
 
     <p>
-      We regret to inform you that a discussion, <%= @discussion.name + ', ' + @discussion.topic %> under the event
-      <%= @event.name %> has been cancelled. This discussion was to be held from <%= @discussion.start_time.to_s(:time) + ' to ' +
-      @discussion.end_time.to_s(:time) + ' on ' @discussion.date.to_s(:date) + '.' %>
+      We regret to inform you that a discussion you were attending, <b><%= @discussion.name + '-' + @discussion.topic %></b> under the event
+      <b><%= @event.name %></b> has been cancelled. This discussion was to be held from <b><%= @discussion.start_time.to_s(:time) + ' to ' +
+      @discussion.end_time.to_s(:time) + ' on ' + @discussion.date.to_s(:date) + '.' %></b>
 
     <p>
-      Any inconvinience is regretted
+      Any inconvenience caused is regretted
   </body>
 </html>
+

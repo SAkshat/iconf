@@ -19,7 +19,7 @@ class Admin::DiscussionsController < Admin::AdminController
   def disable
     respond_to do |format|
       if @discussion.update(enabled: false)
-        send_notification_email_to_attendees
+        send_disable_notification_email_to_attendees
         format.html { redirect_to :back, flash: { success: 'Discussion successfully disabled' } }
         format.json { render json: { enabled: false, link: enable_admin_event_discussion_path(@event, @discussion), type: :Discussion, success_action: :disabled } }
       else
@@ -41,11 +41,11 @@ class Admin::DiscussionsController < Admin::AdminController
       redirect_to :back, alert: "Couldn't find the required Discussion" unless @discussion
     end
 
-    def send_notification_email_to_attendees
+    def send_disable_notification_email_to_attendees
       attendees = @discussion.attendees
       attendees.each do |attendee|
         if attendee.email?
-          UserMailer.discussion_disable_email(attendee, @discussion).deliver_later
+          UserMailer.discussion_disable_email(attendee, @discussion).deliver_now
         end
       end
     end

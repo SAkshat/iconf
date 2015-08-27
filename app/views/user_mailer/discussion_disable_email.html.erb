@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello <%= @user.name %></h1>
+
+    <p>
+      We regret to inform you that a discussion, <%= @discussion.name + ', ' + @discussion.topic %> under the event
+      <%= @event.name %> has been cancelled. This discussion was to be held from <%= @discussion.start_time.to_s(:time) + ' to ' +
+      @discussion.end_time.to_s(:time) + ' on ' @discussion.date.to_s(:date) + '.' %>
+
+    <p>
+      Any inconvinience is regretted
+  </body>
+</html>

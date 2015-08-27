@@ -91,7 +91,7 @@
           </div>
         </td>
         <td class="col-md-1">
-          <%= discussion.creator.designation + ' ' + discussion.creator.name %>
+          <%= discussion.creator.title + ' ' + discussion.creator.name %>
         </td>
         <td class="col-md-1">
           <%= discussion.date %>
@@ -106,7 +106,7 @@
           <%= discussion.location %>
         </td>
         <td class="col-md-1">
-          <%= discussion.speaker.designation + ' ' +  discussion.speaker.name %>
+          <%= discussion.speaker.title + ' ' +  discussion.speaker.name %>
         </td>
         <td class="col-md-1">
           <% if discussion.upcoming? %>

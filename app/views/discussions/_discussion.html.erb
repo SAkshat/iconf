@@ -43,7 +43,7 @@
     <br>
     <div class='row'>
       <div class='col-md-11 col-md-offset-1'>
-        <%= 'Speaker : ' + discussion.speaker.designation + ' ' + discussion.speaker.name %>
+        <%= 'Speaker : ' + discussion.speaker.title + ' ' + discussion.speaker.name %>
       </div>
     </div>
     <div class='row'>
@@ -75,7 +75,7 @@
           </div>
           <!-- # [TODO - S] How many queries does it fire?? -->
           <% discussion.attendees.each do |attendee| %>
-            <%= attendee.designation + ' ' + attendee.name %>
+            <%= attendee.title + ' ' + attendee.name %>
             <br>
           <% end %>
           <% if discussion.attendees.count == 0 %>

@@ -11,7 +11,7 @@ class UserMailer < ApplicationMailer
     @user = user
     @discussion = discussion
     @event = @discussion.event
-    mail(to: @user.email, subject: 'Cancellation Notification')
+    mail(to: @user.email, subject: @discussion.name + ' Cancellation Notification')
   end
 
 end

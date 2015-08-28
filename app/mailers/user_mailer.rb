@@ -1,10 +1,10 @@
 class UserMailer < ApplicationMailer
 
-  def reminder_email(user, discussion)
-    @user = user
+  def reminder_email(discussion, attendee)
     @discussion = discussion
     @event = @discussion.event
-    mail(to: @user.email, subject: 'Reminder')
+    @user = attendee
+    mail(to: @user.email, subject: @discussion.name + ' Commencement Reminder')
   end
 
   def discussion_disable_email(user, discussion)

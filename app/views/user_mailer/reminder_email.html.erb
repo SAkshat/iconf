@@ -4,12 +4,12 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Hello <%= @user.name %></h1>
+    <h3>Hello <%= @user.title + ' ' + @user.name if @user %></h3>
 
     <p>
-      This is a reminder mail to tell you that a discussion <%= @discussion.name %> you subscribed for
+      This is a reminder mail to tell you that a discussion <b><%= @discussion.name %></b> you subscribed for
       will commence in 30 minutes.
-      It will take place at <%= @discussion.location + ', ' + @event.city + ' ' + @event.country %>
+      It will take place at <b><%= @discussion.location + ', ' + @event.address.city + ' ' + @event.address.country %></b>
     <p>
       Hope to see you in attendance
   </body>

@@ -9,7 +9,7 @@
   <div class='col-md-3 col-md-offset-1'>
     <br>
     <%= form_tag search_events_path, method: :get, role: :form, class: 'form-inline' do %>
-      <%= text_field_tag :keywords %>
+      <%= text_field_tag :keywords, nil, placeholder: :'Search...' %>
       <%= submit_tag 'Search', class: 'btn btn-primary' %>
     <% end %>
   </div>

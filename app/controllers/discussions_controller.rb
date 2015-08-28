@@ -6,6 +6,7 @@ class DiscussionsController < ApplicationController
   before_action :check_if_discussion_is_past, only: [:edit, :update]
   skip_before_action :authenticate_user!, only: [:index, :show]
 
+
   def index
     @discussions = @event.discussions.enabled.order(:date, :start_time)
   end

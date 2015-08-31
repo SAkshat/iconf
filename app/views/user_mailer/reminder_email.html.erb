@@ -4,7 +4,7 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h3>Hello <%= @user.title + ' ' + @user.name if @user %></h3>
+    <h3>Hello <%= get_user_name(@user) %></h3>
     <p>
       This is a reminder mail to tell you that a discussion <b><%= @discussion.name %></b> you subscribed for
       will commence in 30 minutes.

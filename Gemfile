@@ -39,6 +39,7 @@ gem 'quiet_assets',                                     '~> 1.1.0'
 gem 'pg_search',                                        '~> 1.0.4'
 
 gem 'delayed_job_active_record',                        '~> 4.0.3'
+
 gem 'daemons',                                          '~> 1.2.3'
 
 # Use ActiveModel has_secure_password

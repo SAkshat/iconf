@@ -4,6 +4,10 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
+  devise_scope :user do
+    get '/auth/:provider/callback', to: 'user/sessions#create'
+  end
+
   namespace :admin, only: [:index, :show] do
     resources :users do
       put 'enable', to: 'users#enable', as: :enable

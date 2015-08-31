@@ -11,13 +11,16 @@
     <table class="table table-striped">
     <thead>
       <tr>
-        <th class="col-md-4">
+        <th class="col-md-3">
           Name
         </th>
-        <th class="col-md-1">
+        <th class="col-md-3">
+          Nickname
+        </th>
+        <th class="col-md-3">
           Email
         </th>
-        <th class="col-md-1">
+        <th class="col-md-3">
           Status
         </th>
       </tr>
@@ -25,13 +28,16 @@
 
     <% @users.each do |user| %>
       <tr>
-        <td class='col-md-4'>
+        <td class='col-md-3'>
           <%= user.title + ' ' + user.name %>
         </td>
-        <td class='col-md-4'>
+        <td class='col-md-3'>
+          <%= user.nickname %>
+        </td>
+        <td class='col-md-3'>
           <%= user.email %>
         </td>
-        <td class='col-md-4'>
+        <td class='col-md-3'>
           <% if !user.admin? %>
             <% if user_enabled?(user) %>
               <%= link_to 'DISABLE', admin_user_disable_path(user), class: 'btn btn-primary toggle', method: :put, data: { confirm: "Are you sure?", type: :json, remote: true} %>

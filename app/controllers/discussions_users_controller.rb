@@ -12,6 +12,7 @@ class DiscussionsUsersController < ApplicationController
 
   def destroy
     discussion_user = current_user.discussions_users.find_by(discussion_id: params[:id])
+    remove_reminder_email_from_queue(discussion_user)
     if discussion_user && discussion_user.destroy
       redirect_to :back, notice: 'You opted out of this discussion'
     else
@@ -21,9 +22,22 @@ class DiscussionsUsersController < ApplicationController
 
   private
 
+    def remove_reminder_email_from_queue(discussion_user)
+      pattern = "DiscussionsUser\\n    raw_attributes:\\n      id: '#{ discussion_user.id }'\\n"
+      Delayed::Job.all.each do |job|
+        if job.handler =~ /#{pattern}/
+          job.delete
+        end
+      end
+    end
+
     def queue_user_for_discussion_reminder(discussion, attendee)
-      reminder_time = discussion.date.to_datetime + discussion.start_time.seconds_since_midnight.seconds
-      UserMailer.delay(run_at: reminder_time).reminder_email(discussion, attendee)
+      discussion_user = DiscussionsUser.where(discussion_id: discussion.id, user_id: attendee.id)
+      UserMailer.delay(run_at: reminder_time(discussion)).reminder_email(discussion, attendee, discussion_user)
+    end
+
+    def reminder_time(discussion)
+      discussion.date.to_datetime + discussion.start_time.seconds_since_midnight.seconds
     end
 
 end

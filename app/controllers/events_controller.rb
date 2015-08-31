@@ -11,7 +11,7 @@ class EventsController < ApplicationController
     when 'attending_events'
       @events = Event.includes(:address).where(id: current_user.discussions.enabled.pluck(:event_id).uniq).order(:start_time)
     else
-      @events = Event.includes(:address).enabled.where(creator_id: User.enabled.pluck(:id)).order(:start_time)
+      @events = Event.includes(:address).enabled_with_enabled_creator.order(:start_time)
     end
   end
 
@@ -59,9 +59,9 @@ class EventsController < ApplicationController
 
   def search
     if params[:keywords].blank?
-      @events = Event.enabled.where(creator_id: User.enabled.pluck(:id))
+      @events = Event.enabled_with_enabled_creator
     else
-      @events = Event.enabled.where(creator_id: User.enabled.pluck(:id)).search_keyword(params[:keywords])
+      @events = Event.enabled_with_enabled_creator.search_keyword(params[:keywords])
     end
     render 'index'
   end

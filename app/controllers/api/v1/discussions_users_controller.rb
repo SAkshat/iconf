@@ -2,7 +2,8 @@ class API::V1::DiscussionsUsersController < API::V1::ApplicationController
 
   before_action :load_discussion, only: [:create, :destroy]
   before_action :load_user, only: [:create, :destroy]
-  before_action :check_prior_rsvp, only: [:create, :destroy]
+  before_action :check_prior_rsvp, only: [:create]
+  before_action :check_rsvp_exists, only: [:destroy]
 
   def create
     if @user.discussions_users.create(discussion: @discussion)
@@ -23,8 +24,14 @@ class API::V1::DiscussionsUsersController < API::V1::ApplicationController
   private
 
     def check_prior_rsvp
-      if DiscussionsUser.find_by(user: @user, discussion: @discussion)
-        render json: { notice: 'You are already #{ "not" if action_name == "destroy" } attending this discussion' }
+      if DiscussionsUser.find_by(user_id: @user.id, discussion_id: @discussion.id)
+        render json: { notice: 'You are already attending this discussion' }
+      end
+    end
+
+    def check_rsvp_exists
+      if !DiscussionsUser.find_by(user_id: @user.id, discussion_id: @discussion.id)
+        render json: { notice: 'You are already not attending this discussion' }
       end
     end
 

@@ -1,7 +1,7 @@
 module EventsHelper
 
   def event_enabled?(event)
-    event.enabled && event.creator.enabled?
+    event.enabled? && event.creator.enabled?
   end
 
   def get_event_status(event)

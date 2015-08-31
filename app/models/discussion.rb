@@ -13,6 +13,8 @@ class Discussion < ActiveRecord::Base
 
   scope :enabled, -> { where(enabled: true) }
 
+  after_save :send_disable_notification_email_to_attendees, if: :discussion_was_disabled?
+
   def is_discussion_between_event_time
     start_time, end_time = event.start_time.to_date, event.end_time.to_date
     unless date >= start_time && date <= end_time
@@ -26,6 +28,18 @@ class Discussion < ActiveRecord::Base
 
   def upcoming?
     date > Date.current || ( date == Date.current && start_time > Time.current.utc)
+  end
+
+  def send_disable_notification_email_to_attendees
+    attendees.each do |attendee|
+      if attendee.email?
+        UserMailer.discussion_disable_email(attendee, self).deliver_now
+      end
+    end
+  end
+
+  def discussion_was_disabled?
+    !enabled && enabled != enabled_was
   end
 
 end

@@ -1,1 +1,1 @@
-DEFAULT_EMAIL = akshat@vinsol.com
+DEFAULT_EMAIL = 'akshat@vinsol.com'

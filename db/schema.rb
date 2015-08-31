@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150827102707) do
+ActiveRecord::Schema.define(version: 20150831083617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,8 +75,9 @@ ActiveRecord::Schema.define(version: 20150827102707) do
   create_table "discussions_users", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "discussion_id"
-    t.datetime "created_at",    default: '2015-08-03 06:42:48', null: false
-    t.datetime "updated_at",    default: '2015-08-03 06:43:01', null: false
+    t.datetime "created_at",     default: '2015-08-03 06:42:48', null: false
+    t.datetime "updated_at",     default: '2015-08-03 06:43:01', null: false
+    t.integer  "delayed_job_id"
   end
 
   create_table "events", force: :cascade do |t|

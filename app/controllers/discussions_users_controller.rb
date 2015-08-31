@@ -23,16 +23,10 @@ class DiscussionsUsersController < ApplicationController
   private
 
     def remove_reminder_email_from_queue(discussion_user)
-      pattern = "DiscussionsUser\\n    raw_attributes:\\n      id: '#{ discussion_user.id }'\\n"
-      Delayed::Job.all.each do |job|
-        if job.handler =~ /#{pattern}/
-          job.delete
-        end
-      end
     end
 
     def queue_user_for_discussion_reminder(discussion, attendee)
-      discussion_user = DiscussionsUser.where(discussion_id: discussion.id, user_id: attendee.id)
+      discussion_user = DiscussionsUser.where(discussion: discussion, user: attendee)
       UserMailer.delay(run_at: reminder_time(discussion)).reminder_email(discussion, attendee, discussion_user)
     end
 

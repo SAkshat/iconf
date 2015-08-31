@@ -3,7 +3,7 @@ class API::V1::DiscussionsController < API::V1::ApplicationController
   before_action :load_discussion, only: [:attendees]
 
   def attendees
-    render json: @discussion.attendees, each_serializer: UserSerializer
+    render json: @discussion.attendees
   end
 
 

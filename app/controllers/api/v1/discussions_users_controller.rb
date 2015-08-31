@@ -6,31 +6,31 @@ class API::V1::DiscussionsUsersController < API::V1::ApplicationController
   before_action :check_rsvp_exists, only: [:destroy]
 
   def create
-    if @user.discussions_users.create(discussion_id: @discussion.id)
+    if @user.discussions_users.create(discussion: @discussion)
       render json: { success: "You have successfully RSVP'd to this discussion", status: 200 }
     else
-      render json: { failure: "Couldn't RSVP to the discussion", status: 500 }
+      render json: { failure: "Couldn't RSVP to the discussion", status: 412 }
     end
   end
 
   def destroy
-    if @user.discussions_users.find_by(discussion_id: @discussion.id).destroy
+    if @user.discussions_users.find_by(discussion: @discussion).destroy
       render json: { success: 'You opted out of this discussion', status: 200 }
     else
-      render json: { failure: "Couldn't opt out of the discussion", status: 500 }
+      render json: { failure: "Couldn't opt out of the discussion", status: 412 }
     end
   end
 
   private
 
     def check_prior_rsvp
-      if DiscussionsUser.find_by(user_id: @user.id, discussion_id: @discussion.id)
+      if DiscussionsUser.find_by(user: @user, discussion: @discussion)
         render json: { notice: 'You are already attending this discussion' }
       end
     end
 
     def check_rsvp_exists
-      if !DiscussionsUser.find_by(user_id: @user.id, discussion_id: @discussion.id)
+      if !DiscussionsUser.find_by(user: @user, discussion: @discussion)
         render json: { notice: 'You are already not attending this discussion' }
       end
     end

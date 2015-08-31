@@ -18,4 +18,6 @@ class DiscussionsUsersController < ApplicationController
     end
   end
 
+  private
+
 end

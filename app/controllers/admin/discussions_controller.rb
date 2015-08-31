@@ -40,4 +40,5 @@ class Admin::DiscussionsController < Admin::AdminController
       redirect_to :back, alert: "Couldn't find the required Discussion" unless @discussion
     end
 
+
 end

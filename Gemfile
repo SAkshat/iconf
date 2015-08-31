@@ -37,6 +37,11 @@ gem 'sdoc',                                             '~> 0.4.0', group: :doc
 gem 'quiet_assets',                                     '~> 1.1.0'
 
 gem 'pg_search',                                        '~> 1.0.4'
+
+gem 'delayed_job_active_record',                        '~> 4.0.3'
+
+gem 'daemons',                                          '~> 1.2.3'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -59,5 +64,5 @@ group :development, :test do
 end
 
 group :production do
-  gem 'rails_12factor'
+  gem 'rails_12factor',                                 '~> 0.0.3'
 end

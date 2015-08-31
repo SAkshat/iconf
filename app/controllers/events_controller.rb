@@ -59,9 +59,9 @@ class EventsController < ApplicationController
 
   def search
     if params[:keywords].blank?
-      @events = Event.enabled.where(creator_id: User.enabled.pluck(:id))
+      @events = Event.enabled.where(creator_id: User.enabled.pluck(:id)).order(:start_time)
     else
-      @events = Event.enabled.where(creator_id: User.enabled.pluck(:id)).search_keyword(params[:keywords])
+      @events = Event.enabled.where(creator_id: User.enabled.pluck(:id)).order(:start_time).search_keyword(params[:keywords])
     end
     render 'index'
   end

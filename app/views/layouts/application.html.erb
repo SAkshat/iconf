@@ -9,31 +9,27 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <div id='banner' class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="row col-md-offset-7 email">
-        <% if signed_in? %>
-          <%= 'Logged in as ' + get_user_name(current_user) %>
+    <div id='mini-banner' class="navbar navbar-default navbar-fixed-top" >
+      <div class="col-md-2 col-md-offset-1">
+        i-conf-connect
+      </div>
+      <div class="col-md-2 col-md-offset-6 email">
+        <%= 'Logged in as ' + get_user_name(current_user) if user_signed_in? %>
+      </div>
+      <div class="col-md-1">
+        <% if user_signed_in? %>
+          <%= link_to 'Logout', destroy_user_session_path, class: 'log-in-out btn-xs', :method => :delete %>
+        <% else %>
+          <%= link_to 'Login', new_user_session_path, class: 'log-in-out btn-xs' %>
         <% end %>
       </div>
+    </div>
+    <div id='banner' class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="row">
         <% if current_user && current_user.admin? %>
           <%= render 'admin/admin_nav_bar' %>
         <% else %>
           <%= render 'users/user_nav_bar' %>
-        <% end %>
-        <div class='col-md-1'>
-          <div class="row">
-            <% if user_signed_in? %>
-              <%= link_to 'Logout', destroy_user_session_path, class: 'btn btn-primary', :method => :delete %>
-            <% else %>
-              <%= link_to 'Login', new_user_session_path, class: 'btn btn-primary ' %>
-            <% end %>
-          </div>
-        </div>
-        <% unless user_signed_in? %>
-          <div class="col-md-1">
-            <%= link_to image_tag('twitter.jpeg', height: '30px'), "/auth/twitter" %>
-          </div>
         <% end %>
       </div>
     </div>

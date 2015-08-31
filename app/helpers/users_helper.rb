@@ -6,9 +6,9 @@ module UsersHelper
 
   def get_user_name(user)
     if user.nickname?
-      user.nickname
+      return user.nickname
     else
-      user.email
+      return user.title + ' ' + user.name
     end
   end
 

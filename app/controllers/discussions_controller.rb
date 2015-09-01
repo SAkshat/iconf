@@ -7,7 +7,7 @@ class DiscussionsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
-    @discussions = @event.discussions.enabled.order(:date, :start_time)
+    @discussions = @event.discussions.includes(:ratings).enabled.order(:date, :start_time)
   end
 
   def show
@@ -67,7 +67,7 @@ class DiscussionsController < ApplicationController
     end
 
     def load_discussion
-      @discussion = @event.discussions.find_by(id: params[:id])
+      @discussion = @event.discussions.includes(:ratings).find_by(id: params[:id])
       redirect_to event_discussions_path, alert: "Couldn't find the required discussion" unless @discussion
     end
 

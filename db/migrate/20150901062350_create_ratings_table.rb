@@ -1,10 +1,9 @@
 class CreateRatingsTable < ActiveRecord::Migration
   def change
     create_table :ratings do |t|
-      t.string  :rating
+      t.integer  :rating
       t.references :user
-      t.integer :rateable_id
-      t.string  :rateable_type
+      t.integer :discussion_id
       t.timestamps null: false
     end
   end

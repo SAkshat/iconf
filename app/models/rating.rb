@@ -1,5 +1,5 @@
 class Rating < ActiveRecord::Base
-  belons_to :rateable, polymorphic: true
+  belongs_to :discussions
 
   RATING_LIST = [1.0, 2.0, 3.0, 4.0, 5.0]
 

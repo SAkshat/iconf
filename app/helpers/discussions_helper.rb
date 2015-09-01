@@ -14,4 +14,18 @@ module DiscussionsHelper
     discussion.enabled? && discussion.event.enabled? && discussion.creator.enabled?
   end
 
+  def is_discussion_rateable_by?(discussion, user)
+    discussion.attendees.include? user
+  end
+
+  def get_average_rating_for(discussion)
+    ratings = discussion.ratings
+    if ratings.empty?
+      return 'N/A'
+    else
+      rating = ratings.pluck(:rating).inject(:+).to_f / ratings.count
+      (rating * 10).round / 10.0
+    end
+  end
+
 end

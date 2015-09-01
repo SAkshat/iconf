@@ -4,7 +4,7 @@ class Discussion < ActiveRecord::Base
   belongs_to :speaker, class_name: :User
   has_many :discussions_users
   has_many :attendees, through: :discussions_users, source: :user
-  has_many :ratings, as: :rateable
+  has_many :ratings
 
   validates :name, :topic, :location, presence: true
   validates :description, length: { minimum: 50, maximum: 250 }

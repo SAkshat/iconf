@@ -79,7 +79,8 @@
       </tr>
     </thead>
 
-    <!-- # [TODO - S] How many queries are being fired here?? -->
+    <!-- # [DOUBT TODO - S] How many queries are being fired here?? -->
+    <!-- only one query for discussions is being fired -->
     <% @discussions.each do |discussion| %>
       <tr>
         <td class="col-md-1">
@@ -110,7 +111,7 @@
         </td>
         <td class="col-md-1">
           <% if discussion.upcoming? %>
-            <!-- # [TODO - S] Make all enable / disable actions as ajax actions. -->
+            <!-- # [DONE TODO - S] Make all enable / disable actions as ajax actions. -->
             <% if discussion.enabled? %>
               <%= link_to "DISABLE", disable_admin_event_discussion_path(@event, discussion), method: :put, data: {remote: true, confirm: 'Are you sure?', type: 'json'}, class: 'btn btn-primary toggle' %>
             <% else %>

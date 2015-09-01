@@ -1,8 +1,11 @@
 <div class = 'row'>
   <div class='col-md-3'>
     <%= link_to image_tag(@event.logo_url, alt: :Logo, class: 'img-responsive'), event_discussion_path(@event, discussion) %>
+    <br>
+    <%= label_tag :rating, 'Rate it' %><br />
+    <%= select_tag :rating, options_for_select([1.0, 2.0, 3.0, 4.0, 5.0]) %>
   </div>
-  <div class='col-md-9'>
+  <div class='col-md-8'>
     <div class='row'>
       <div class='col-md-7'>
         <%= link_to event_discussion_path(@event, discussion) do %>
@@ -85,6 +88,4 @@
       </div>
     </div>
   </div>
-
-
 </div>

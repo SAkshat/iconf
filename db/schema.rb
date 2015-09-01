@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150807060451) do
+ActiveRecord::Schema.define(version: 20150901062350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,22 @@ ActiveRecord::Schema.define(version: 20150807060451) do
     t.datetime "updated_at",       null: false
   end
 
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
   create_table "discussions", force: :cascade do |t|
     t.string   "name"
     t.string   "topic"
@@ -59,8 +75,9 @@ ActiveRecord::Schema.define(version: 20150807060451) do
   create_table "discussions_users", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "discussion_id"
-    t.datetime "created_at",    default: '2015-08-03 06:42:48', null: false
-    t.datetime "updated_at",    default: '2015-08-03 06:43:01', null: false
+    t.datetime "created_at",     default: '2015-08-03 06:42:48', null: false
+    t.datetime "updated_at",     default: '2015-08-03 06:43:01', null: false
+    t.integer  "delayed_job_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -87,6 +104,15 @@ ActiveRecord::Schema.define(version: 20150807060451) do
 
   add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
 
+  create_table "ratings", force: :cascade do |t|
+    t.string   "rating"
+    t.integer  "user_id"
+    t.integer  "rateable_id"
+    t.string   "rateable_type"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -101,9 +127,13 @@ ActiveRecord::Schema.define(version: 20150807060451) do
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.string   "name"
-    t.string   "designation"
+    t.string   "title"
     t.boolean  "enabled",                default: true,  null: false
     t.boolean  "admin",                  default: false
+    t.string   "image_path"
+    t.string   "nickname"
+    t.string   "uid"
+    t.string   "twitter_url"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

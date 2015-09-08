@@ -48,5 +48,10 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def is_enabled?
+    enabled? && creator.enabled?
+  end
+
+
 
 end

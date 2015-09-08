@@ -1,9 +1,5 @@
 module EventsHelper
 
-  def event_enabled?(event)
-    event.enabled? && event.creator.enabled?
-  end
-
   def get_event_status(event)
     return "Ongoing" if event.live?
     return "Upcoming" if event.upcoming?

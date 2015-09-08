@@ -31,13 +31,13 @@
   </div>
   <div class="col-md-1">
     <% if @event.upcoming? %>
-      <% if event_enabled?(@event) %>
+      <% if @event.is_enabled? %>
         <%= link_to ' Disable',  disable_admin_event_path(@event), class: 'btn btn-primary toggle', method: :put, data: { confirm: "Are you sure?", type: :json,  remote: true } %>
       <% else %>
         <%= link_to 'Enable ',enable_admin_event_path(@event, random: 'rnadom'), class: 'btn btn-success toggle', method: :put, data: { confirm: "Are you sure?", type: :json,  remote: true } %>
       <% end %>
     <% else %>
-      <%= event_enabled?(@event) ? 'Enabled' : 'Disabled' %> (Past)
+      <%= @event.is_enabled? ? 'Enabled' : 'Disabled' %> (Past)
     <% end %>
   </div>
 </div>
@@ -79,7 +79,8 @@
       </tr>
     </thead>
 
-    <!-- # [TODO - S] How many queries are being fired here?? -->
+    <!-- # [DOUBT TODO - S] How many queries are being fired here?? -->
+    <!-- only one query for discussions is being fired -->
     <% @discussions.each do |discussion| %>
       <tr>
         <td class="col-md-1">
@@ -110,7 +111,7 @@
         </td>
         <td class="col-md-1">
           <% if discussion.upcoming? %>
-            <!-- # [TODO - S] Make all enable / disable actions as ajax actions. -->
+            <!-- # [DONE TODO - S] Make all enable / disable actions as ajax actions. -->
             <% if discussion.enabled? %>
               <%= link_to "DISABLE", disable_admin_event_discussion_path(@event, discussion), method: :put, data: {remote: true, confirm: 'Are you sure?', type: 'json'}, class: 'btn btn-primary toggle' %>
             <% else %>

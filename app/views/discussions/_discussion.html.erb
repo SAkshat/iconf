@@ -73,7 +73,7 @@
           <div class='row'>
             <strong>Attendees</strong>
           </div>
-          <!-- # [TODO - S] How many queries does it fire?? -->
+          <!-- # [DOUBT TODO - S] How many queries does it fire?? Only one query is being fired for attendees -->
           <% discussion.attendees.each do |attendee| %>
             <%= attendee.title + ' ' + attendee.name %>
             <br>

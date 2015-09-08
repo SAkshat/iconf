@@ -7,25 +7,25 @@
       <div class='row'>
         <div class='col-md-12'>
           <div class='form-group'>
-            <%= f.label :name , class: 'control-label' %>
+            <%= f.label :name , class: 'control-label required-field' %>
             <%= f.text_field :name, class: 'form-control', required: true %>
           </div>
         </div>
       </div>
       <div class='row'>
         <div class='col-md-6'>
-          <%= f.label :topic , class: 'control-label' %>
+          <%= f.label :topic , class: 'control-label required-field' %>
           <%= f.text_field :topic, class: 'form-control' %>
         </div>
         <div class='col-md-6'>
-          <%= f.label :date , class: 'control-label' %><br>
+          <%= f.label :date , class: 'control-label required-field' %><br>
           <%= f.date_select :date, start_year: @event.start_time.year, end_year: @event.end_time.year, class: 'form-control' %>
         </div>
       </div>
     </div>
     <div class='col-md-6'>
       <div class='form-group'>
-        <%= f.label :description , class: 'control-label' %>
+        <%= f.label :description , class: 'control-label required-field' %>
         <%= f.text_area :description, class: 'form-control', rows: 6 %>
       </div>
     </div>
@@ -34,19 +34,19 @@
   <div class='row'>
     <div class='col-md-3'>
       <div class='form-group'>
-        <%= f.label :start_time, class: 'control-label' %><br>
+        <%= f.label :start_time, class: 'control-label required-field' %><br>
         <%= f.time_select :start_time, class: 'form-control' %>
       </div>
     </div>
     <div class='col-md-3'>
       <div class='form-group'>
-        <%= f.label :end_time, class: 'control-label' %><br>
+        <%= f.label :end_time, class: 'control-label required-field' %><br>
         <%= f.time_select :end_time, class: 'form-control'  %>
       </div>
     </div>
     <div class='col-md-6'>
       <div class='form-group'>
-        <%= f.label :location , class: 'control-label' %>
+        <%= f.label :location , class: 'control-label required-field' %>
         <%= f.text_field :location, class: 'form-control' %>
       </div>
     </div>
@@ -54,7 +54,7 @@
   <div class='row'>
     <div class='col-md-6'>
       <div class='form-group'>
-        <%= f.label :speaker , class: 'control-label' %> (email)
+        <%= f.label :speaker , class: 'control-label required-field' %> (email)
         <%= f.text_field :speaker, class: 'form-control', value: @discussion.speaker.try(:email) %>
       </div>
     </div>

@@ -23,6 +23,8 @@ class Event < ActiveRecord::Base
   validate :is_creator_enabled
 
   scope :enabled, -> { where(enabled: true) }
+  scope :enabled_with_enabled_creator, -> { where(creator_id: User.enabled.pluck(:id)).enabled }
+  scope :forthcoming, -> { where('start_time > ?', Time.now)}
 
   def upcoming?
     start_time > Time.current
@@ -45,6 +47,11 @@ class Event < ActiveRecord::Base
       errors[:base] << 'Cannot be enabled'
     end
   end
+
+  def is_enabled?
+    enabled? && creator.enabled?
+  end
+
 
 
 end

@@ -45,6 +45,8 @@ gem 'omniauth-twitter',                                 '~> 1.1.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+gem 'rspec-rails',                                      '~> 3.3.3'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

@@ -16,11 +16,12 @@ class Event < ActiveRecord::Base
 
   accepts_nested_attributes_for :address, :contact_detail
 
-  validates :name, presence: true
-  validates :description, length: { maximum: 500, minimum: 50 }
-  validate :start_time_not_be_in_past
-  validate :end_time_is_after_start_time
-  validate :is_creator_enabled
+  validates :name, :description, :start_time, :end_time, presence: true
+  validates :description, length: { maximum: 500, minimum: 50 }, allow_blank: true
+  validates :enabled, inclusion: [true, false]
+  validate :start_time_not_be_in_past, on: [:create], if: start_time?
+  validate :end_time_is_after_start_time, if: start_time? && end_time?
+  validate :is_creator_enabled, on: [:update]
 
   scope :enabled, -> { where(enabled: true) }
   scope :enabled_with_enabled_creator, -> { where(creator_id: User.enabled.pluck(:id)).enabled }
@@ -51,7 +52,4 @@ class Event < ActiveRecord::Base
   def is_enabled?
     enabled? && creator.enabled?
   end
-
-
-
 end

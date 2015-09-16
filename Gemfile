@@ -46,6 +46,7 @@ gem 'omniauth-twitter',                                 '~> 1.1.0'
 # gem 'bcrypt', '~> 3.1.7'
 
 gem 'rspec-rails',                                      '~> 3.3.3'
+
 gem 'shoulda-matchers',                                 '~> 2.8.0'
 
 # Use Unicorn as the app server

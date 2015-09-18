@@ -19,8 +19,8 @@ class Event < ActiveRecord::Base
   validates :name, :description, :start_time, :end_time, presence: true
   validates :description, length: { maximum: 500, minimum: 50 }, allow_blank: true
   validates :enabled, inclusion: [true, false]
-  validate :start_time_not_be_in_past, on: [:create], if: start_time?
-  validate :end_time_is_after_start_time, if: start_time? && end_time?
+  validate :start_time_not_be_in_past, on: [:create], if: :start_time?
+  validate :end_time_is_after_start_time, if: :start_time? && :end_time?
   validate :is_creator_enabled, on: [:update]
 
   scope :enabled, -> { where(enabled: true) }
@@ -30,11 +30,11 @@ class Event < ActiveRecord::Base
   end
 
   def start_time_not_be_in_past
-    errors[:start_time] << 'cannot be in the past' if start_time <= Time.current
+    errors[:start_time] << 'cannot be in the past' if start_time.try(:<=, Time.current)
   end
 
   def end_time_is_after_start_time
-    errors[:end_time] << 'must be later than start time' if start_time >= end_time
+    errors[:end_time] << 'must be later than start time' if start_time.try(:>=, end_time)
   end
 
   def live?

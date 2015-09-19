@@ -13,10 +13,13 @@
       <div class="col-md-2 col-md-offset-1">
         i-conf-connect
       </div>
-      <div class="col-md-2 col-md-offset-6 email">
+      <div class="col-md-2 col-md-offset-5 email">
         <%= 'Logged in as ' + get_user_name(current_user) if user_signed_in? %>
+        <% if !user_signed_in? %>
+          <%= link_to image_tag('twitter.jpeg', height: '30px', class: 'twitter'), "/auth/twitter" %>
+        <% end %>
       </div>
-      <div class="col-md-1">
+      <div class="col-md-2">
         <% if user_signed_in? %>
           <%= link_to 'Logout', destroy_user_session_path, class: 'log-in-out btn-xs', :method => :delete %>
         <% else %>

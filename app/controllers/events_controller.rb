@@ -33,7 +33,6 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(event_params)
-    @discussions = @event.discussions
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, success: 'Event successfully created' }
@@ -62,9 +61,9 @@ class EventsController < ApplicationController
 
   def search
     if params[:keywords].blank?
-      @events = Event.enabled_with_enabled_creator
+      @events = Event.enabled_with_enabled_creator.order(:start_time)
     else
-      @events = Event.enabled_with_enabled_creator.search_keyword(params[:keywords])
+      @events = Event.enabled_with_enabled_creator.order(:start_time).search_keyword(params[:keywords])
     end
     render 'index'
   end
@@ -90,7 +89,7 @@ class EventsController < ApplicationController
       if params[:event][:discussions_attributes]
         params[:event][:discussions_attributes].each_pair do |k,v|
           if params[:event][:discussions_attributes][k][:speaker]
-            params[:event][:discussions_attributes][k][:speaker] = User.find_by(email: v[:speaker])
+            params[:event][:discussions_attributes][k][:speaker_id] = User.find_by(email: v[:speaker]).try(:id)
           end
         end
       end
@@ -99,7 +98,7 @@ class EventsController < ApplicationController
     def event_params
       params.require(:event).permit(:creator_id, :name, :start_time, :end_time, :description, :logo, :logo_cache,
                                     :enabled, discussions_attributes: [:id, :name, :topic, :_destroy, :creator_id,
-                                      :date, :start_time, :end_time, :description, :enabled, :location, :speaker],
+                                      :date, :start_time, :end_time, :description, :enabled, :location, :speaker_id],
                                     contact_detail_attributes: [:id, :phone_number, :email],
                                     address_attributes: [:id, :street, :city, :country, :zipcode])
     end

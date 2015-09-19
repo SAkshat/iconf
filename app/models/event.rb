@@ -9,7 +9,7 @@ class Event < ActiveRecord::Base
 
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_one :address, dependent: :destroy
-  has_many :discussions, dependent: :destroy, inverse_of: :event
+  has_many :discussions, dependent: :destroy, inverse_of: :event, autosave: true
   belongs_to :creator, class_name: :User
 
   mount_uploader :logo, LogoUploader

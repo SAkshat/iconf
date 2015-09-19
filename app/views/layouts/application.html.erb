@@ -16,7 +16,9 @@
       <div class="col-md-2 col-md-offset-5 email">
         <%= 'Logged in as ' + get_user_name(current_user) if user_signed_in? %>
         <% if !user_signed_in? %>
-          <%= link_to image_tag('twitter.jpeg', height: '30px', class: 'twitter'), "/auth/twitter" %>
+          <%= link_to "/auth/twitter" do %>
+            <% image_tag('twitter.jpeg', height: '30px', class: 'twitter') %>
+          <% end %>
         <% end %>
       </div>
       <div class="col-md-2">
@@ -33,20 +35,6 @@
           <%= render 'admin/admin_nav_bar' %>
         <% else %>
           <%= render 'users/user_nav_bar' %>
-        <% end %>
-        <div class='col-md-1'>
-          <div class="row">
-            <% if user_signed_in? %>
-              <%= link_to 'Logout', destroy_user_session_path, class: 'btn btn-primary', :method => :delete %>
-            <% else %>
-              <%= link_to 'Login', new_user_session_path, class: 'btn btn-primary ' %>
-            <% end %>
-          </div>
-        </div>
-        <% unless user_signed_in? %>
-          <div class="col-md-1">
-            <%= link_to image_tag('twitter.jpeg', height: '30px'), "/auth/twitter" %>
-          </div>
         <% end %>
       </div>
     </div>

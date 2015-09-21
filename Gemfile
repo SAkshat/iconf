@@ -53,6 +53,9 @@ gem 'rspec-rails',                                      '~> 3.3.3'
 
 gem 'shoulda-matchers',                                 '~> 2.8.0'
 
+gem "factory_girl_rails",                               '~> 4.0'
+
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

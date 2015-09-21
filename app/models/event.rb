@@ -15,13 +15,13 @@ class Event < ActiveRecord::Base
   mount_uploader :logo, LogoUploader
 
   accepts_nested_attributes_for :address, :contact_detail
-  accepts_nested_attributes_for :discussions, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :discussions, allow_destroy: true, reject_if: :empty_discussion?
 
   validates :name, :description, :start_time, :end_time, presence: true
   validates :description, length: { maximum: 500, minimum: 50 }, allow_blank: true
   validates :enabled, inclusion: [true, false]
-  validate :start_time_not_be_in_past, on: [:create], if: :start_time?
-  validate :end_time_is_after_start_time, if: :start_time? && :end_time?
+  validate :start_time_not_be_in_past, on: [:create]
+  validate :end_time_is_after_start_time
   validate :is_creator_enabled, on: [:update]
 
   scope :enabled, -> { where(enabled: true) }
@@ -32,25 +32,31 @@ class Event < ActiveRecord::Base
     start_time > Time.current
   end
 
-  def start_time_not_be_in_past
-    errors[:start_time] << 'cannot be in the past' if start_time.try(:<=, Time.current)
-  end
-
-  def end_time_is_after_start_time
-    errors[:end_time] << 'must be later than start time' if start_time.try(:>=, end_time)
-  end
-
   def live?
     start_time <= Time.current && end_time >= Time.current
   end
 
-  def is_creator_enabled
-    if !creator.enabled?
-      errors[:base] << 'Cannot be enabled'
-    end
-  end
+  private
 
-  def is_enabled?
-    enabled? && creator.enabled?
-  end
+    def start_time_not_be_in_past
+      errors[:start_time] << 'cannot be in the past' if start_time.try(:<=, Time.current)
+    end
+
+    def end_time_is_after_start_time
+      errors[:end_time] << 'must be later than start time' if start_time.try(:>=, end_time)
+    end
+
+    def is_creator_enabled
+      if !creator.enabled?
+        errors[:base] << 'cannot be enabled'
+      end
+    end
+
+    def is_enabled?
+      enabled? && creator.enabled?
+    end
+
+    def empty_discussion?(attributes)
+      attributes['name'].blank? && attributes['topic'].blank? && attributes['location'].blank? &&attributes['speaker'].blank?
+    end
 end

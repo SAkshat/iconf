@@ -2,7 +2,12 @@ require_relative '../rails_helper.rb'
 
 describe Event, type: :model do
 
+<<<<<<< HEAD
   let(:event) { build(:event) }
+=======
+  let(:event) { Event.new(name: 'Event', description: 'lorem ipsum forum terlo merdensk estur silan pereditta', start_time: Time.now,
+                            end_time: Time.now + 1.day, logo: 'A', enabled: true, creator_id: 1) }
+>>>>>>> origin/rspecs
 
   describe 'Fields' do
     it { expect(event).to have_db_column(:name).of_type(:string) }
@@ -26,6 +31,7 @@ describe Event, type: :model do
   describe 'Accept Nested Attributes' do
     it { is_expected.to accept_nested_attributes_for(:address) }
     it { is_expected.to accept_nested_attributes_for(:contact_detail) }
+<<<<<<< HEAD
     ## DOUBT : What about the options
     it { is_expected.to accept_nested_attributes_for(:discussions) }
   end
@@ -35,6 +41,12 @@ describe Event, type: :model do
     it { should validate_presence_of :description }
     it { should validate_presence_of :start_time }
     it { should validate_presence_of :end_time }
+=======
+  end
+
+  describe 'Validations' do
+    it { should validate_presence_of :name }#expect(event).to validate_presence_of(:name) }
+>>>>>>> origin/rspecs
     it { expect(event).to allow_value(true).for(:enabled) }
     it { expect(event).to allow_value(false).for(:enabled) }
     it { expect(event).not_to allow_value(nil).for(:enabled) }
@@ -111,6 +123,7 @@ describe Event, type: :model do
           end
         end
       end
+<<<<<<< HEAD
       #DOUBT
       context 'creator' do
         context 'should raise error if event is changed while creator is disabled' do
@@ -166,6 +179,19 @@ describe Event, type: :model do
         event3.save(validate: false)
       end
       it { expect(Event.forthcoming).to match_array([event3]) }
+=======
+    end
+  end
+
+  describe 'Enabled scope' do
+    let(:event1) { Event.new(name: 'Event1', description: 'lorem ipsum forum terlo merdensk estur silan pereditta', start_time: Time.now,
+                            end_time: Time.now + 1.day, logo: 'A', enabled: true, creator_id: 1) }
+    let(:event2) { Event.new(name: 'Event2', description: 'lorem ipsum forum terlo merdensk estur silan pereditta', start_time: Time.now,
+                            end_time: Time.now + 1.day, logo: 'A', enabled: false, creator_id: 1) }
+    describe 'enabled' do
+      before { [event1.save(validate: false), event2.save(validate: false)] }
+      it { expect(Event.enabled).to match_array([event1]) }
+>>>>>>> origin/rspecs
     end
   end
 

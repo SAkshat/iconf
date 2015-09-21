@@ -20,8 +20,13 @@ class Event < ActiveRecord::Base
   validates :name, :description, :start_time, :end_time, presence: true
   validates :description, length: { maximum: 500, minimum: 50 }, allow_blank: true
   validates :enabled, inclusion: [true, false]
+<<<<<<< HEAD
   validate :start_time_not_be_in_past, on: [:create]
   validate :end_time_is_after_start_time
+=======
+  validate :start_time_not_be_in_past, on: [:create], if: :start_time?
+  validate :end_time_is_after_start_time, if: :start_time? && :end_time?
+>>>>>>> origin/rspecs
   validate :is_creator_enabled, on: [:update]
 
   scope :enabled, -> { where(enabled: true) }
@@ -32,6 +37,17 @@ class Event < ActiveRecord::Base
     start_time > Time.current
   end
 
+<<<<<<< HEAD
+=======
+  def start_time_not_be_in_past
+    errors[:start_time] << 'cannot be in the past' if start_time.try(:<=, Time.current)
+  end
+
+  def end_time_is_after_start_time
+    errors[:end_time] << 'must be later than start time' if start_time.try(:>=, end_time)
+  end
+
+>>>>>>> origin/rspecs
   def live?
     start_time <= Time.current && end_time >= Time.current
   end
@@ -42,6 +58,7 @@ class Event < ActiveRecord::Base
       errors[:start_time] << 'cannot be in the past' if start_time.try(:<=, Time.current)
     end
 
+<<<<<<< HEAD
     def end_time_is_after_start_time
       errors[:end_time] << 'must be later than start time' if start_time.try(:>=, end_time)
     end
@@ -59,4 +76,6 @@ class Event < ActiveRecord::Base
     def empty_discussion?(attributes)
       attributes['name'].blank? && attributes['topic'].blank? && attributes['location'].blank? &&attributes['speaker'].blank?
     end
+=======
+>>>>>>> origin/rspecs
 end

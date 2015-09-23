@@ -26,7 +26,6 @@ describe Event, type: :model do
   describe 'Accept Nested Attributes' do
     it { is_expected.to accept_nested_attributes_for(:address) }
     it { is_expected.to accept_nested_attributes_for(:contact_detail) }
-    ## DOUBT : What about the options
     it { is_expected.to accept_nested_attributes_for(:discussions) }
   end
 
@@ -111,7 +110,6 @@ describe Event, type: :model do
           end
         end
       end
-      #DOUBT
       context 'creator' do
         context 'should raise error if event is changed while creator is disabled' do
           before do
@@ -133,25 +131,17 @@ describe Event, type: :model do
     describe 'Enabled' do
       let(:event1) { create(:event, enabled: true) }
       let(:event2) { create(:event, enabled: false) }
-      before do
-        event1.save
-        event2.save
-      end
       it { expect(Event.enabled).to match_array([event1]) }
     end
 
     describe 'Enabled with enabled creator' do
-      let(:event1) { create(:event, enabled: true) }
-      let(:event2) { create(:event, enabled: false) }
-      let(:event3) { create(:event, enabled: true) }
-      let(:event4) { create(:event, enabled: true) }
+      let!(:event1) { create(:event, enabled: true) }
+      let!(:event2) { create(:event, enabled: false) }
+      let!(:event3) { create(:event, enabled: true) }
+      let!(:event4) { create(:event, enabled: true) }
       before do
-        event1.save
-        event2.save
         event3.creator.enabled = false
         event3.creator.save
-        event3.save
-        event4.save
       end
       it { expect(Event.enabled_with_enabled_creator).to match_array([event1, event4]) }
     end

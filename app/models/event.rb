@@ -1,5 +1,4 @@
 class Event < ActiveRecord::Base
-
   include PgSearch
   # [DONE TODO - G] See if there exists an option to return all records on empty string. There doesn't exist
   pg_search_scope :search_keyword, against: :name, associated_against: {

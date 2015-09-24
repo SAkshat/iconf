@@ -35,6 +35,10 @@ class Event < ActiveRecord::Base
     start_time <= Time.current && end_time >= Time.current
   end
 
+  def is_enabled?
+    enabled? && creator.enabled?
+  end
+
   private
 
     def start_time_not_be_in_past
@@ -49,10 +53,6 @@ class Event < ActiveRecord::Base
       if !creator.enabled?
         errors[:base] << 'cannot be enabled'
       end
-    end
-
-    def is_enabled?
-      enabled? && creator.enabled?
     end
 
     def empty_discussion?(attributes)

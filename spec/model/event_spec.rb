@@ -129,8 +129,8 @@ describe Event, type: :model do
   describe 'Scopes' do
 
     describe 'Enabled' do
-      let(:event1) { create(:event, enabled: true) }
-      let(:event2) { create(:event, enabled: false) }
+      let!(:event1) { create(:event, enabled: true) }
+      let!(:event2) { create(:event, enabled: false) }
       it { expect(Event.enabled).to match_array([event1]) }
     end
 

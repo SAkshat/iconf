@@ -62,12 +62,12 @@ gem "factory_girl_rails",                               '~> 4.0'
 # gem 'capistrano-rails', group: :development
 
 group :development do
-    gem 'capistrano',           require: false
-    gem 'capistrano-rvm',       require: false
-    gem 'capistrano-rails',     require: false
-    gem 'capistrano-bundler',   require: false
-    gem 'capistrano3-puma',     require: false
-    gem 'capistrano-passenger', require: false
+    gem 'capistrano'
+    gem 'capistrano-rails'
+    gem 'capistrano-rvm'
+    gem 'capistrano-bundler'
+    gem 'capistrano3-puma'
+    gem 'capistrano-passenger'
 end
 
 gem 'puma'

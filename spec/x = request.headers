@@ -1,0 +1,10 @@
+x = request.headers
+
+def rec_print(x, depth = 1)
+  if x.respond_to? :keys?
+    puts "\t" * depth + k.to_s
+    x.each do { |k,v| rec_print(v, depth + 1) }
+  else
+    puts "\t" * depth + x.to_s
+  end
+end

@@ -1,50 +1,49 @@
 require_relative '../rails_helper.rb'
 
-describe Event, type: :model do
+describe Event do
 
   let(:event) { build(:event) }
 
   describe 'Fields' do
-    it { expect(event).to have_db_column(:name).of_type(:string) }
-    it { expect(event).to have_db_column(:start_time).of_type(:datetime) }
-    it { expect(event).to have_db_column(:end_time).of_type(:datetime) }
-    it { expect(event).to have_db_column(:description).of_type(:string) }
-    it { expect(event).to have_db_column(:logo).of_type(:string) }
-    it { expect(event).to have_db_column(:enabled).of_type(:boolean) }
-    it { expect(event).to have_db_column(:creator_id).of_type(:integer) }
-    it { expect(event).to have_db_column(:created_at).of_type(:datetime) }
-    it { expect(event).to have_db_column(:updated_at).of_type(:datetime) }
+    it { is_expected.to have_db_column(:name).of_type(:string) }
+    it { is_expected.to have_db_column(:start_time).of_type(:datetime) }
+    it { is_expected.to have_db_column(:end_time).of_type(:datetime) }
+    it { is_expected.to have_db_column(:description).of_type(:string) }
+    it { is_expected.to have_db_column(:logo).of_type(:string) }
+    it { is_expected.to have_db_column(:enabled).of_type(:boolean) }
+    it { is_expected.to have_db_column(:creator_id).of_type(:integer) }
+    it { is_expected.to have_db_column(:created_at).of_type(:datetime) }
+    it { is_expected.to have_db_column(:updated_at).of_type(:datetime) }
   end
 
   describe 'Associations' do
-    it { is_expected.to belong_to(:creator) }
+    it { is_expected.to belong_to(:creator).class_name('User') }
     it { is_expected.to have_many(:discussions).dependent(:destroy) }
     it { is_expected.to have_one(:contact_detail).dependent(:destroy) }
     it { is_expected.to have_one(:address).dependent(:destroy) }
   end
 
-  describe 'Accept Nested Attributes' do
+  describe 'Accepts Nested Attributes' do
     it { is_expected.to accept_nested_attributes_for(:address) }
     it { is_expected.to accept_nested_attributes_for(:contact_detail) }
-    it { is_expected.to accept_nested_attributes_for(:discussions) }
+    it { is_expected.to accept_nested_attributes_for(:discussions).but_reject(name: '', topic: '', location: '', speaker: '') }
   end
 
   describe 'Validations' do
-    it { should validate_presence_of :name }
-    it { should validate_presence_of :description }
-    it { should validate_presence_of :start_time }
-    it { should validate_presence_of :end_time }
-    it { expect(event).to allow_value(true).for(:enabled) }
-    it { expect(event).to allow_value(false).for(:enabled) }
-    it { expect(event).not_to allow_value(nil).for(:enabled) }
-    it { expect(event).to validate_length_of(:description).is_at_most(500).is_at_least(50) }
+    it { is_expected.to validate_presence_of :name }
+    it { is_expected.to validate_presence_of :description }
+    it { is_expected.to validate_presence_of :start_time }
+    it { is_expected.to validate_presence_of :end_time }
+    it { is_expected.to validate_inclusion_of(:enabled).in_array([true, false]) }
+    it { is_expected.to allow_value(false).for(:enabled) }
+    it { is_expected.not_to allow_value(nil).for(:enabled) }
+    it { is_expected.to validate_length_of(:description).is_at_most(500).is_at_least(50) }
 
     describe 'Custom Validations' do
       context 'start time' do
         context 'should raise error if start time before current time' do
           before do
             event.start_time = Time.current - 1.day
-            event.end_time = Time.current
           end
           it { expect(event.valid?).to eq(false) }
           context 'check errors' do
@@ -54,10 +53,7 @@ describe Event, type: :model do
         end
 
         context 'should raise error if start time is equal to current time' do
-          before do
-            event.start_time = Time.current
-            event.end_time = Time.current
-          end
+          before { event.start_time = Time.current }
           it { expect(event.valid?).to eq(false) }
           context 'check errors' do
             before { event.valid? }
@@ -66,10 +62,7 @@ describe Event, type: :model do
         end
 
         context 'should not raise error if start time after current time' do
-          before do
-            event.start_time = Time.current + 1.day
-            event.end_time = Time.current + 2.day
-          end
+          before { event.start_time = Time.current + 1.day }
           it { expect(event.valid?).to eq(true) }
           context 'check errors' do
             before { event.valid? }
@@ -80,8 +73,10 @@ describe Event, type: :model do
 
       context 'end time' do
         context 'should raise error if end time before start time' do
-          before { event.start_time = Time.current + 1.day }
-          before { event.end_time = Time.current }
+          before do
+            event.start_time = Time.current + 1.day
+            event.end_time = Time.current
+          end
           it { expect(event.valid?).to eq(false) }
           context 'check errors' do
             before { event.valid? }
@@ -91,8 +86,7 @@ describe Event, type: :model do
 
         context 'should raise error if end time equal to start time' do
           let(:time) { Time.current }
-          before { event.start_time = time }
-          before { event.end_time = time }
+          before { event.start_time = event.end_time = time }
           it { expect(event.valid?).to eq(false) }
           context 'check errors' do
             before { event.valid? }
@@ -101,8 +95,10 @@ describe Event, type: :model do
         end
 
         context 'should not raise error if end time after start time' do
-          before { event.start_time = Time.current + 1.day }
-          before { event.end_time = Time.current + 2.days }
+          before do
+            event.start_time = Time.current + 1.day
+            event.end_time = Time.current + 2.days
+          end
           it { expect(event.valid?).to eq(true) }
           context 'check errors' do
             before { event.valid? }
@@ -110,6 +106,7 @@ describe Event, type: :model do
           end
         end
       end
+
       context 'creator' do
         context 'should raise error if event is changed while creator is disabled' do
           before do
@@ -144,6 +141,7 @@ describe Event, type: :model do
         event3.creator.save
       end
       it { expect(Event.enabled_with_enabled_creator).to match_array([event1, event4]) }
+      it { expect(Event.enabled_with_enabled_creator).not_to match_array([event2, event3]) }
     end
 
     describe 'Forthcoming' do

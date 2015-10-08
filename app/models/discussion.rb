@@ -2,7 +2,7 @@ class Discussion < ActiveRecord::Base
   belongs_to :event, inverse_of: :discussions
   belongs_to :creator, class_name: :User
   belongs_to :speaker, class_name: :User
-  has_many :discussions_users
+  has_many :discussions_users, dependent: :destroy
   has_many :attendees, through: :discussions_users, source: :user
 
   validates :name, :topic, :location, presence: true

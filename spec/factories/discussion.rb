@@ -3,16 +3,15 @@ FactoryGirl.define do
   factory :discussion do
     sequence(:name) { |n| "discussion#{n}" }
     topic 'lorem ipsum'
-    date { Date.new }
-    start_time { Time.now + 1.day }
-    end_time { Time.now + 2.day }
+    date { Time.now + 30.hour }
+    start_time { Time.now + 32.hour }
+    end_time { Time.now + 33.hour }
     location 'Location1'
-    description 'lorem ipsum merdetta genesk glorius latin'
+    description 'lorem ipsum merdetta genesk glorius latin geronimus ficus'
     enabled true
-
-    factory :disabled_event do
-      enabled false
-    end
+    event
+    creator
+    speaker
   end
 
 end

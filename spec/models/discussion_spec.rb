@@ -28,139 +28,125 @@ describe Discussion do
     it { is_expected.to have_many(:attendees).through(:discussions_users) }
   end
 
-  # describe 'Accepts Nested Attributes' do
-  #   it { is_expected.to accept_nested_attributes_for(:address) }
-  #   it { is_expected.to accept_nested_attributes_for(:contact_detail) }
-  #   it { is_expected.to accept_nested_attributes_for(:discussions).but_reject(name: '', topic: '', location: '', speaker: '') }
-  # end
+  describe 'Validations' do
+    subject { build(:discussion) }
+    it { is_expected.to validate_presence_of :name }
+    it { is_expected.to validate_presence_of :topic }
+    it { is_expected.to validate_presence_of :location }
+    it { is_expected.to validate_presence_of(:speaker).with_message('does not have a valid email id') }
+    it { is_expected.to validate_inclusion_of(:enabled).in_array([true, false]) }
+    it { is_expected.to validate_length_of(:description).is_at_most(250).is_at_least(50) }
 
-  # describe 'Validations' do
-  #   it { is_expected.to validate_presence_of :name }
-  #   it { is_expected.to validate_presence_of :description }
-  #   it { is_expected.to validate_presence_of :start_time }
-  #   it { is_expected.to validate_presence_of :end_time }
-  #   it { is_expected.to validate_inclusion_of(:enabled).in_array([true, false]) }
-  #   it { is_expected.to allow_value(false).for(:enabled) }
-  #   it { is_expected.not_to allow_value(nil).for(:enabled) }
-  #   it { is_expected.to validate_length_of(:description).is_at_most(500).is_at_least(50) }
+    describe 'Custom Validations' do
+      context 'start time' do
+        context 'should raise error if start time before current time' do
+          before { discussion.start_time = Time.now - 1.day }
+          it { expect(discussion.valid?).to eq(false) }
+          context 'check errors' do
+            before { discussion.valid? }
+            it { expect(discussion.errors[:start_time]).to eq(['cannot be in the past']) }
+          end
+        end
 
-  #   describe 'Custom Validations' do
-  #     context 'start time' do
-  #       context 'should raise error if start time before current time' do
-  #         before do
-  #           event.start_time = Time.current - 1.day
-  #         end
-  #         it { expect(event.valid?).to eq(false) }
-  #         context 'check errors' do
-  #           before { event.valid? }
-  #           it { expect(event.errors[:start_time]).to eq(['cannot be in the past']) }
-  #         end
-  #       end
+        context 'should raise error if start time is equal to current time' do
+          before { discussion.start_time = Time.now }
+          it { expect(discussion.valid?).to eq(false) }
+          context 'check errors' do
+            before { discussion.valid? }
+            it { expect(discussion.errors[:start_time]).to eq(['cannot be in the past']) }
+          end
+        end
 
-  #       context 'should raise error if start time is equal to current time' do
-  #         before { event.start_time = Time.current }
-  #         it { expect(event.valid?).to eq(false) }
-  #         context 'check errors' do
-  #           before { event.valid? }
-  #           it { expect(event.errors[:start_time]).to eq(['cannot be in the past']) }
-  #         end
-  #       end
+        context 'should not raise start_time error if start time after current time' do
+          before { discussion.start_time = Time.now + 1.day }
+          context 'check errors' do
+            before { discussion.valid? }
+            it { expect(discussion.errors[:start_time]).to eq([]) }
+          end
+        end
+      end
 
-  #       context 'should not raise error if start time after current time' do
-  #         before { event.start_time = Time.current + 1.day }
-  #         it { expect(event.valid?).to eq(true) }
-  #         context 'check errors' do
-  #           before { event.valid? }
-  #           it { expect(event.errors[:start_time]).to eq([]) }
-  #         end
-  #       end
-  #     end
+      context 'end time' do
+        context 'should raise error if end time before start time' do
+          before do
+            discussion.start_time = Time.current + 1.day
+            discussion.end_time = Time.current
+          end
+          it { expect(discussion.valid?).to eq(false) }
+          context 'check errors' do
+            before { discussion.valid? }
+            it { expect(discussion.errors[:end_time]).to eq(['should be more than start time']) }
+          end
+        end
 
-  #     context 'end time' do
-  #       context 'should raise error if end time before start time' do
-  #         before do
-  #           event.start_time = Time.current + 1.day
-  #           event.end_time = Time.current
-  #         end
-  #         it { expect(event.valid?).to eq(false) }
-  #         context 'check errors' do
-  #           before { event.valid? }
-  #           it { expect(event.errors[:end_time]).to eq(['must be later than start time']) }
-  #         end
-  #       end
+        context 'should raise error if end time equal to start time' do
+          let(:time) { Time.current }
+          before { discussion.start_time = discussion.end_time = time }
+          it { expect(discussion.valid?).to eq(false) }
+          context 'check errors' do
+            before { discussion.valid? }
+            it { expect(discussion.errors[:end_time]).to eq(['should be more than start time']) }
+          end
+        end
 
-  #       context 'should raise error if end time equal to start time' do
-  #         let(:time) { Time.current }
-  #         before { event.start_time = event.end_time = time }
-  #         it { expect(event.valid?).to eq(false) }
-  #         context 'check errors' do
-  #           before { event.valid? }
-  #           it { expect(event.errors[:end_time]).to eq(['must be later than start time']) }
-  #         end
-  #       end
+        context 'should not raise end-time error if end time after start time' do
+          before do
+            discussion.start_time = Time.current + 1.day
+            discussion.end_time = Time.current + 2.days
+          end
+          context 'check errors' do
+            before { discussion.valid? }
+            it { expect(discussion.errors[:end_time]).to eq([]) }
+          end
+        end
+      end
 
-  #       context 'should not raise error if end time after start time' do
-  #         before do
-  #           event.start_time = Time.current + 1.day
-  #           event.end_time = Time.current + 2.days
-  #         end
-  #         it { expect(event.valid?).to eq(true) }
-  #         context 'check errors' do
-  #           before { event.valid? }
-  #           it { expect(event.errors[:end_time]).to eq([]) }
-  #         end
-  #       end
-  #     end
+      context 'discussion timings' do
+        context 'should raise error if discussion date is before event date' do
+          before do
+            discussion.event.start_time = Time.now
+            discussion.date = Time.now - 1.day
+            @start_time = discussion.event.start_time
+            @end_time = discussion.event.end_time
+            discussion.valid?
+          end
+          it { expect(discussion.errors[:date]).to eq(["must be within the event duration [#{ @start_time.to_date } -- #{ @end_time.to_date }]"]) }
+        end
+        context 'should raise error if discussion date is after event date' do
+          before do
+            discussion.event.end_time = Time.now
+            discussion.date = Time.now + 1.day
+            @start_time = discussion.event.start_time
+            @end_time = discussion.event.end_time
+            discussion.valid?
+          end
+          it { expect(discussion.errors[:date]).to eq(["must be within the event duration [#{ @start_time.to_date } -- #{ @end_time.to_date }]"]) }
+        end
+        context 'should not raise error if discussion date is between event date' do
+          before do
+            discussion.event.start_time = Time.now
+            discussion.event.end_time = Time.now + 3.day
+            discussion.date = Time.now + 1.day
+            @start_time = discussion.event.start_time
+            @end_time = discussion.event.end_time
+            discussion.valid?
+          end
+          it { expect(discussion.errors[:date]).to eq([]) }
+        end
+      end
+    end
+  end
 
-  #     context 'creator' do
-  #       context 'should raise error if event is changed while creator is disabled' do
-  #         before do
-  #           event.creator.enabled = false
-  #           event.save
-  #         end
-  #         it { expect(event.valid?).to eq(false) }
-  #         context 'check errors' do
-  #           before { event.valid? }
-  #           it { expect(event.errors[:base]).to eq(['cannot be enabled']) }
-  #         end
-  #       end
-  #     end #Context creator ends
-  #   end #Context custom validations end
-  # end #Context validations end
+  describe 'Scopes' do
 
-  # describe 'Scopes' do
+    describe 'Enabled' do
+      let!(:discussion1) { create(:discussion, enabled: true) }
+      let!(:discussion2) { create(:discussion, enabled: false) }
+      it { expect(Discussion.enabled).to match_array([discussion1]) }
+      it { expect(Discussion.enabled).not_to match_array([discussion2]) }
+    end
 
-  #   describe 'Enabled' do
-  #     let!(:event1) { create(:event, enabled: true) }
-  #     let!(:event2) { create(:event, enabled: false) }
-  #     it { expect(Event.enabled).to match_array([event1]) }
-  #   end
-
-  #   describe 'Enabled with enabled creator' do
-  #     let!(:event1) { create(:event, enabled: true) }
-  #     let!(:event2) { create(:event, enabled: false) }
-  #     let!(:event3) { create(:event, enabled: true) }
-  #     let!(:event4) { create(:event, enabled: true) }
-  #     before do
-  #       event3.creator.enabled = false
-  #       event3.creator.save
-  #     end
-  #     it { expect(Event.enabled_with_enabled_creator).to match_array([event1, event4]) }
-  #     it { expect(Event.enabled_with_enabled_creator).not_to match_array([event2, event3]) }
-  #   end
-
-  #   describe 'Forthcoming' do
-  #     let(:event1) { build(:event, start_time: Time.now - 1.day) }
-  #     let(:event2) { build(:event, start_time: Time.now) }
-  #     let(:event3) { build(:event, start_time: Time.now + 1.day) }
-  #     before do
-  #       event1.save(validate: false)
-  #       event2.save(validate: false)
-  #       event3.save(validate: false)
-  #     end
-  #     it { expect(Event.forthcoming).to match_array([event3]) }
-  #   end
-  # end
+  end
 
   # describe '#upcoming?' do
   #   context 'should return false if event start time is less than current time' do

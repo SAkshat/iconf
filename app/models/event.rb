@@ -19,7 +19,7 @@ class Event < ActiveRecord::Base
   validates :name, :description, :start_time, :end_time, presence: true
   validates :description, length: { maximum: 500, minimum: 50 }, allow_blank: true
   validates :enabled, inclusion: [true, false]
-  validate :start_time_not_be_in_past, on: [:create]
+  validate :start_time_not_be_in_past, if: :start_time_changed?
   validate :end_time_is_after_start_time
   validate :is_creator_enabled, on: [:update]
 

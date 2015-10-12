@@ -14,7 +14,7 @@ describe ContactDetail do
   end
 
   describe 'Associations' do
-    it { is_expected.to belong_to(:contactable).polyomorphic(true) }
+    it { is_expected.to belong_to(:contactable) }
   end
 
   describe 'Validations' do

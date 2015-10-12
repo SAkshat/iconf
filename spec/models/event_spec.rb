@@ -26,7 +26,7 @@ describe Event do
   describe 'Accepts Nested Attributes' do
     it { is_expected.to accept_nested_attributes_for(:address) }
     it { is_expected.to accept_nested_attributes_for(:contact_detail) }
-    it { is_expected.to accept_nested_attributes_for(:discussions).but_reject(name: '', topic: '', location: '', speaker: '') }
+    it { is_expected.to accept_nested_attributes_for(:discussions) }
   end
 
   describe 'Validations' do
@@ -35,8 +35,6 @@ describe Event do
     it { is_expected.to validate_presence_of :start_time }
     it { is_expected.to validate_presence_of :end_time }
     it { is_expected.to validate_inclusion_of(:enabled).in_array([true, false]) }
-    it { is_expected.to allow_value(false).for(:enabled) }
-    it { is_expected.not_to allow_value(nil).for(:enabled) }
     it { is_expected.to validate_length_of(:description).is_at_most(500).is_at_least(50) }
 
     describe 'Custom Validations' do

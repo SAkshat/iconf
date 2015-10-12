@@ -16,7 +16,7 @@ class Discussion < ActiveRecord::Base
 
   scope :enabled, -> { where(enabled: true) }
 
-  after_save :send_disable_notification_email_to_attendees, if: :discussion_was_disabled?
+  after_commit :send_disable_notification_email_to_attendees, if: :was_disabled?
 
   def upcoming?
     date > Date.current || ( date == Date.current && start_time > Time.current.utc)
@@ -39,7 +39,7 @@ class Discussion < ActiveRecord::Base
       errors[:start_time] << 'cannot be in the past' if start_time.try(:<=, Time.current)
     end
 
-    def discussion_was_disabled?
+    def was_disabled?
       !enabled && enabled != enabled_was
     end
 

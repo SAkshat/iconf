@@ -138,45 +138,98 @@ describe Discussion do
   end
 
   describe 'Scopes' do
-
     describe 'Enabled' do
       let!(:discussion1) { create(:discussion, enabled: true) }
       let!(:discussion2) { create(:discussion, enabled: false) }
       it { expect(Discussion.enabled).to match_array([discussion1]) }
       it { expect(Discussion.enabled).not_to match_array([discussion2]) }
     end
-
   end
 
-  # describe '#upcoming?' do
-  #   context 'should return false if event start time is less than current time' do
-  #     before { event.start_time = Time.current - 1.day }
-  #     it { expect(event.upcoming?).to eq(false) }
-  #   end
+  describe 'Callbacks' do
+    it { is_expected.to callback(:send_disable_notification_email_to_attendees).after(:commit).if(:was_disabled?) }
+  end
 
-  #   context 'should return false if event start time is equal to current time' do
-  #     before { event.start_time = Time.current }
-  #     it { expect(event.upcoming?).to eq(false) }
-  #   end
 
-  #   context 'should return true if event start time is greater than current time' do
-  #     before { event.start_time = Time.current + 1.day }
-  #     it { expect(event.upcoming?).to eq(true) }
-  #   end
-  # end
+  describe '#upcoming?' do
+    context 'should return false if discussion date is less than current date' do
+      before { discussion.date = Time.now - 1.day }
+      it { expect(discussion.upcoming?).to eq(false) }
+    end
 
-  # describe '#live?' do
-  #   context 'should return true if event time is ongoing' do
-  #     before { event.start_time = Time.current - 1.day }
-  #     before { event.end_time = Time.current + 1.day }
-  #     it { expect(event.live?).to eq(true) }
-  #   end
+    context 'should return false if discussion start time is less than current time and date is equal to current date' do
+      before do
+        discussion.date = Time.now
+        discussion.start_time = Time.now - 1.hour
+      end
+      it { expect(discussion.upcoming?).to eq(false) }
+    end
 
-  #   context 'should return false if event time is not ongoing' do
-  #     before { event.start_time = Time.current + 1.day }
-  #     before { event.end_time = Time.current + 2.day }
-  #     it { expect(event.live?).to eq(false) }
-  #   end
-  # end
+    context 'should return false if discussion start time is equal to current time and date is equal to current date' do
+      before do
+        discussion.date = Time.now
+        discussion.start_time = Time.now
+      end
+
+      it { expect(discussion.upcoming?).to eq(false) }
+    end
+
+    context 'should return true if discussion start time is greater than current time and date is equal to current date' do
+      before do
+        discussion.date = Time.now
+        discussion.start_time = Time.now + 1.hour
+      end
+      it { expect(discussion.upcoming?).to eq(true) }
+    end
+
+    context 'should return true if discussion date is more than current date' do
+      before { discussion.date = Time.now + 1.day }
+      it { expect(discussion.upcoming?).to eq(true) }
+    end
+  end
+
+  describe '#was_disabled?' do
+    context 'should return true if discussions enabled status changes from true to false' do
+      before do
+        discussion.enabled = true
+        discussion.save
+        discussion.enabled = false
+      end
+      it { expect(discussion.send(:was_disabled?)).to eq(true) }
+    end
+    context 'should return false if discussions enabled status changes from false to true' do
+      before do
+        discussion.enabled = false
+        discussion.save
+        discussion.enabled = true
+      end
+      it { expect(discussion.send(:was_disabled?)).to eq(false) }
+    end
+    context 'should return false if discussions enabled status changes from false to false' do
+      before do
+        discussion.enabled = false
+        discussion.save
+        discussion.enabled = false
+      end
+      it { expect(discussion.send(:was_disabled?)).to eq(false) }
+    end
+    context 'should return false if discussions enabled status changes from true to true' do
+      before do
+        discussion.enabled = true
+        discussion.save
+        discussion.enabled = true
+      end
+      it { expect(discussion.send(:was_disabled?)).to eq(false) }
+    end
+  end
+
+  describe '#send_disable_notification_email_to_attendees' do
+    context 'should send email to all attendees of the discussion when invoked' do
+      before do
+        @count = discussion.attendees.count
+      end
+      it { expect{ discussion.send(:send_disable_notification_email_to_attendees)}.to change{ ActionMailer::Base.deliveries.count }.by(@count) }
+    end
+  end
 
 end

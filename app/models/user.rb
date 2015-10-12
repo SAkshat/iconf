@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   validates :name, presence: true
   validates :title, presence: true
 
+  #SPEC CONSTANTS
   TITLES_LIST = ['Mr', 'Mrs', 'Ms', 'Dr']
 
   def self.find_or_create_from_twitter_params(auth_params)

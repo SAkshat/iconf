@@ -1,4 +1,4 @@
-class User::SessionsController < ApplicationController
+class Users::SessionsController < ApplicationController
 
   skip_before_action :authenticate_user!, only: [:create]
   before_action :check_if_user_logged_in, only: [:create]

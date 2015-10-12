@@ -48,13 +48,15 @@ gem 'daemons',                                          '~> 1.2.3'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+group :test do
+  gem 'rspec-rails',                                      '~> 3.3.3'
 
-gem 'rspec-rails',                                      '~> 3.3.3'
+  gem 'shoulda-matchers',                                 '~> 2.8.0'
 
-gem 'shoulda-matchers',                                 '~> 2.8.0'
+  gem 'shoulda-callback-matchers'
 
-gem "factory_girl_rails",                               '~> 4.0'
-
+  gem "factory_girl_rails",                               '~> 4.0'
+end
 # Use Unicorn as the app server
 # gem 'unicorn'
 

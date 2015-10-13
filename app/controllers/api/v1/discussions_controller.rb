@@ -6,7 +6,6 @@ class API::V1::DiscussionsController < API::V1::ApplicationController
     render json: @discussion.attendees
   end
 
-
   private
 
     def load_discussion

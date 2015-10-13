@@ -5,7 +5,11 @@ class Users::SessionsController < ApplicationController
 
   def create
     user = User.find_or_create_from_twitter_params(request.env['omniauth.auth'])
-    sign_in_and_redirect user
+     if user
+      sign_in_and_redirect user
+    else
+      redirect_to :back, flash: { error: "User couldn't be created" }
+    end
   end
 
   protected

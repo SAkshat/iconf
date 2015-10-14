@@ -2,7 +2,7 @@ class EventsController < ApplicationController
 
   skip_before_action :authenticate_user!, only: [:index, :show, :search]
   before_action :load_event, only: [:show, :edit, :update]
-  before_action :load_discussions, only: [:show, :edit]
+  before_action :load_discussions, only: [:show, :edit, :update]
   before_action :set_discussions_speaker, only: [:create, :update]
   before_action :check_event_is_upcoming, only: [:edit, :update]
 
@@ -35,7 +35,7 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, success: 'Event successfully created' }
+        format.html { redirect_to @event, flash: { success: 'Event successfully created' } }
       else
         format.html {
           flash.now[:error] = 'Event creation failed'
@@ -46,10 +46,10 @@ class EventsController < ApplicationController
   end
 
   def update
-    @discussions = @event.discussions
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to @event, success: 'Event successfully updated' }
+        #SPEC
+        format.html { redirect_to @event, flash: { success: 'Event successfully updated' } }
       else
         format.html {
           flash.now[:error] = 'Unable to edit event'

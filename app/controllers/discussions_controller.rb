@@ -2,7 +2,6 @@ class DiscussionsController < ApplicationController
 
   before_action :load_event, only: [:index, :show, :new, :edit, :create, :update]
   before_action :load_discussion, only: [:show, :edit, :update]
-  before_action :is_session_editable, only: [:update]
   before_action :check_if_discussion_is_past, only: [:edit, :update]
   skip_before_action :authenticate_user!, only: [:index, :show]
 
@@ -26,7 +25,7 @@ class DiscussionsController < ApplicationController
     set_speaker
     respond_to do |format|
       if @discussion.save
-        format.html { redirect_to @event, success: 'Discussion created successfully' }
+        format.html { redirect_to @event, flash: { success: 'Discussion created successfully' } }
       else
         format.html {
           flash.now[:error] = 'Discussion creation failed'
@@ -40,7 +39,7 @@ class DiscussionsController < ApplicationController
     set_speaker
     respond_to do |format|
       if @discussion.update(discussion_params)
-        format.html { redirect_to @event, success: 'Discussion updated successfully' }
+        format.html { redirect_to @event, flash: { success: 'Discussion updated successfully' } }
       else
         format.html{
           flash.now[:error] = 'Unable to edit discussion'
@@ -54,7 +53,7 @@ class DiscussionsController < ApplicationController
 
     def check_if_discussion_is_past
       if !(@discussion.upcoming?)
-        redirect_to event_path(@event), notice: 'Past discussions cannot be edited'
+        redirect_to event_path, notice: 'Past discussions cannot be edited'
       end
     end
 
@@ -74,10 +73,6 @@ class DiscussionsController < ApplicationController
 
     def discussion_params
       params.require(:discussion).permit(:creator_id, :name, :topic, :date, :start_time, :end_time, :description, :enabled, :location)
-    end
-
-    def is_session_editable
-      errors[:base] << 'Discussion is in the past' unless @discussion.upcoming?
     end
 
 end

@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
 
   devise_scope :user do
-    get '/auth/:provider/callback', to: 'sessions#create', as: :create
+    get '/auth/:provider/callback', to: 'users/sessions#create', as: :create
   end
 
   namespace :admin, only: [:index, :show] do

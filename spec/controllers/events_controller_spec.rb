@@ -78,7 +78,7 @@ describe EventsController do
     it 'should render template new' do
       send_request
       is_expected.to render_template(:new)
-      end
+    end
   end
 
   describe 'POST edit' do

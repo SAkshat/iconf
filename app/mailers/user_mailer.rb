@@ -1,6 +1,6 @@
 class UserMailer < ApplicationMailer
 
-  def reminder_email(discussion, attendee, referrer)
+  def reminder_email(discussion, attendee)
     @discussion = discussion
     @event = @discussion.event
     @user = attendee

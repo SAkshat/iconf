@@ -41,11 +41,12 @@ describe DiscussionsUser do
   #SPEC TIME SECONDS DIFFERENCE
   describe '#reminder_time' do
     context 'should return a datetime object with value as the start date-time of the object' do
-      let(:time) { Time.now }
+      # let!(:time) { Time.now }
       before do
+        time = Time.current
         discussions_user.discussion.date = time
         discussions_user.discussion.start_time = time
-        @result = time.localtime('+00:00').to_datetime
+        @result = time.to_datetime
       end
       it { expect(discussions_user.send(:reminder_time)).to eq(@result) }
     end

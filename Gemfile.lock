@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/capistrano/rbenv.git
+  revision: 6f1216cfe0a6b4ac23ca4eaf8acf012e8165d247
+  specs:
+    capistrano-rbenv (2.0.3)
+      capistrano (~> 3.1)
+      sshkit (~> 1.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -56,6 +64,8 @@ GEM
     capistrano-bundler (1.1.4)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
+    capistrano-passenger (0.1.1)
+      capistrano (~> 3.0)
     capistrano-rails (1.1.5)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
@@ -244,7 +254,9 @@ DEPENDENCIES
   byebug (~> 5.0.0)
   capistrano (~> 3.1.0)
   capistrano-bundler (~> 1.1.2)
+  capistrano-passenger
   capistrano-rails (~> 1.1.1)
+  capistrano-rbenv!
   carrierwave (~> 0.10.0)
   coffee-rails (~> 4.1.0)
   daemons (~> 1.2.3)

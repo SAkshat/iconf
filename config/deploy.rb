@@ -2,13 +2,17 @@
 lock '3.1.0'
 
 set :application, 'iconf'
-set :repo_url, 'git@example.com:SAkshat/iconf.git -b rspecs'
+set :repo_url, 'git@github.com:SAkshat/iconf.git'
+set :branch, :rspecs
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/var/www/iconf'
+set :deploy_to, '/var/www/iconf/code'
+
+
+# set :rbenv_ruby, '2.2.1p85'
 
 # Default value for :scm is :git
 # set :scm, :git

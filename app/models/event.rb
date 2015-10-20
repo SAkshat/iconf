@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
 
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_one :address, dependent: :destroy
-  has_many :discussions, dependent: :destroy, inverse_of: :event, autosave: true
+  has_many :discussions, dependent: :restrict_with_error, inverse_of: :event, autosave: true
   belongs_to :creator, class_name: :User
 
   mount_uploader :logo, LogoUploader
@@ -26,7 +26,9 @@ class Event < ActiveRecord::Base
   scope :enabled, -> { where(enabled: true) }
   scope :enabled_with_enabled_creator, -> { where(creator_id: User.enabled.pluck(:id)).enabled }
   scope :forthcoming, -> { where('start_time > ?', Time.now)}
-
+  before_destroy do
+    puts 'before destroy niche vala'
+  end
   def upcoming?
     start_time > Time.current
   end

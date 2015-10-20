@@ -1,9 +1,9 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  #HI
-  config.assets.compile = true
-  config.serve_static_files = true
+  # #HI
+  # config.assets.compile = true
+  # config.serve_static_files = true
 
 
   # In the development environment your application's code is reloaded on
